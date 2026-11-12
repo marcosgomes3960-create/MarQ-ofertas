@@ -431,6 +431,9 @@ nav a:after{background:linear-gradient(90deg,#45ad78,#55b9e8)}
 footer{border-top:3px solid #55b9e8}
 @media(max-width:600px){.hero{background:radial-gradient(circle at 95% 10%,#8ed5f2 0 6%,transparent 6.5%),linear-gradient(115deg,#145c40 0%,#21865b 66%,#398e91 100%)}}
 
+
+/* Filtro de categorias: respeita o atributo hidden mesmo com os cards em flex */
+#grade-produtos > .card[hidden]{display:none!important}
 </style>
 </head>
 <body>
