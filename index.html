@@ -1168,6 +1168,71 @@ body.marq-cart-lock{overflow:hidden}
   filtrar();
 })();
 </script>
+
+<script>
+/* MARQ-SUPABASE-CLICK-TRACKING — relaciona cada clique ao ID real da tabela produtos */
+(() => {
+  const SUPABASE_URL = 'https://zonclgsfqtylnedxigxd.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK';
+  const cache = new Map();
+
+  async function registrarClique(linkAfiliado, origem) {
+    try {
+      if (!linkAfiliado) return;
+      let busca = cache.get(linkAfiliado);
+      if (!busca) {
+        const params = new URLSearchParams({
+          select: 'id,link_afiliado',
+          link_afiliado: 'eq.' + linkAfiliado,
+          limit: '1'
+        });
+        busca = fetch(SUPABASE_URL + '/rest/v1/produtos?' + params.toString(), {
+          method: 'GET',
+          headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY }
+        }).then(async resposta => {
+          if (!resposta.ok) throw new Error('Não foi possível localizar o produto no catálogo.');
+          const produtos = await resposta.json();
+          return produtos[0] || null;
+        });
+        cache.set(linkAfiliado, busca);
+      }
+      const produto = await busca;
+      if (!produto || !produto.id) {
+        console.warn('[MarQ Ofertas] Produto não encontrado no Supabase para este link.');
+        return;
+      }
+      const resposta = await fetch(SUPABASE_URL + '/rest/v1/cliques', {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({
+          produto_id: produto.id,
+          data_clique: new Date().toISOString(),
+          origem: origem || 'vitrine'
+        }),
+        keepalive: true
+      });
+      if (!resposta.ok) {
+        const detalhe = await resposta.text();
+        console.warn('[MarQ Ofertas] Falha ao registrar clique:', detalhe);
+      }
+    } catch (erro) {
+      console.warn('[MarQ Ofertas] Rastreamento de clique:', erro);
+    }
+  }
+
+  window.marqRegistrarClique = registrarClique;
+  document.addEventListener('click', evento => {
+    const link = evento.target.closest('#grade-produtos a.botao');
+    if (link) registrarClique(link.href, 'vitrine');
+  }, true);
+})();
+</script>
+
 <script>
 
 /* MARQ-CART-V1 — lista local; cada produto conserva seu próprio link afiliado */
@@ -1195,7 +1260,7 @@ body.marq-cart-lock{overflow:hidden}
    const row=el('article','marq-cart-item');const img=document.createElement('img');img.src=item.image||'';img.alt='';img.loading='lazy';if(!item.image)img.hidden=true;
    const details=el('div');details.append(el('h3','',item.title),el('small','','Preço e disponibilidade no anúncio'));
    const actions=el('div','marq-cart-item-actions');const minus=el('button','','−');minus.type='button';minus.setAttribute('aria-label','Diminuir quantidade');const qty=el('span','',String(item.qty));const plus=el('button','','+');plus.type='button';plus.setAttribute('aria-label','Aumentar quantidade');const remove=el('button','remove','Remover');remove.type='button';actions.append(minus,qty,plus,remove);details.append(actions);
-   const buy=el('button','open-offer','VER OFERTA');buy.type='button';buy.addEventListener('click',()=>window.open(item.affiliate,'_blank','noopener,noreferrer'));
+   const buy=el('button','open-offer','VER OFERTA');buy.type='button';buy.addEventListener('click',()=>{window.marqRegistrarClique?.(item.affiliate,'carrinho');window.open(item.affiliate,'_blank','noopener,noreferrer')});
    minus.addEventListener('click',()=>{item.qty=Math.max(1,item.qty-1);save(items);render()});plus.addEventListener('click',()=>{item.qty=Math.min(99,item.qty+1);save(items);render()});remove.addEventListener('click',()=>{items=items.filter(x=>x.id!==item.id);save(items);render()});
    row.append(img,details,buy);list.append(row);
   });
