@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MarQ Ofertas: achadinhos, produtos úteis e ofertas selecionadas. Confira os produtos e compre com segurança nas lojas parceiras.">
 <meta name="theme-color" content="#21865b">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon-192.svg">
 <meta property="og:type" content="website">
 <meta property="og:title" content="MarQ Ofertas | Achou, gostou, economizou">
 <meta property="og:description" content="Descubra achadinhos de casa, eletrônicos, beleza e muito mais na MarQ Ofertas.">
@@ -1435,6 +1438,13 @@ nav{
  render();
 })();
 
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(error => console.warn("Não foi possível ativar o modo aplicativo:", error));
+  });
+}
 </script>
 </body>
 </html>
