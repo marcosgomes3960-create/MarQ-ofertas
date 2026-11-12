@@ -1170,89 +1170,76 @@ body.marq-cart-lock{overflow:hidden}
 </script>
 
 <script>
-/* MARQ-SUPABASE-CLICK-TRACKING-V2 — prepara o catálogo antes do clique */
+/* MARQ-SUPABASE-CLICK-TRACKING-V3 */
 (() => {
   const SUPABASE_URL = 'https://zonclgsfqtylnedxigxd.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK';
-  const cabecalhos = {
+  const headers = {
     apikey: SUPABASE_KEY,
-    Authorization: 'Bearer ' + SUPABASE_KEY
+    Authorization: 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json'
   };
 
   const normalizar = valor => {
     try {
-      const u = new URL(valor, location.href);
-      return (u.origin + u.pathname).replace(/\\/$/, '');
-    } catch (_) { return String(valor || '').trim(); }
+      const url = new URL(valor, location.href);
+      return (url.origin.toLowerCase() + url.pathname).replace(/\/$/, '');
+    } catch (_) {
+      return String(valor || '').trim();
+    }
   };
 
-  // A consulta começa quando a loja abre, não quando o visitante sai para o anúncio.
   const catalogoPronto = fetch(
     SUPABASE_URL + '/rest/v1/produtos?select=id,link_afiliado&limit=1000',
-    { method: 'GET', headers: cabecalhos, cache: 'no-store' }
+    { method: 'GET', headers, cache: 'no-store' }
   ).then(async resposta => {
-    if (!resposta.ok) throw new Error('Catálogo Supabase: HTTP ' + resposta.status + ' — ' + await resposta.text());
+    if (!resposta.ok) throw new Error('Catálogo: HTTP ' + resposta.status + ' ' + await resposta.text());
     const produtos = await resposta.json();
     const mapa = new Map();
     produtos.forEach(produto => {
       if (produto.id && produto.link_afiliado) mapa.set(normalizar(produto.link_afiliado), produto.id);
     });
+    console.info('[MarQ Ofertas] Catálogo de rastreamento carregado:', mapa.size);
     return mapa;
   }).catch(erro => {
-    console.warn('[MarQ Ofertas] Não foi possível carregar os IDs dos produtos:', erro);
+    console.error('[MarQ Ofertas] Falha ao carregar produtos para rastreamento:', erro);
     return new Map();
   });
 
-  async function registrarClique(produtoId, origem) {
-    if (!produtoId) return false;
+  window.marqRegistrarClique = async (linkAfiliado, origem = 'vitrine') => {
+    const mapa = await catalogoPronto;
+    const produtoId = mapa.get(normalizar(linkAfiliado));
+    if (!produtoId) {
+      console.error('[MarQ Ofertas] Link de afiliado não encontrado no catálogo:', linkAfiliado);
+      return false;
+    }
     try {
       const resposta = await fetch(SUPABASE_URL + '/rest/v1/cliques', {
         method: 'POST',
-        headers: {
-          ...cabecalhos,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal'
-        },
+        headers: { ...headers, Prefer: 'return=minimal' },
         body: JSON.stringify({
           produto_id: produtoId,
           data_clique: new Date().toISOString(),
-          origem: origem || 'vitrine'
+          origem
         }),
         keepalive: true
       });
       if (!resposta.ok) {
-        console.warn('[MarQ Ofertas] Erro ao salvar clique:', resposta.status, await resposta.text());
+        console.error('[MarQ Ofertas] Supabase recusou o clique:', resposta.status, await resposta.text());
         return false;
       }
+      console.info('[MarQ Ofertas] Clique registrado:', produtoId, origem);
       return true;
     } catch (erro) {
-      console.warn('[MarQ Ofertas] Falha de conexão ao salvar clique:', erro);
+      console.error('[MarQ Ofertas] Erro de conexão ao registrar clique:', erro);
       return false;
     }
-  }
+  };
 
-  document.addEventListener('click', async evento => {
+  document.addEventListener('click', evento => {
     const link = evento.target.closest('#grade-produtos a.botao');
     if (!link) return;
-    evento.preventDefault();
-
-    // Abre a aba imediatamente para não ser bloqueada pelo navegador.
-    const destino = link.href;
-    const novaAba = window.open('about:blank', '_blank');
-    const mapa = await catalogoPronto;
-    const produtoId = mapa.get(normalizar(destino));
-
-    if (produtoId) {
-      await registrarClique(produtoId, 'vitrine');
-    } else {
-      console.warn('[MarQ Ofertas] Link não encontrado na tabela produtos:', destino);
-    }
-
-    if (novaAba && !novaAba.closed) {
-      novaAba.location.href = destino;
-    } else {
-      location.href = destino;
-    }
+    window.marqRegistrarClique(link.href, 'vitrine');
   }, true);
 })();
 </script>
