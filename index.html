@@ -1170,79 +1170,83 @@ body.marq-cart-lock{overflow:hidden}
 </script>
 
 <script>
-/* MARQ-SUPABASE-CLICK-TRACKING-V3 */
+/* MARQ-SUPABASE-CLICK-TRACKING-V4 */
 (() => {
   const SUPABASE_URL = 'https://zonclgsfqtylnedxigxd.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK';
-  // A chave publishable deve ir no header apikey; não é um JWT Bearer.
-  const headers = {
-    apikey: SUPABASE_KEY,
-    'Content-Type': 'application/json'
-  };
-
+  const headers = { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' };
   const normalizar = valor => {
     try {
       const url = new URL(valor, location.href);
       return (url.origin.toLowerCase() + url.pathname).replace(/\/$/, '');
-    } catch (_) {
-      return String(valor || '').trim();
-    }
+    } catch (_) { return String(valor || '').trim(); }
   };
 
+  let erroCatalogo = '';
   const catalogoPronto = fetch(
     SUPABASE_URL + '/rest/v1/produtos?select=id,link_afiliado&limit=1000',
     { method: 'GET', headers, cache: 'no-store' }
   ).then(async resposta => {
-    if (!resposta.ok) throw new Error('Catálogo: HTTP ' + resposta.status + ' ' + await resposta.text());
+    if (!resposta.ok) throw new Error('Leitura de produtos: HTTP ' + resposta.status + ' — ' + await resposta.text());
     const produtos = await resposta.json();
     const mapa = new Map();
     produtos.forEach(produto => {
       if (produto.id && produto.link_afiliado) mapa.set(normalizar(produto.link_afiliado), produto.id);
     });
-    console.info('[MarQ Ofertas] Catálogo de rastreamento carregado:', mapa.size);
+    console.info('[MarQ] Catálogo para cliques:', mapa.size);
+    if (!mapa.size) throw new Error('Nenhum produto com link_afiliado foi encontrado na tabela produtos.');
     return mapa;
   }).catch(erro => {
-    console.error('[MarQ Ofertas] Falha ao carregar produtos para rastreamento:', erro);
+    erroCatalogo = erro.message || String(erro);
+    console.error('[MarQ] Erro no catálogo:', erroCatalogo);
     return new Map();
   });
 
   window.marqRegistrarClique = async (linkAfiliado, origem = 'vitrine') => {
     const mapa = await catalogoPronto;
+    if (erroCatalogo) { window.marqUltimoErro = erroCatalogo; return false; }
     const produtoId = mapa.get(normalizar(linkAfiliado));
     if (!produtoId) {
-      console.error('[MarQ Ofertas] Link de afiliado não encontrado no catálogo:', linkAfiliado);
+      window.marqUltimoErro = 'O link clicado não corresponde a nenhum link_afiliado cadastrado na tabela produtos.';
+      console.error('[MarQ]', window.marqUltimoErro, linkAfiliado);
       return false;
     }
     try {
       const resposta = await fetch(SUPABASE_URL + '/rest/v1/cliques', {
         method: 'POST',
         headers: { ...headers, Prefer: 'return=minimal' },
-        body: JSON.stringify({
-          produto_id: produtoId,
-          data_clique: new Date().toISOString(),
-          origem
-        }),
+        body: JSON.stringify({ produto_id: produtoId, data_clique: new Date().toISOString(), origem }),
         keepalive: true
       });
       if (!resposta.ok) {
-        console.error('[MarQ Ofertas] Supabase recusou o clique:', resposta.status, await resposta.text());
+        window.marqUltimoErro = 'Gravação na tabela cliques: HTTP ' + resposta.status + ' — ' + await resposta.text();
+        console.error('[MarQ]', window.marqUltimoErro);
         return false;
       }
-      console.info('[MarQ Ofertas] Clique registrado:', produtoId, origem);
+      window.marqUltimoErro = '';
+      console.info('[MarQ] Clique registrado:', produtoId, origem);
       return true;
     } catch (erro) {
-      console.error('[MarQ Ofertas] Erro de conexão ao registrar clique:', erro);
+      window.marqUltimoErro = 'Falha de conexão: ' + (erro.message || String(erro));
+      console.error('[MarQ]', window.marqUltimoErro);
       return false;
     }
   };
 
-  document.addEventListener('click', evento => {
-    const link = evento.target.closest('#grade-produtos a.botao');
+  document.addEventListener('click', async evento => {
+    const alvo = evento.target;
+    const link = alvo && typeof alvo.closest === 'function' ? alvo.closest('#grade-produtos a.botao') : null;
     if (!link) return;
-    window.marqRegistrarClique(link.href, 'vitrine');
+    evento.preventDefault();
+    const destino = link.href;
+    const aba = window.open('about:blank', '_blank');
+    if (aba) aba.opener = null;
+    const ok = await window.marqRegistrarClique(destino, 'vitrine');
+    if (aba) aba.location.href = destino;
+    else window.location.href = destino;
+    if (!ok) alert('A oferta será aberta, mas o clique ainda não foi registrado. Motivo: ' + (window.marqUltimoErro || 'erro não identificado'));
   }, true);
-})();
-</script>
+})();</script>
 
 <script>
 
