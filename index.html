@@ -708,6 +708,11 @@ footer a{color:#fff!important}
  nav{box-shadow:0 5px 15px #17233f16}
 }
 
+
+/* Busca também encontra produtos ainda sem foto; vitrine principal prioriza fotos reais */
+.sugestao-sem-foto{display:grid;place-items:center;width:48px;height:48px;flex:none;border-radius:9px;background:linear-gradient(145deg,#eef7fb,#f2f8f4);color:#267da8;font-size:25px;font-weight:800}
+#grade-produtos .card[hidden]{display:none!important}
+
 </style>
 </head>
 <body>
@@ -1258,6 +1263,22 @@ footer a{color:#fff!important}
   if (!busca || !grade || !contador || !vazio) return;
 
   const cards = Array.from(grade.querySelectorAll(':scope > .card'));
+  // Imagens externas contam como fotos; ilustrações genéricas e cartões-placeholder não.
+  cards.forEach((card) => {
+    const img = card.querySelector('.produto-imagem-link img');
+    const src = img?.getAttribute('src') || '';
+    const temFotoExterna = /^https?:\\/\\//i.test(src);
+    card.dataset.marqFotoValida = temFotoExterna ? 'true' : 'false';
+    if (temFotoExterna && img) {
+      img.addEventListener('error', () => {
+        card.dataset.marqFotoValida = 'false';
+        filtrar();
+      }, { once: true });
+      if (img.complete && img.naturalWidth === 0) {
+        card.dataset.marqFotoValida = 'false';
+      }
+    }
+  });
   const filtros = Array.from(document.querySelectorAll('#categorias [data-filter]'));
   let categoriaAtiva = 'todos';
 
@@ -1296,11 +1317,12 @@ footer a{color:#fff!important}
 
     sugestoes.innerHTML = encontrados.map((card, indice) => {
       const titulo = card.querySelector('h3')?.textContent.trim() || 'Produto';
-      const imagem = card.querySelector('img')?.src || '';
+      const imagem = card.querySelector('.produto-imagem-link img')?.src || '';
+      const temFotoReal = card.dataset.marqFotoValida === 'true';
       const categoria = card.dataset.category || 'Achadinho';
       return '<button class="sugestao-produto" type="button" role="option" data-indice="' + indice + '">' +
-        (imagem ? '<img src="' + imagem.replace(/"/g, '&quot;') + '" alt="">' : '') +
-        '<span><strong>' + titulo.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong><small>' + categoria + ' · Ver produto e informações</small></span></button>';
+        (temFotoReal && imagem ? '<img src="' + imagem.replace(/"/g, '&quot;') + '" alt="">' : '<span class="sugestao-sem-foto" aria-hidden="true">⌕</span>') +
+        '<span><strong>' + titulo.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong><small>' + categoria + (temFotoReal ? ' · Ver produto e informações' : ' · Sem foto · Ver produto') + '</small></span></button>';
     }).join('');
     sugestoes.classList.add('visivel');
     Array.from(sugestoes.querySelectorAll('.sugestao-produto')).forEach((botao, indice) => {
@@ -1329,7 +1351,15 @@ footer a{color:#fff!important}
       const correspondeBusca = termos.length === 0 ||
         termos.every((termo) => texto.includes(termo));
 
-      const mostrar = correspondeCategoria && correspondeBusca;
+      const imagemProduto = card.querySelector('.produto-imagem-link img');
+      const temFotoReal = !!imagemProduto &&
+        /^https?:\\/\\//i.test(imagemProduto.getAttribute('src') || '') &&
+        card.dataset.marqFotoValida !== 'false';
+
+      // Sem busca, a vitrine mostra somente fotos reais.
+      // Ao pesquisar, todos os produtos correspondentes continuam acessíveis.
+      const mostrar = correspondeCategoria && correspondeBusca &&
+        (termos.length > 0 || temFotoReal);
       card.hidden = !mostrar;
       if (mostrar) visiveis += 1;
     });
@@ -1338,9 +1368,11 @@ footer a{color:#fff!important}
       ? ' produto encontrado na MarQ Ofertas'
       : ' produtos encontrados na MarQ Ofertas');
     vazio.style.display = visiveis ? 'none' : 'block';
-    vazio.textContent = categoriaAtiva === 'pets' && termos.length === 0
+    vazio.textContent = termos.length === 0 && categoriaAtiva === 'pets'
       ? '🐾 Estamos preparando uma seleção especial para seu pet. Em breve, novidades por aqui!'
-      : 'Não encontramos produtos com essa busca. Tente outro termo.';
+      : termos.length === 0
+        ? 'Estamos preparando fotos reais para os próximos produtos desta categoria.'
+        : 'Não encontramos produtos com essa busca. Tente outro termo.';
   }
 
   function pontuacaoVendas(card) {
