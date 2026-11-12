@@ -580,6 +580,43 @@ nav a{color:#395c49!important;font-size:13px!important}
   .hero{padding:22px 18px!important}
 }
 
+
+/* Navegação abaixo da busca, sem menu espremido no celular */
+nav{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  overflow:visible;
+  white-space:normal;
+  box-sizing:border-box;
+}
+@media(max-width:600px){
+  nav{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:0 8px!important;
+    padding:5px 12px!important;
+    min-height:unset;
+    justify-items:stretch;
+    background:#fff!important;
+    border-bottom:1px solid #e9f0eb;
+  }
+  nav a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:40px;
+    padding:8px 3px!important;
+    text-align:center;
+    font-size:12px!important;
+    white-space:normal;
+    border-radius:9px;
+  }
+  nav a:after{bottom:4px;left:22%;right:22%}
+}
+
 </style>
 </head>
 <body>
@@ -598,8 +635,9 @@ nav a{color:#395c49!important;font-size:13px!important}
   <input id="busca" type="search" placeholder="O que você está procurando?" aria-label="Buscar produtos">
   <button id="limpar-busca" type="button" aria-label="Limpar busca">Limpar</button>
   <div id="sugestoes-busca" role="listbox" aria-label="Sugestões de produtos"></div>
+</div>
 
-<nav>
+<nav aria-label="Navegação principal">
   <a href="#">Início</a>
   <a href="#categorias">Categorias</a>
   <a href="#ofertas">Ofertas</a>
@@ -607,7 +645,6 @@ nav a{color:#395c49!important;font-size:13px!important}
   <a href="#duvidas">Dúvidas</a>
   <a href="#sobre">Sobre nós</a>
 </nav>
-</div>
 
 <section id="categorias" class="category-section">
   <div class="category-heading"><div><span class="eyebrow">EXPLORE A MARQ</span><h2>Encontre seu próximo achadinho</h2><p class="section-sub">Categorias escolhidas para facilitar sua busca</p></div></div>
