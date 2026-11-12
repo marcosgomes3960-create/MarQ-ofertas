@@ -620,6 +620,16 @@ nav{
   nav a:after{bottom:4px;left:22%;right:22%}
 }
 
+
+/* DESTAQUES DE VENDAS — ordenação inteligente no topo do catálogo */
+#ofertas .section-head h2{display:flex;align-items:center;gap:9px}
+#ofertas .section-head h2:before{content:"🏆";font-size:.9em}
+#ofertas .section-head .header-tag{background:#e5f6eb;color:#176b47;border:1px solid #cfe9d8;padding:8px 12px;border-radius:999px;font-size:10px;letter-spacing:.7px}
+#ofertas .section-sub{max-width:720px;line-height:1.6}
+#grade-produtos .sold{display:inline-flex;align-items:center;gap:5px;width:max-content;max-width:100%;background:linear-gradient(100deg,#fff3d8,#fff8e9);border:1px solid #f3dfb5;color:#815313;border-radius:8px;padding:6px 9px;font-size:10px;font-weight:900;letter-spacing:.2px}
+#grade-produtos .card:has(.sold){border-color:#d8eadc}
+@media(max-width:600px){#ofertas .section-head .header-tag{font-size:9px;padding:7px 9px}}
+
 </style>
 </head>
 <body>
@@ -668,7 +678,7 @@ nav{
     <span id="contador" aria-live="polite">7 produtos encontrados</span>
     <label for="ordenar" class="header-tag">Ordenar:
       <select id="ordenar">
-        <option value="destaques">Destaques</option>
+        <option value="destaques">Mais vendidos primeiro</option>
         <option value="az">Nome: A a Z</option>
       </select>
     </label>
@@ -1255,6 +1265,15 @@ nav{
       : 'Não encontramos produtos com essa busca. Tente outro termo.';
   }
 
+  function pontuacaoVendas(card) {
+    const selo = normalizar(card.querySelector('.sold')?.textContent || '');
+    const match = selo.match(/(\\d+(?:[.,]\\d+)?)\\s*(mil|milhao|milhoes)?\\s+vendidos?/);
+    if (!match) return 0;
+    const quantidade = Number(match[1].replace(',', '.'));
+    const unidade = match[2] || '';
+    return quantidade * (unidade.startsWith('milhao') ? 1000000 : unidade === 'mil' ? 1000 : 1);
+  }
+
   function ordenarCards() {
     const lista = [...cards];
     if (ordenar?.value === 'az') {
@@ -1263,6 +1282,10 @@ nav{
           b.querySelector('h3')?.textContent || '', 'pt-BR'
         )
       );
+    } else {
+      // Primeiro os produtos com quantidade de vendas informada no anúncio.
+      // Empates e produtos sem esse dado mantêm a ordem original do catálogo.
+      lista.sort((a, b) => pontuacaoVendas(b) - pontuacaoVendas(a) || cards.indexOf(a) - cards.indexOf(b));
     }
     lista.forEach((card) => grade.appendChild(card));
     filtrar();
@@ -1310,7 +1333,7 @@ nav{
     document.getElementById('ofertas')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }));
 
-  filtrar();
+  ordenarCards();
 })();
 </script>
 
