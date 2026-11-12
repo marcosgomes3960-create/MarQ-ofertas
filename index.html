@@ -163,6 +163,26 @@ section { max-width:1180px; }
 .trust-row { width:92%; max-width:1180px; margin:0 auto 30px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; }
 .trust-item { background:white; border:1px solid #edf2ee; border-radius:13px; padding:15px; color:#4d6859; font-size:13px; }
 .trust-item strong { display:block; color:#246b49; margin-bottom:4px; }
+
+.about-section { max-width:1180px; width:92%; margin:48px auto 34px; }
+.about-intro { max-width:760px; margin:0 auto 25px; text-align:center; }
+.about-kicker { display:inline-block; color:#24734e; background:#e8f7ee; border-radius:30px; padding:7px 12px; font-size:12px; font-weight:800; margin-bottom:13px; }
+.about-intro h2 { font-size:clamp(25px,4vw,34px); line-height:1.2; margin-bottom:13px; }
+.about-intro p { color:#63766b; line-height:1.75; font-size:15px; }
+.about-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+.about-card { background:#fff; border:1px solid #e8f0eb; border-radius:16px; padding:22px; box-shadow:0 4px 15px #00000008; }
+.about-card span { font-size:27px; }
+.about-card h3 { color:#246b49; margin:12px 0 8px; font-size:17px; }
+.about-card p { color:#687a70; line-height:1.65; font-size:14px; }
+.about-contact { margin-top:18px; background:linear-gradient(120deg,#e4f7eb,#e7f5ff); border-radius:17px; padding:22px 25px; display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; }
+.about-contact h3 { color:#245d43; margin-bottom:6px; }
+.about-contact p { color:#60776a; font-size:14px; line-height:1.5; }
+.about-whatsapp { display:inline-block; background:#21865b; color:white; text-decoration:none; font-size:13px; font-weight:800; padding:13px 18px; border-radius:30px; white-space:nowrap; }
+.about-whatsapp:hover { background:#176b47; }
+.about-disclosure { margin-top:18px; color:#7b8981; font-size:12px; line-height:1.7; text-align:center; }
+footer { color:#5d7166; }
+@media(max-width:700px) { .about-grid { grid-template-columns:1fr; } .about-card { padding:18px; } .about-contact { padding:19px; } .about-whatsapp { width:100%; text-align:center; } }
+
 footer { color:#5d7166; }
 .footer-inner { max-width:1180px; margin:auto; }
 @media (max-width:600px) {
@@ -299,14 +319,44 @@ footer { color:#5d7166; }
 
 <a class="whatsapp-float" href="https://wa.me/5594992345430?text=Ol%C3%A1%2C%20vim%20pela%20MarQ%20Ofertas%20e%20gostaria%20de%20uma%20informa%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer" aria-label="Fale com a MarQ Ofertas pelo WhatsApp">☘️ Fale conosco</a>
 
-<footer id="sobre">
+<section id="sobre" class="about-section">
+  <div class="about-intro">
+    <span class="about-kicker">💚 CONHEÇA A MARQ OFERTAS</span>
+    <h2>Boas escolhas, achadinhos e praticidade em um só lugar.</h2>
+    <p>A MarQ Ofertas é uma vitrine online criada para ajudar você a descobrir produtos úteis e oportunidades interessantes. Nossa proposta é facilitar sua busca, reunindo achadinhos de diferentes categorias em um só lugar.</p>
+  </div>
+  <div class="about-grid">
+    <article class="about-card">
+      <span>🔎</span>
+      <h3>Seleção de produtos</h3>
+      <p>Organizamos sugestões de casa, eletrônicos, beleza e outros achadinhos para você explorar com facilidade.</p>
+    </article>
+    <article class="about-card">
+      <span>🛒</span>
+      <h3>Compra transparente</h3>
+      <p>Ao tocar em “Comprar agora”, você acessa o anúncio da loja parceira. Lá poderá conferir preço, vendedor, frete, prazo e condições antes de concluir a compra.</p>
+    </article>
+    <article class="about-card">
+      <span>🤝</span>
+      <h3>Nosso compromisso</h3>
+      <p>Queremos oferecer uma navegação simples e informações claras. Preços e disponibilidade podem mudar; confirme sempre os detalhes no anúncio.</p>
+    </article>
+  </div>
+  <div class="about-contact">
+    <div>
+      <h3>Precisa falar com a MarQ Ofertas?</h3>
+      <p>Envie sua mensagem pelo WhatsApp. Será um prazer receber seu contato.</p>
+    </div>
+    <a class="about-whatsapp" href="https://wa.me/5594992345430?text=Ol%C3%A1%2C%20vim%20pela%20MarQ%20Ofertas%20e%20gostaria%20de%20uma%20informa%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer">FALAR PELO WHATSAPP</a>
+  </div>
+  <p class="about-disclosure">Aviso de afiliados: alguns links desta vitrine são links de afiliado. Isso significa que a MarQ Ofertas pode receber uma comissão se você comprar por meio deles, sem custo adicional para você. A compra, o pagamento, a entrega e as políticas do pedido são de responsabilidade da loja parceira e do vendedor do anúncio.</p>
+</section>
+
+<footer id="rodape">
   <div class="footer-inner">
     <strong>MarQ Ofertas</strong>
-    <p>Os melhores achadinhos em um só lugar.</p>
-    <p>Somos uma vitrine de produtos. Ao clicar em comprar, você será direcionado à loja parceira para conferir preço, disponibilidade, frete e concluir o pedido.</p>
-    <p><strong>Atendimento:</strong> <a href="https://wa.me/5594992345430?text=Ol%C3%A1%2C%20vim%20pela%20MarQ%20Ofertas%20e%20gostaria%20de%20uma%20informa%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer">Fale com a MarQ Ofertas pelo WhatsApp</a></p>
-    <p>Alguns links são de afiliado e podem gerar comissão para nossa loja, sem custo adicional para você.</p>
-    <small>© 2026 MarQ Ofertas. Todos os direitos reservados.</small>
+    <p>ACHOU, GOSTOU, ECONOMIZOU.</p>
+    <p>© 2026 MarQ Ofertas. Todos os direitos reservados.</p>
   </div>
 </footer>
 
