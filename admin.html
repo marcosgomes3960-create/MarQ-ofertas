@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#155d40">
+<link rel="manifest" href="./admin-manifest.webmanifest">
+<link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon-192.svg">
 <title>Painel administrativo | MarQ Ofertas</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -159,6 +162,13 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
  }
  checkSession();
 })();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(error => console.warn("Não foi possível ativar o modo aplicativo:", error));
+  });
+}
 </script>
 </body>
 </html>
