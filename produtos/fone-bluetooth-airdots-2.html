@@ -23,7 +23,7 @@ main{width:92%;max-width:1100px;margin:28px auto 48px}
 .crumb{font-size:13px;color:var(--muted);margin-bottom:18px}.crumb a{color:var(--green);text-decoration:none}
 .product{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(22px,4vw,42px);background:#fff;border:1px solid #e5eee8;border-radius:22px;padding:clamp(18px,4vw,36px);box-shadow:0 8px 28px #173d290b}
 .gallery{min-width:0}.photo{min-height:360px;border-radius:17px;background:linear-gradient(145deg,#f8fbf9,#eef6f1);display:flex;align-items:center;justify-content:center;padding:20px}
-.photo img{display:block;width:100%;height:100%;max-height:460px;object-fit:contain}
+.photo img{display:block;width:100%;height:100%;max-height:460px;object-fit:contain;cursor:zoom-in;transition:transform .2s ease}
 .photo-fallback{display:none;color:#718078;text-align:center;font-size:14px;padding:25px}
 .details{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
 .tag{display:inline-block;background:#e8f7ee;color:#28764e;border-radius:30px;padding:6px 11px;font-size:12px;font-weight:800;margin-bottom:13px}
@@ -73,6 +73,29 @@ header{background:linear-gradient(105deg,#fff 0%,#fff 72%,#f0f9fd 100%);border-b
 .price-note{background:#f3f9fc;border-color:#dfedf3}
 .buy{box-shadow:0 7px 18px #21865b22}
 
+
+/* Galeria aprimorada: estados claros, zoom acessível e controles consistentes */
+.photo{position:relative;min-height:380px;cursor:zoom-in;border:1px solid #e5eee8;overflow:hidden}
+.photo:hover img{transform:scale(1.015)}
+.gallery-caption{align-items:center;margin:10px 2px 8px;font-size:12px}
+#photo-counter{font-weight:800;color:#286b49;background:#eaf7ef;border-radius:30px;padding:5px 9px}
+.thumbs{gap:10px;padding:5px 2px 12px;overscroll-behavior-x:contain}
+.thumb{position:relative;flex:0 0 82px;width:82px;height:82px;border-radius:13px;border:1px solid #dce9e0;background:#fff;box-shadow:0 2px 8px #153e2808}
+.thumb img{pointer-events:none}
+.thumb.active{border:2px solid #21865b;background:#f2faf5;box-shadow:0 0 0 3px #21865b16}
+.thumb:disabled{opacity:.48;cursor:not-allowed;filter:grayscale(1)}
+.thumb:disabled:after{content:"Indisponível";position:absolute;left:3px;right:3px;bottom:3px;padding:3px 1px;border-radius:5px;background:#273b31d9;color:white;font-size:9px;font-weight:700}
+.photo-zoom{border:0;background:#ffffffdf;color:#245d43;border-radius:999px;padding:8px 12px;font-size:11px;font-weight:800;position:absolute;right:12px;bottom:12px;cursor:pointer;box-shadow:0 3px 12px #0002}
+.photo-dialog{width:min(94vw,1000px);max-width:none;max-height:92vh;margin:auto;padding:16px;border:1px solid #dce9e0;border-radius:20px;background:#fff;box-shadow:0 20px 70px #0005}
+.photo-dialog::backdrop{background:#10251bcc;backdrop-filter:blur(4px)}
+.photo-dialog img{display:block;width:100%;height:min(76vh,760px);object-fit:contain}
+.photo-dialog button{display:block;margin:0 0 10px auto;border:0;border-radius:999px;background:#eaf7ef;color:#245d43;padding:9px 14px;font-weight:800;cursor:pointer}
+.photo-fallback{width:100%;border:1px dashed #d6e5db;border-radius:14px;background:#f7fbf8}
+.more-photos{margin-top:5px;border-radius:12px;font-size:12px}
+.buy{letter-spacing:.35px;border-radius:13px;transition:transform .18s,box-shadow .18s}
+.buy:hover{transform:translateY(-2px);box-shadow:0 9px 22px #21865b30}
+@media(max-width:720px){.photo{min-height:290px}.thumb{flex-basis:70px;width:70px;height:70px}.photo-dialog{padding:10px;border-radius:14px}}
+@media(min-width:721px){.gallery{position:sticky;top:18px;align-self:start}}
 </style>
 </head>
 <body>
@@ -118,21 +141,107 @@ header{background:linear-gradient(105deg,#fff 0%,#fff 72%,#f0f9fd 100%);border-b
  const gallery=document.querySelector('.gallery');
  if(!gallery)return;
  const main=gallery.querySelector('#main-product-image');
- const thumbs=Array.from(gallery.querySelectorAll('.thumb'));
+ const thumbButtons=Array.from(gallery.querySelectorAll('.thumb'));
  const counter=gallery.querySelector('#photo-counter');
- thumbs.forEach(function(button,index){
-  button.addEventListener('click',function(){
+ const photoBox=gallery.querySelector('.photo');
+ if(!main || !photoBox)return;
+
+ // Zoom em tela cheia sem depender de bibliotecas externas.
+ const dialog=document.createElement('dialog');
+ dialog.className='photo-dialog';
+ dialog.setAttribute('aria-label','Visualização ampliada da foto do produto');
+ dialog.innerHTML='<button type="button" aria-label="Fechar visualização">Fechar ✕</button><img alt="">';
+ document.body.appendChild(dialog);
+ const zoomImage=dialog.querySelector('img');
+ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
+ dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
+
+ let activeButton=null;
+ const validButtons=[];
+ function updateCounter(){
+   const current=Math.max(0,validButtons.indexOf(activeButton));
+   if(counter)counter.textContent='Foto '+(current+1)+' de '+validButtons.length;
+ }
+ function selectPhoto(button){
+   if(button.disabled)return;
+   const src=button.dataset.src;
+   if(!src)return;
    main.hidden=false;
-   main.src=button.dataset.src;
-   main.alt=button.dataset.alt;
    const fallback=main.nextElementSibling;
    if(fallback)fallback.style.display='none';
-   thumbs.forEach(function(item){item.classList.remove('active');item.setAttribute('aria-pressed','false');});
-   button.classList.add('active');
-   button.setAttribute('aria-pressed','true');
-   if(counter)counter.textContent='Foto '+(index+1)+' de '+thumbs.length;
-  });
+   main.src=src;
+   main.alt=button.dataset.alt || 'Foto do produto';
+   activeButton=button;
+   thumbButtons.forEach(item=>{
+     item.classList.toggle('active',item===button);
+     item.setAttribute('aria-pressed',item===button?'true':'false');
+   });
+   updateCounter();
+ }
+ thumbButtons.forEach(button=>{
+   const thumbImage=button.querySelector('img');
+   const probe=new Image();
+   const src=button.dataset.src;
+   if(!src){button.disabled=true;return;}
+   probe.onload=()=>{
+     button.dataset.available='true';
+     if(!validButtons.includes(button))validButtons.push(button);
+     validButtons.sort((a,b)=>thumbButtons.indexOf(a)-thumbButtons.indexOf(b));
+     if(button===thumbButtons[0] && !activeButton)activeButton=button;
+     updateCounter();
+   };
+   probe.onerror=()=>{
+     button.disabled=true;
+     button.dataset.available='false';
+     button.title='Esta imagem não está disponível no momento';
+     if(thumbImage)thumbImage.alt='Imagem indisponível';
+     if(button===activeButton){
+       activeButton=null;
+       const next=validButtons.find(item=>!item.disabled);
+       if(next)selectPhoto(next);
+     }
+     if(counter)counter.textContent=validButtons.length
+       ? 'Foto 1 de '+validButtons.length
+       : 'Fotos indisponíveis';
+   };
+   probe.src=src;
+   button.addEventListener('click',()=>selectPhoto(button));
  });
+ main.addEventListener('error',()=>{
+   main.hidden=true;
+   const fallback=main.nextElementSibling;
+   if(fallback)fallback.style.display='block';
+ });
+ main.addEventListener('load',()=>{
+   main.hidden=false;
+   const fallback=main.nextElementSibling;
+   if(fallback)fallback.style.display='none';
+ });
+ function openZoom(){
+   if(main.hidden || !main.currentSrc && !main.src)return;
+   zoomImage.src=main.currentSrc || main.src;
+   zoomImage.alt=main.alt || 'Foto ampliada do produto';
+   if(typeof dialog.showModal==='function')dialog.showModal();
+ }
+ photoBox.addEventListener('click',event=>{
+   if(event.target.closest('button'))return;
+   openZoom();
+ });
+ photoBox.setAttribute('role','button');
+ photoBox.setAttribute('tabindex','0');
+ photoBox.setAttribute('aria-label','Ampliar foto principal do produto');
+ photoBox.addEventListener('keydown',event=>{
+   if(event.key==='Enter' || event.key===' '){event.preventDefault();openZoom();}
+ });
+ const zoomButton=document.createElement('button');
+ zoomButton.type='button';
+ zoomButton.className='photo-zoom';
+ zoomButton.textContent='⌕ Ampliar foto';
+ zoomButton.addEventListener('click',openZoom);
+ photoBox.appendChild(zoomButton);
+
+ // Inicia o contador com a quantidade cadastrada; ele é atualizado ao validar as imagens.
+ if(counter)counter.textContent='Carregando fotos…';
 })();
 </script>
 </body>
