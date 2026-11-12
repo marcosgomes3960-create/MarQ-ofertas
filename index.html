@@ -553,13 +553,14 @@ const cards = [...document.querySelectorAll('.card')];
 const filtros = [...document.querySelectorAll('[data-filter]')];
 const vazio = document.getElementById('sem-resultados');
 let categoriaAtiva = 'todos';
-const normalizar = texto => texto.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLocaleLowerCase('pt-BR');
+const normalizar = texto => String(texto).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
 function filtrar() {
   const termo = normalizar(busca.value.trim());
   let visiveis = 0;
   cards.forEach(card => {
     const correspondeCategoria = categoriaAtiva === 'todos' || card.dataset.category === categoriaAtiva || (categoriaAtiva === 'achadinhos' && (card.dataset.tags || '').includes('achadinhos'));
-    const correspondeBusca = normalizar((card.dataset.search || '') + ' ' + card.innerText).includes(termo);
+    const textoBusca = normalizar((card.dataset.search || '') + ' ' + card.innerText);
+    const correspondeBusca = !termo || termo.split(/\s+/).every(palavra => textoBusca.includes(palavra));
     const mostrar = correspondeCategoria && correspondeBusca;
     card.style.display = mostrar ? '' : 'none';
     if (mostrar) visiveis++;
