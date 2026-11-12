@@ -227,10 +227,10 @@ header{background:linear-gradient(105deg,#fff 0%,#fff 72%,#f0f9fd 100%);border-b
    if(event.target.closest('button'))return;
    openZoom();
  });
- photoBox.setAttribute('role','button');
- photoBox.setAttribute('tabindex','0');
- photoBox.setAttribute('aria-label','Ampliar foto principal do produto');
- photoBox.addEventListener('keydown',event=>{
+ main.setAttribute('role','button');
+ main.setAttribute('tabindex','0');
+ main.setAttribute('aria-label','Ampliar foto principal do produto');
+ main.addEventListener('keydown',event=>{
    if(event.key==='Enter' || event.key===' '){event.preventDefault();openZoom();}
  });
  const zoomButton=document.createElement('button');
