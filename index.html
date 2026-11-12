@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MarQ Ofertas: achadinhos, produtos úteis e ofertas selecionadas. Confira os produtos e compre com segurança nas lojas parceiras.">
-<meta name="theme-color" content="#21865b">
+<meta name="theme-color" content="#17233f">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icons/icon-192.svg">
@@ -629,6 +629,84 @@ nav{
 #grade-produtos .sold{display:inline-flex;align-items:center;gap:5px;width:max-content;max-width:100%;background:linear-gradient(100deg,#fff3d8,#fff8e9);border:1px solid #f3dfb5;color:#815313;border-radius:8px;padding:6px 9px;font-size:10px;font-weight:900;letter-spacing:.2px}
 #grade-produtos .card:has(.sold){border-color:#d8eadc}
 @media(max-width:600px){#ofertas .section-head .header-tag{font-size:9px;padding:7px 9px}}
+
+
+/* MARQ VISUAL 2026 — identidade vibrante, moderna e comercial */
+:root{
+  --marq-ink:#17233f;
+  --marq-blue:#315bff;
+  --marq-orange:#ff6b35;
+  --marq-lime:#c7ed45;
+  --marq-mist:#f4f6fc;
+  --marq-muted:#65718a;
+}
+body{background:var(--marq-mist)!important;color:var(--marq-ink)}
+.topline{background:linear-gradient(90deg,#17233f,#263e79)!important;color:#fff!important;letter-spacing:.45px}
+header{background:#fff!important;border-bottom:1px solid #e8ebf4!important;box-shadow:0 5px 24px #17233f0c}
+.logo{color:var(--marq-ink)!important;font-weight:950}
+.logo span{color:var(--marq-orange)!important}
+.header-tag,header small{color:var(--marq-muted)!important}
+header>strong{background:#fff2eb!important;color:#d94d1e!important;border:1px solid #ffd5c5!important}
+nav{background:var(--marq-ink)!important;border:0!important;box-shadow:0 8px 22px #17233f18}
+nav a{color:#fff!important;transition:color .18s ease}
+nav a:hover{color:var(--marq-lime)!important}
+.search-wrap input{border:1px solid #e1e6f2!important;background:#fff!important;box-shadow:0 8px 25px #17233f0d!important}
+.search-wrap input:focus{border-color:var(--marq-blue)!important;box-shadow:0 0 0 4px #315bff1b!important}
+#limpar-busca{background:#eef1ff!important;color:var(--marq-blue)!important}
+.hero{background:radial-gradient(circle at 88% 20%,#ffb28e 0 7%,transparent 7.5%),radial-gradient(circle at 78% 85%,#c7ed45 0 8%,transparent 8.5%),linear-gradient(115deg,#17233f 0%,#263f85 58%,#315bff 100%)!important;color:#fff!important;box-shadow:0 18px 38px #263f8530!important}
+.hero h1{color:#fff!important}
+.hero p{color:#e5eaff!important}
+.hero-kicker{background:#ffffff1c!important;color:#fff!important;border:1px solid #ffffff55!important}
+.hero a,.about-whatsapp{background:linear-gradient(110deg,var(--marq-orange),#ff874c)!important;color:#fff!important;box-shadow:0 8px 18px #ff6b3538!important}
+.hero a:hover,.about-whatsapp:hover{filter:brightness(1.06)}
+.hero:after{color:#ffffff17!important}
+.trust-item{background:#fff!important;border:1px solid #e8ebf4!important;color:#596780!important;box-shadow:0 6px 20px #17233f08}
+.trust-item strong{color:var(--marq-blue)!important}
+.eyebrow,.about-kicker{color:var(--marq-blue)!important}
+.category-heading h2,#ofertas .section-head h2,.como-comprar h2,.faq-section h2,.about-intro h2{color:var(--marq-ink)!important}
+.categoria{background:#fff!important;border:1px solid #e5e9f3!important;box-shadow:0 7px 22px #17233f0c!important}
+.categoria b{color:var(--marq-ink)!important}
+.categoria small{color:var(--marq-muted)!important}
+.categoria:hover,.categoria.active{background:#eef1ff!important;border-color:#9aafff!important;box-shadow:0 10px 22px #315bff1c!important}
+#ofertas .catalog-tools{border-color:#e5e9f3!important;box-shadow:0 5px 18px #17233f08}
+#contador{color:var(--marq-muted)!important}
+#ordenar{border-color:#e1e6f2!important;color:var(--marq-ink)!important}
+#grade-produtos .card{border:1px solid #e8ebf4!important;box-shadow:0 7px 22px #17233f0d!important}
+#grade-produtos .card:hover{box-shadow:0 16px 30px #17233f1b!important}
+#grade-produtos .card>img{background:linear-gradient(145deg,#f8f9ff,#f0f3ff)!important;border-bottom:1px solid #edf0f8!important}
+#grade-produtos .info h3{color:var(--marq-ink)!important}
+#grade-produtos .preco{color:#e45124!important}
+#grade-produtos .sold{background:#f2f8d9!important;color:#536c00!important}
+#grade-produtos .detalhes-link{background:#eef1ff!important;border-color:#dce3ff!important;color:var(--marq-blue)!important}
+#grade-produtos .botao{background:linear-gradient(110deg,var(--marq-orange),#ff874c)!important;color:#fff!important;box-shadow:0 5px 13px #ff6b3525}
+#grade-produtos .botao:hover{filter:brightness(1.06)}
+#grade-produtos .marq-add-cart{border:1px solid #dce3ff!important;background:#f4f6ff!important;color:var(--marq-blue)!important;border-radius:10px!important}
+#grade-produtos .marq-add-cart.is-added{background:#f2f8d9!important;color:#536c00!important;border-color:#dceba3!important}
+#ofertas>.aviso,.about-section{background:#fff!important;border-color:#e7eaf3!important}
+.about-kicker{background:#eef1ff!important}
+.about-card{border-color:#e7eaf3!important;box-shadow:0 7px 20px #17233f09!important}
+.about-card h3,.about-contact h3{color:var(--marq-ink)!important}
+.about-contact{background:linear-gradient(110deg,#eef1ff,#fff2eb)!important}
+.about-contact p,.about-card p,.about-intro p{color:#65718a!important}
+.faq-item{border-color:#e7eaf3!important}
+.faq-item summary{color:var(--marq-ink)!important}
+.faq-item summary:after{color:var(--marq-orange)!important}
+.detalhes-link{color:var(--marq-blue)!important}
+footer{background:linear-gradient(115deg,#121d36,#263f85)!important;color:#e4eaff!important}
+footer strong{color:var(--marq-lime)!important}
+footer a{color:#fff!important}
+.whatsapp-float{background:#16a765!important;box-shadow:0 8px 22px #17233f30!important}
+.whatsapp-float:hover{background:#128a54!important}
+.marq-cart-trigger{background:linear-gradient(110deg,#17233f,#315bff)!important;color:#fff!important;box-shadow:0 8px 22px #17233f35!important}
+.marq-cart-count{background:var(--marq-orange)!important;color:#fff!important}
+.marq-cart-panel{border-color:#e4e8f2!important}
+.marq-cart-head{background:#17233f!important;color:#fff!important}
+.marq-cart-close{color:#fff!important}
+.marq-cart-continue,.marq-cart-item .open-offer{background:var(--marq-orange)!important;color:#fff!important}
+@media(max-width:600px){
+ .hero{background:linear-gradient(145deg,#17233f,#315bff)!important}
+ nav{box-shadow:0 5px 15px #17233f16}
+}
 
 </style>
 </head>
