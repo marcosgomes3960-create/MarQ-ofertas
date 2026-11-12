@@ -353,6 +353,19 @@ nav a:hover:after{right:0}
 #grade-produtos .produto-titulo-link{color:inherit;text-decoration:none}
 #grade-produtos .produto-titulo-link:hover{color:#21865b}
 
+
+/* Sugestões inteligentes da busca */
+.search-wrap{z-index:30}
+#sugestoes-busca{display:none;position:absolute;top:calc(100% + 7px);left:0;right:0;background:#fff;border:1px solid #e0ebe4;border-radius:15px;box-shadow:0 14px 32px #173d2920;overflow:hidden;z-index:50}
+#sugestoes-busca.visivel{display:block}
+.sugestao-produto{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px;border:0;border-bottom:1px solid #edf2ee;background:#fff;text-align:left;color:#294d39;cursor:pointer;font:inherit}
+.sugestao-produto:last-child{border-bottom:0}
+.sugestao-produto:hover,.sugestao-produto:focus{background:#f0faf4;outline:none}
+.sugestao-produto img{width:48px;height:48px;object-fit:contain;border-radius:9px;background:#f3f8f5;padding:3px;flex:none}
+.sugestao-produto strong{display:block;font-size:13px;line-height:1.35;font-weight:900}
+.sugestao-produto small{display:block;color:#829188;font-size:11px;margin-top:3px}
+.sugestao-vazia{padding:14px;color:#78877f;font-size:13px}
+
 </style>
 </head>
 <body>
@@ -380,6 +393,7 @@ nav a:hover:after{right:0}
   <input id="busca" type="search" placeholder="O que você está procurando?" aria-label="Buscar produtos">
   <button id="limpar-busca" type="button" aria-label="Limpar busca">Limpar</button>
 </div>
+<div id="sugestoes-busca" role="listbox" aria-label="Sugestões de produtos"></div>
 
 <section id="categorias" class="category-section">
   <div class="category-heading"><div><span class="eyebrow">EXPLORE A MARQ</span><h2>Encontre seu próximo achadinho</h2><p class="section-sub">Categorias escolhidas para facilitar sua busca</p></div></div>
@@ -556,6 +570,7 @@ nav a:hover:after{right:0}
   const limparBusca = document.getElementById('limpar-busca');
   const grade = document.getElementById('grade-produtos');
   const ordenar = document.getElementById('ordenar');
+  const sugestoes = document.getElementById('sugestoes-busca');
   const contador = document.getElementById('contador');
   const vazio = document.getElementById('sem-resultados');
   if (!busca || !grade || !contador || !vazio) return;
@@ -570,6 +585,46 @@ nav a:hover:after{right:0}
     .toLocaleLowerCase('pt-BR')
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
+
+
+  function abrirProduto(card) {
+    const link = card.querySelector('.produto-titulo-link, .produto-imagem-link, .detalhes-link');
+    if (link && link.href) window.location.href = link.href;
+  }
+
+  function mostrarSugestoes() {
+    if (!sugestoes) return;
+    const termo = normalizar(busca.value);
+    if (!termo) {
+      sugestoes.innerHTML = '';
+      sugestoes.classList.remove('visivel');
+      return;
+    }
+    const encontrados = cards.filter((card) => {
+      const titulo = normalizar(card.querySelector('h3')?.textContent || '');
+      const buscaCompleta = normalizar([card.dataset.search, titulo, card.dataset.tags || ''].join(' '));
+      return termo.split(/\\s+/).every((parte) => buscaCompleta.includes(parte));
+    }).slice(0, 6);
+
+    if (!encontrados.length) {
+      sugestoes.innerHTML = '<div class="sugestao-vazia">Nenhum produto encontrado. Tente outra palavra.</div>';
+      sugestoes.classList.add('visivel');
+      return;
+    }
+
+    sugestoes.innerHTML = encontrados.map((card, indice) => {
+      const titulo = card.querySelector('h3')?.textContent.trim() || 'Produto';
+      const imagem = card.querySelector('img')?.src || '';
+      const categoria = card.dataset.category || 'Achadinho';
+      return '<button class="sugestao-produto" type="button" role="option" data-indice="' + indice + '">' +
+        (imagem ? '<img src="' + imagem.replace(/"/g, '&quot;') + '" alt="">' : '') +
+        '<span><strong>' + titulo.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong><small>' + categoria + ' · Ver produto e informações</small></span></button>';
+    }).join('');
+    sugestoes.classList.add('visivel');
+    Array.from(sugestoes.querySelectorAll('.sugestao-produto')).forEach((botao, indice) => {
+      botao.addEventListener('click', () => abrirProduto(encontrados[indice]));
+    });
+  }
 
   function filtrar() {
     const termos = normalizar(busca.value).split(/\s+/).filter(Boolean);
@@ -616,18 +671,28 @@ nav a:hover:after{right:0}
     filtrar();
   }
 
-  busca.addEventListener('input', filtrar);
-  busca.addEventListener('search', filtrar);
+  busca.addEventListener('input', () => { filtrar(); mostrarSugestoes(); });
+  busca.addEventListener('search', () => { filtrar(); mostrarSugestoes(); });
   busca.addEventListener('keydown', (evento) => {
     if (evento.key === 'Enter') {
       evento.preventDefault();
+      const termo = normalizar(busca.value);
+      const encontrados = cards.filter((card) => {
+        const titulo = normalizar(card.querySelector('h3')?.textContent || '');
+        const texto = normalizar([card.dataset.search, titulo, card.dataset.tags || ''].join(' '));
+        return termo && termo.split(/\\s+/).every((parte) => texto.includes(parte));
+      });
+      if (encontrados.length === 1) { abrirProduto(encontrados[0]); return; }
       filtrar();
+      mostrarSugestoes();
       document.getElementById('ofertas')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 
   limparBusca?.addEventListener('click', () => {
     busca.value = '';
+    sugestoes?.classList.remove('visivel');
+    if (sugestoes) sugestoes.innerHTML = '';
     categoriaAtiva = 'todos';
     filtros.forEach((item) => item.classList.toggle('active', item.dataset.filter === 'todos'));
     filtrar();
@@ -635,6 +700,11 @@ nav a:hover:after{right:0}
   });
 
   ordenar?.addEventListener('change', ordenarCards);
+  document.addEventListener('click', (evento) => {
+    if (!evento.target.closest('.search-wrap') && !evento.target.closest('#sugestoes-busca')) {
+      sugestoes?.classList.remove('visivel');
+    }
+  });
 
   filtros.forEach((botao) => botao.addEventListener('click', () => {
     categoriaAtiva = botao.dataset.filter || 'todos';
