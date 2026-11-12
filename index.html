@@ -392,6 +392,16 @@ nav a:hover:after{right:0}
 
 /* Selo de popularidade: usar somente com quantidade de vendas confirmada */
 #grade-produtos .sold{display:inline-flex;align-items:center;gap:5px;width:max-content;max-width:100%;padding:7px 10px;margin:5px 0 9px;border:1px solid #f5d7a8;border-radius:999px;background:linear-gradient(110deg,#fff4df,#fff9ee);color:#98520b;font-size:10px;font-weight:900;letter-spacing:.35px;box-shadow:0 2px 7px #b7791f12}
+
+/* Destaque de promoção e prova social discreta */
+#grade-produtos .sold{font-size:9px;padding:3px 7px;margin:2px 0 6px;background:#f3f7f4;color:#728178;border:1px solid #e6eee8;border-radius:6px;font-weight:700;letter-spacing:.15px}
+#grade-produtos .promo-card-label{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;margin:0 0 10px;padding:8px 10px;border-radius:9px;background:linear-gradient(100deg,#fff0d9,#fff7e9);border:1px solid #f3d6a7;color:#98520b;font-size:10px;font-weight:900;letter-spacing:.3px}
+#grade-produtos .promo-card-label b{background:#e56b27;color:#fff;padding:4px 7px;border-radius:6px;font-size:11px;white-space:nowrap}
+#grade-produtos .promo-price{display:flex;flex-direction:column;gap:2px;min-height:unset!important;margin:7px 0 13px!important;padding:10px 11px;background:linear-gradient(110deg,#fff8ed,#fff1df);border:1px solid #f4dfc2;border-radius:11px}
+#grade-produtos .promo-price .old-price{color:#8b918d;font-size:11px;font-weight:600;text-decoration:line-through}
+#grade-produtos .promo-price strong{color:#d65320;font-size:25px;line-height:1.2;font-weight:900}
+#grade-produtos .promo-price small{color:#9a5b2d;font-size:10px;font-weight:700}
+@media(max-width:760px){#grade-produtos .promo-card-label{font-size:9px;padding:7px 8px}#grade-produtos .promo-card-label b{font-size:10px}#grade-produtos .promo-price{padding:8px}#grade-produtos .promo-price strong{font-size:21px}}
 </style>
 </head>
 <body>
@@ -522,9 +532,10 @@ nav a:hover:after{right:0}
     <article class="card" data-category="beleza" data-tags="achadinhos" data-search="perfume arabe asad bourbon masculino 100ml isabelle la belle perfume">
       <a class="produto-imagem-link" href="./produtos/perfume-arabe-asad-bourbon-isabelle-100ml.html" aria-label="Ver detalhes do Perfume Árabe Asad Bourbon Isabelle 100ml"><img src="https://http2.mlstatic.com/D_Q_NP_2X_682372-MLA103217659554_012026-V.webp" alt="Perfume Asad Bourbon Isabelle La Belle 100ml com frasco e caixa" loading="lazy"></a>
       <div class="info">
+        <span class="promo-card-label">🔥 QUEDA DE PREÇO <b>47% OFF</b></span>
         <h3><a class="produto-titulo-link" href="./produtos/perfume-arabe-asad-bourbon-isabelle-100ml.html">Perfume Árabe Asad Bourbon Masculino 100ml – Isabelle</a></h3>
-        <span class="sold" title="Quantidade informada no anúncio; confira se continua atualizada.">🔥 +5 MIL VENDIDOS</span>
-        <div class="preco">R$ 78,98<small><del>De R$ 149,99</del></small></div>
+        <span class="sold" title="Quantidade informada no anúncio; confira se continua atualizada.">+5 MIL VENDIDOS</span>
+        <div class="preco promo-price"><span class="old-price">De R$ 149,99</span><strong>R$ 78,98</strong><small>Você economiza R$ 71,01</small></div>
         <a class="detalhes-link" href="./produtos/perfume-arabe-asad-bourbon-isabelle-100ml.html">VER PRODUTO E DETALHES</a>
         <a class="botao" href="https://meli.la/1bTCdDg" target="_blank" rel="noopener noreferrer">COMPRAR AGORA</a>
       </div>
