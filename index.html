@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MarQ Ofertas: achadinhos, produtos úteis e ofertas selecionadas. Confira os produtos e compre com segurança nas lojas parceiras.">
+<meta name="theme-color" content="#21865b">
 <title>MarQ Ofertas | Achadinhos que valem a pena</title>
 <style>
 :root {
@@ -113,14 +115,66 @@ footer {
   line-height: 1.8;
 }
 footer strong { color: var(--verde-escuro); }
+
+/* Melhorias da vitrine */
+.topline { background:#eef9f3; color:#38765a; text-align:center; padding:8px 12px; font-size:12px; font-weight:700; }
+.header-main { max-width:1180px; margin:auto; }
+.logo { letter-spacing:-1px; }
+.logo span { color:#55a9d8; }
+.header-tag { color:#668075; font-size:13px; font-weight:600; }
+.search-wrap { width:92%; max-width:1180px; margin:18px auto 0; position:relative; }
+.search-wrap input { width:100%; border:1px solid #dcebe2; background:#fff; border-radius:13px; padding:14px 16px 14px 44px; font-size:15px; outline:none; }
+.search-wrap input:focus { border-color:#21865b; box-shadow:0 0 0 3px #21865b18; }
+.search-icon { position:absolute; left:15px; top:12px; font-size:18px; }
+.hero { max-width:1180px; position:relative; overflow:hidden; min-height:235px; display:flex; flex-direction:column; justify-content:center; }
+.hero:after { content:"✦"; position:absolute; right:7%; top:15px; font-size:120px; color:#ffffff8c; transform:rotate(12deg); pointer-events:none; }
+.hero-content { position:relative; z-index:1; max-width:650px; }
+.hero-kicker { display:inline-block; color:#24734e; background:#ffffffa8; border-radius:30px; padding:7px 12px; font-size:12px; font-weight:800; margin-bottom:13px; }
+.hero p { max-width:550px; line-height:1.6; color:#425d50; }
+section { max-width:1180px; }
+.categoria { border:1px solid #edf3ef; cursor:pointer; transition:.2s; color:#315b46; }
+.categoria:hover, .categoria.active { background:#e7f7ed; border-color:#a8dfbd; transform:translateY(-2px); }
+.categoria span { display:block; font-size:25px; margin-bottom:7px; }
+.section-head { display:flex; align-items:end; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.section-sub { color:#7b8a82; font-size:13px; margin-top:-10px; margin-bottom:18px; }
+.produtos { grid-template-columns:repeat(auto-fit,minmax(205px,1fr)); }
+.card { border:1px solid #edf2ee; transition:transform .2s, box-shadow .2s; }
+.card:hover { transform:translateY(-4px); box-shadow:0 10px 25px #173d2915; }
+.card img { height:205px; object-fit:contain; padding:10px; }
+.info { display:flex; flex-direction:column; min-height:160px; }
+.info h3 { line-height:1.4; min-height:44px; }
+.preco { font-size:14px; min-height:34px; line-height:1.4; }
+.botao { margin-top:auto; transition:background .2s; }
+.botao:hover { background:#176b47; }
+.sold { display:inline-block; color:#28764e; background:#e8f7ee; border-radius:20px; padding:5px 8px; font-size:11px; font-weight:800; margin:7px 0 2px; width:max-content; }
+.empty-state { display:none; text-align:center; color:#718078; padding:28px; background:white; border-radius:14px; }
+.trust-row { width:92%; max-width:1180px; margin:0 auto 30px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; }
+.trust-item { background:white; border:1px solid #edf2ee; border-radius:13px; padding:15px; color:#4d6859; font-size:13px; }
+.trust-item strong { display:block; color:#246b49; margin-bottom:4px; }
+footer { color:#5d7166; }
+.footer-inner { max-width:1180px; margin:auto; }
+@media (max-width:600px) {
+ header { padding:15px 4%; }
+ header > strong { font-size:12px; }
+ .hero { padding:30px 22px; min-height:220px; }
+ .hero:after { right:-8px; font-size:85px; top:5px; }
+ .produtos { grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+ .card img { height:145px; }
+ .info { padding:11px; min-height:175px; }
+ .info h3 { font-size:13px; }
+ .preco { font-size:12px; }
+ .botao { font-size:12px; padding:10px 3px; }
+ .categorias { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
 </style>
 </head>
 <body>
 
+<div class="topline">💚 Achadinhos selecionados para facilitar seu dia a dia</div>
 <header>
-  <div>
+  <div class="header-main">
     <div class="logo">MarQ <span>Ofertas</span></div>
-    <small>Achadinhos que valem a pena!</small>
+    <small class="header-tag">ACHOU, GOSTOU, ECONOMIZOU.</small>
   </div>
   <strong>🛍️ Sua loja de oportunidades</strong>
 </header>
@@ -132,28 +186,43 @@ footer strong { color: var(--verde-escuro); }
   <a href="#sobre">Sobre nós</a>
 </nav>
 
+<div class="search-wrap">
+  <span class="search-icon">⌕</span>
+  <input id="busca" type="search" placeholder="O que você está procurando?" aria-label="Buscar produtos">
+</div>
+
 <div class="hero">
-  <h1>Seu próximo achadinho está aqui! 💚</h1>
-  <p>Produtos incríveis, ofertas especiais e descobertas que fazem seu dinheiro valer mais.</p>
-  <a href="#ofertas">VER OFERTAS</a>
+  <div class="hero-content">
+    <span class="hero-kicker">✨ SEU CANTINHO DE ACHADINHOS</span>
+    <h1>Boas escolhas começam com um bom achado.</h1>
+    <p>Descubra produtos úteis, novidades e oportunidades selecionadas para você. Encontre seu próximo favorito na MarQ Ofertas!</p>
+    <a href="#ofertas">EXPLORAR PRODUTOS</a>
+  </div>
+</div>
+
+<div class="trust-row">
+  <div class="trust-item"><strong>🛍️ Produtos selecionados</strong>Achadinhos escolhidos para sua rotina.</div>
+  <div class="trust-item"><strong>🔒 Compra na loja parceira</strong>Finalize seu pedido diretamente no Mercado Livre.</div>
+  <div class="trust-item"><strong>💚 Apoie a MarQ</strong>Alguns links podem gerar comissão sem custo extra para você.</div>
 </div>
 
 <section id="categorias">
   <h2>Explore por categoria</h2>
   <div class="categorias">
-    <div class="categoria">🏠<br>Casa</div>
-    <div class="categoria">📱<br>Eletrônicos</div>
-    <div class="categoria">💄<br>Beleza</div>
-    <div class="categoria">👕<br>Moda</div>
-    <div class="categoria">✨<br>Achadinhos</div>
+    <button class="categoria active" type="button" data-filter="todos"><span>✨</span>Todos</button>
+    <button class="categoria" type="button" data-filter="casa"><span>🏠</span>Casa</button>
+    <button class="categoria" type="button" data-filter="eletronicos"><span>📱</span>Eletrônicos</button>
+    <button class="categoria" type="button" data-filter="beleza"><span>💄</span>Beleza</button>
+    <button class="categoria" type="button" data-filter="achadinhos"><span>⭐</span>Achadinhos</button>
   </div>
 </section>
 
 <section id="ofertas">
-  <h2>🔥 Achadinhos em destaque</h2>
+  <div class="section-head"><h2>🔥 Achadinhos em destaque</h2><span class="header-tag">OFERTAS PARA DESCOBRIR</span></div>
+  <p class="section-sub">Toque em um produto para conferir os detalhes e comprar na loja parceira.</p>
   <div class="produtos">
 
-    <article class="card">
+    <article class="card" data-category="beleza" data-search="escova secadora britania 1300w cabelo beleza">
       <img src="https://placehold.co/500x400/e4f4ed/26845c?text=Escova+Secadora" alt="Escova secadora Britânia">
       <div class="info">
         <h3>Escova Secadora Britânia 1300W</h3>
@@ -162,16 +231,16 @@ footer strong { color: var(--verde-escuro); }
       </div>
     </article>
 
-    <article class="card">
+    <article class="card" data-category="eletronicos" data-search="fone bluetooth airdots 2 preto caixa azul vermelho">
       <img src="https://placehold.co/500x400/e2f3fc/2685ad?text=Fone+Bluetooth+AirDots+2" alt="Fone Bluetooth AirDots 2 Preto com caixa azul e vermelha">
       <div class="info">
         <h3>Fone Bluetooth AirDots 2 Preto – CX Azul e Vermelho</h3>
-        <div class="preco">Mais de 50 mil vendidos</div>
+        <span class="sold">🔥 MAIS DE 50 MIL VENDIDOS</span>
         <a class="botao" href="https://meli.la/2D9aKB8" target="_blank" rel="noopener noreferrer">COMPRAR AGORA</a>
       </div>
     </article>
 
-    <article class="card">
+    <article class="card" data-category="casa" data-search="kit 4 caixa gaveteiro plastico organizador 16 gavetas preto">
       <img src="https://placehold.co/500x400/e4f4ed/26845c?text=Kit+Organizador+16+Gavetas" alt="Kit com quatro caixas gaveteiro organizadoras de plástico com 16 gavetas, cor preta">
       <div class="info">
         <h3>Kit 4 Caixas Gaveteiro Plástico Organizador – 16 Gavetas 7001 Preto</h3>
@@ -180,16 +249,16 @@ footer strong { color: var(--verde-escuro); }
       </div>
     </article>
 
-    <article class="card">
+    <article class="card" data-category="eletronicos" data-search="suporte celular veicular automotivo ayann ventosa carro painel para-brisa">
       <img src="https://placehold.co/500x400/e2f3fc/2685ad?text=Suporte+Veicular" alt="Suporte universal de celular veicular AYANN com ventosa para painel e para-brisas">
       <div class="info">
         <h3>Suporte de Celular Veicular AYANN com Ventosa</h3>
-        <div class="preco">Mais de 50 mil vendidos</div>
+        <span class="sold">🔥 MAIS DE 50 MIL VENDIDOS</span>
         <a class="botao" href="https://meli.la/2Sjwj36" target="_blank" rel="noopener noreferrer">COMPRAR AGORA</a>
       </div>
     </article>
 
-    <article class="card">
+    <article class="card" data-category="casa" data-search="mini astronauta projetor estrelas galaxia luminaria noturna">
       <img src="https://placehold.co/500x400/e4f4ed/26845c?text=Projetor+Astronauta" alt="Mini projetor astronauta de estrelas e galáxia, luminária noturna">
       <div class="info">
         <h3>Mini Astronauta Projetor de Estrelas e Galáxia</h3>
@@ -199,15 +268,44 @@ footer strong { color: var(--verde-escuro); }
     </article>
 
   </div>
+  <div class="empty-state" id="sem-resultados">Não encontramos produtos com essa busca. Tente outro termo.</div>
   <p class="aviso">Preço e disponibilidade podem mudar. Confira as condições no Mercado Livre. Alguns links são de afiliado e podem gerar comissão para a MarQ Ofertas, sem custo adicional para você.</p>
 </section>
 
 <footer id="sobre">
-  <strong>MarQ Ofertas</strong>
-  <p>Os melhores achadinhos em um só lugar.</p>
-  <p>Alguns links podem gerar comissão para nossa loja, sem custo adicional para você.</p>
-  <small>© 2026 MarQ Ofertas. Todos os direitos reservados.</small>
+  <div class="footer-inner">
+    <strong>MarQ Ofertas</strong>
+    <p>Os melhores achadinhos em um só lugar.</p>
+    <p>Somos uma vitrine de produtos. Ao clicar em comprar, você será direcionado à loja parceira para conferir preço, disponibilidade, frete e concluir o pedido.</p>
+    <p>Alguns links são de afiliado e podem gerar comissão para nossa loja, sem custo adicional para você.</p>
+    <small>© 2026 MarQ Ofertas. Todos os direitos reservados.</small>
+  </div>
 </footer>
 
+<script>
+const busca = document.getElementById('busca');
+const cards = [...document.querySelectorAll('.card')];
+const filtros = [...document.querySelectorAll('[data-filter]')];
+const vazio = document.getElementById('sem-resultados');
+let categoriaAtiva = 'todos';
+function filtrar() {
+  const termo = busca.value.trim().toLocaleLowerCase('pt-BR');
+  let visiveis = 0;
+  cards.forEach(card => {
+    const correspondeCategoria = categoriaAtiva === 'todos' || card.dataset.category === categoriaAtiva || categoriaAtiva === 'achadinhos';
+    const correspondeBusca = (card.dataset.search + ' ' + card.innerText).toLocaleLowerCase('pt-BR').includes(termo);
+    const mostrar = correspondeCategoria && correspondeBusca;
+    card.style.display = mostrar ? '' : 'none';
+    if (mostrar) visiveis++;
+  });
+  vazio.style.display = visiveis ? 'none' : 'block';
+}
+busca.addEventListener('input', filtrar);
+filtros.forEach(botao => botao.addEventListener('click', () => {
+  categoriaAtiva = botao.dataset.filter;
+  filtros.forEach(item => item.classList.toggle('active', item === botao));
+  filtrar();
+}));
+</script>
 </body>
 </html>
