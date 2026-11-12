@@ -43,5 +43,42 @@
 </article>
 </main>
 <footer>MarQ Ofertas • Boas escolhas começam com um bom achado.</footer>
+
+<script>
+/* MARQ-SUPABASE-CLICK-TRACKING-DETAIL */
+(() => {
+  const URL_API = 'https://zonclgsfqtylnedxigxd.supabase.co';
+  const CHAVE_PUBLICA = 'sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK';
+  const cabecalhos = { apikey: CHAVE_PUBLICA, Authorization: 'Bearer ' + CHAVE_PUBLICA, 'Content-Type': 'application/json' };
+  const normalizarLink = valor => {
+    try { const u = new URL(valor, location.href); return (u.origin.toLowerCase() + u.pathname).replace(/\/$/, ''); }
+    catch (_) { return String(valor || '').trim(); }
+  };
+  const produtosCarregados = fetch(URL_API + '/rest/v1/produtos?select=id,link_afiliado&limit=1000', { headers: cabecalhos, cache: 'no-store' })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(lista => new Map(lista.filter(p => p.id && p.link_afiliado).map(p => [normalizarLink(p.link_afiliado), p.id])))
+    .catch(e => { console.error('[MarQ] Não foi possível carregar o catálogo de cliques:', e); return new Map(); });
+  document.addEventListener('click', async evento => {
+    const link = evento.target.closest('a[href]');
+    if (!link) return;
+    let destino;
+    try { destino = new URL(link.href); } catch (_) { return; }
+    if (!/(^|\.)meli\.la$|mercadolivre\.com\.br$/i.test(destino.hostname)) return;
+    const mapa = await produtosCarregados;
+    const produtoId = mapa.get(normalizarLink(link.href));
+    if (!produtoId) { console.warn('[MarQ] Link desta página não está cadastrado em produtos:', link.href); return; }
+    try {
+      const resposta = await fetch(URL_API + '/rest/v1/cliques', {
+        method: 'POST', headers: { ...cabecalhos, Prefer: 'return=minimal' },
+        body: JSON.stringify({ produto_id: produtoId, data_clique: new Date().toISOString(), origem: 'detalhe' }),
+        keepalive: true
+      });
+      if (!resposta.ok) console.error('[MarQ] Falha ao registrar clique:', resposta.status, await resposta.text());
+      else console.info('[MarQ] Clique da página de produto registrado:', produtoId);
+    } catch (erro) { console.error('[MarQ] Erro ao registrar clique:', erro); }
+  }, true);
+})();
+</script>
+
 </body>
 </html>
