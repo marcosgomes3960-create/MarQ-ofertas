@@ -44,6 +44,14 @@ h2{font-size:18px;margin:18px 0 9px;color:#245d43}
 .price-note p{margin-top:6px;line-height:1.6}
 footer{background:#164f39;text-align:center;padding:25px 15px;color:#d9f2e3;font-size:13px}footer strong{color:#fff}
 @media(max-width:720px){header{padding:15px 4%}.product{grid-template-columns:1fr;gap:20px;padding:17px}.photo{min-height:260px}.photo img{max-height:340px}.details{width:100%}h1{font-size:27px}}
+
+.gallery-caption{display:flex;justify-content:space-between;gap:8px;color:#718078;font-size:11px;padding:0 2px}
+.thumbs{display:flex;gap:9px;overflow-x:auto;padding:3px 2px 8px;scrollbar-width:thin}
+.thumb{flex:0 0 76px;width:76px;height:76px;border:1px solid #dce9e0;border-radius:12px;background:#fff;padding:4px;cursor:pointer;transition:border-color .18s,box-shadow .18s}
+.thumb img{display:block;width:100%;height:100%;object-fit:contain;border-radius:7px}
+.thumb.active,.thumb:focus-visible{border:2px solid #21865b;box-shadow:0 0 0 3px #21865b18;outline:none}
+.thumb:hover{border-color:#55a9d8}
+@media(max-width:720px){.thumb{flex-basis:66px;width:66px;height:66px}}
 </style>
 </head>
 <body>
@@ -61,6 +69,12 @@ footer{background:#164f39;text-align:center;padding:25px 15px;color:#d9f2e3;font
 <img id="main-product-image" src="https://http2.mlstatic.com/D_Q_NP_2X_682372-MLA103217659554_012026-V.webp" alt="Perfume Asad Bourbon Isabelle La Belle 100ml com frasco e caixa" loading="eager" onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
 <div class="photo-fallback">A foto não carregou. Você pode conferir as imagens atualizadas no anúncio.</div>
 </div>
+<div class="gallery-caption"><span id="photo-counter">Foto 1 de 5</span><span>Toque nas miniaturas para ampliar</span></div>
+<div class="thumbs" aria-label="Outras fotos do produto"><button class="thumb active" type="button" data-src="https://http2.mlstatic.com/D_Q_NP_2X_682372-MLA103217659554_012026-V.webp" data-alt="Perfume Asad Bourbon Isabelle La Belle 100ml com frasco e caixa" aria-label="Ver foto 1" aria-pressed="true"><img src="https://http2.mlstatic.com/D_Q_NP_2X_682372-MLA103217659554_012026-V.webp" alt="" loading="lazy" onerror="this.parentElement.hidden=true"></button>
+<button class="thumb" type="button" data-src="https://down-br.img.susercontent.com/file/br-11134207-820lm-moib8rr3qw3p89" data-alt="Perfume Asad Bourbon com notas olfativas" aria-label="Ver foto 2" aria-pressed="false"><img src="https://down-br.img.susercontent.com/file/br-11134207-820lm-moib8rr3qw3p89" alt="" loading="lazy" onerror="this.parentElement.hidden=true"></button>
+<button class="thumb" type="button" data-src="https://down-br.img.susercontent.com/file/br-11134207-820lo-moib8rr3sao5bf" data-alt="Frasco e caixa do perfume Asad Bourbon" aria-label="Ver foto 3" aria-pressed="false"><img src="https://down-br.img.susercontent.com/file/br-11134207-820lo-moib8rr3sao5bf" alt="" loading="lazy" onerror="this.parentElement.hidden=true"></button>
+<button class="thumb" type="button" data-src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-m8unwnajr0r578" data-alt="Caixa do perfume Asad Bourbon" aria-label="Ver foto 4" aria-pressed="false"><img src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-m8unwnajr0r578" alt="" loading="lazy" onerror="this.parentElement.hidden=true"></button>
+<button class="thumb" type="button" data-src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-m8unwnajsfble7" data-alt="Embalagem do perfume Asad Bourbon" aria-label="Ver foto 5" aria-pressed="false"><img src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-m8unwnajsfble7" alt="" loading="lazy" onerror="this.parentElement.hidden=true"></button></div>
 </div>
 <div class="details">
 <span class="tag">Beleza e Perfumaria</span>
@@ -79,5 +93,28 @@ footer{background:#164f39;text-align:center;padding:25px 15px;color:#d9f2e3;font
 </article>
 </main>
 <footer><strong>MarQ Ofertas</strong><p>ACHOU, GOSTOU, ECONOMIZOU.</p><p>© 2026 MarQ Ofertas.</p></footer>
+
+<script>
+(function(){
+ const gallery=document.querySelector('.gallery');
+ if(!gallery)return;
+ const main=gallery.querySelector('#main-product-image');
+ const thumbs=Array.from(gallery.querySelectorAll('.thumb'));
+ const counter=gallery.querySelector('#photo-counter');
+ thumbs.forEach(function(button,index){
+  button.addEventListener('click',function(){
+   main.hidden=false;
+   main.src=button.dataset.src;
+   main.alt=button.dataset.alt;
+   const fallback=main.nextElementSibling;
+   if(fallback)fallback.style.display='none';
+   thumbs.forEach(function(item){item.classList.remove('active');item.setAttribute('aria-pressed','false');});
+   button.classList.add('active');
+   button.setAttribute('aria-pressed','true');
+   if(counter)counter.textContent='Foto '+(index+1)+' de '+thumbs.length;
+  });
+ });
+})();
+</script>
 </body>
 </html>
