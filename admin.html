@@ -59,7 +59,8 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
  const ADMIN_ID='89fdb1b1-c59d-4928-8b7d-8e604046d456';
  const client=window.supabase.createClient(URL,KEY);
  const $=id=>document.getElementById(id);
- const login=$('login'), dashboard=$('dashboard'), status=$('status');\n let allClicks=[], allProducts=[];
+ const login=$('login'), dashboard=$('dashboard'), status=$('status');
+ let allClicks=[], allProducts=[];
  const safe=value=>String(value??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const dateFormat=value=>{const d=new Date(value);return Number.isNaN(d.getTime())?'—':d.toLocaleString('pt-BR')};
  function showError(message){$('dashboardStatus').textContent=message}
@@ -86,7 +87,9 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
    await enter(data.user);
  });
  $('logout').addEventListener('click',async()=>{await client.auth.signOut();location.reload()});
- $('refresh').addEventListener('click',loadData);\n $('periodFilter').addEventListener('change',renderDashboard);\n $('categoryFilter').addEventListener('change',renderDashboard);
+ $('refresh').addEventListener('click',loadData);
+ $('periodFilter').addEventListener('change',renderDashboard);
+ $('categoryFilter').addEventListener('change',renderDashboard);
  function renderBars(target,items){
    const max=Math.max(1,...items.map(x=>x.count));
    $(target).innerHTML=items.length?items.map(x=>'<div class="barrow"><span class="barlabel">'+safe(x.name)+'</span><div class="track"><div class="fill" style="width:'+Math.max(1,x.count/max*100)+'%"></div></div><span class="barvalue">'+x.count+'</span></div>').join(''):'Nenhum clique registrado ainda.';
