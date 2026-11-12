@@ -1174,9 +1174,9 @@ body.marq-cart-lock{overflow:hidden}
 (() => {
   const SUPABASE_URL = 'https://zonclgsfqtylnedxigxd.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK';
+  // A chave publishable deve ir no header apikey; não é um JWT Bearer.
   const headers = {
     apikey: SUPABASE_KEY,
-    Authorization: 'Bearer ' + SUPABASE_KEY,
     'Content-Type': 'application/json'
   };
 
