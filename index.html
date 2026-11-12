@@ -544,46 +544,100 @@ nav a:hover:after{right:0}
 </footer>
 
 <script>
-const busca = document.getElementById('busca');
-const limparBusca = document.getElementById('limpar-busca');
-const grade = document.getElementById('grade-produtos');
-const ordenar = document.getElementById('ordenar');
-const contador = document.getElementById('contador');
-const cards = [...document.querySelectorAll('.card')];
-const filtros = [...document.querySelectorAll('[data-filter]')];
-const vazio = document.getElementById('sem-resultados');
-let categoriaAtiva = 'todos';
-const normalizar = texto => String(texto).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
-function filtrar() {
-  const termo = normalizar(busca.value.trim());
-  let visiveis = 0;
-  cards.forEach(card => {
-    const correspondeCategoria = categoriaAtiva === 'todos' || card.dataset.category === categoriaAtiva || (categoriaAtiva === 'achadinhos' && (card.dataset.tags || '').includes('achadinhos'));
-    const textoBusca = normalizar((card.dataset.search || '') + ' ' + card.innerText);
-    const correspondeBusca = !termo || termo.split(/\s+/).every(palavra => textoBusca.includes(palavra));
-    const mostrar = correspondeCategoria && correspondeBusca;
-    card.style.display = mostrar ? '' : 'none';
-    if (mostrar) visiveis++;
+(() => {
+  const busca = document.getElementById('busca');
+  const limparBusca = document.getElementById('limpar-busca');
+  const grade = document.getElementById('grade-produtos');
+  const ordenar = document.getElementById('ordenar');
+  const contador = document.getElementById('contador');
+  const vazio = document.getElementById('sem-resultados');
+  if (!busca || !grade || !contador || !vazio) return;
+
+  const cards = Array.from(grade.querySelectorAll(':scope > .card'));
+  const filtros = Array.from(document.querySelectorAll('#categorias [data-filter]'));
+  let categoriaAtiva = 'todos';
+
+  const normalizar = (valor) => String(valor || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('pt-BR')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+  function filtrar() {
+    const termos = normalizar(busca.value).split(/\s+/).filter(Boolean);
+    let visiveis = 0;
+
+    cards.forEach((card) => {
+      const categoria = card.dataset.category || '';
+      const tags = card.dataset.tags || '';
+      const correspondeCategoria =
+        categoriaAtiva === 'todos' ||
+        categoria === categoriaAtiva ||
+        (categoriaAtiva === 'achadinhos' && tags.split(/\s+/).includes('achadinhos'));
+
+      const titulo = card.querySelector('h3')?.textContent || '';
+      const imagem = card.querySelector('img')?.alt || '';
+      const texto = normalizar([
+        card.dataset.search, titulo, imagem, card.innerText, categoria, tags
+      ].join(' '));
+
+      const correspondeBusca = termos.length === 0 ||
+        termos.every((termo) => texto.includes(termo));
+
+      const mostrar = correspondeCategoria && correspondeBusca;
+      card.hidden = !mostrar;
+      if (mostrar) visiveis += 1;
+    });
+
+    contador.textContent = visiveis + (visiveis === 1
+      ? ' produto encontrado na MarQ Ofertas'
+      : ' produtos encontrados na MarQ Ofertas');
+    vazio.style.display = visiveis ? 'none' : 'block';
+  }
+
+  function ordenarCards() {
+    const lista = [...cards];
+    if (ordenar?.value === 'az') {
+      lista.sort((a, b) =>
+        (a.querySelector('h3')?.textContent || '').localeCompare(
+          b.querySelector('h3')?.textContent || '', 'pt-BR'
+        )
+      );
+    }
+    lista.forEach((card) => grade.appendChild(card));
+    filtrar();
+  }
+
+  busca.addEventListener('input', filtrar);
+  busca.addEventListener('search', filtrar);
+  busca.addEventListener('keydown', (evento) => {
+    if (evento.key === 'Enter') {
+      evento.preventDefault();
+      filtrar();
+      document.getElementById('ofertas')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   });
-  contador.textContent = visiveis + (visiveis === 1 ? ' produto encontrado' : ' produtos encontrados');
-  vazio.style.display = visiveis ? 'none' : 'block';
-}
-function ordenarCards() {
-  const lista = [...cards];
-  if (ordenar.value === 'az') lista.sort((a,b) => a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent, 'pt-BR'));
-  else lista.sort((a,b) => cards.indexOf(a) - cards.indexOf(b));
-  lista.forEach(card => grade.appendChild(card));
+
+  limparBusca?.addEventListener('click', () => {
+    busca.value = '';
+    categoriaAtiva = 'todos';
+    filtros.forEach((item) => item.classList.toggle('active', item.dataset.filter === 'todos'));
+    filtrar();
+    busca.focus();
+  });
+
+  ordenar?.addEventListener('change', ordenarCards);
+
+  filtros.forEach((botao) => botao.addEventListener('click', () => {
+    categoriaAtiva = botao.dataset.filter || 'todos';
+    filtros.forEach((item) => item.classList.toggle('active', item === botao));
+    filtrar();
+    document.getElementById('ofertas')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
+
   filtrar();
-}
-busca.addEventListener('input', filtrar);
-limparBusca.addEventListener('click', () => { busca.value = ''; filtrar(); busca.focus(); });
-ordenar.addEventListener('change', ordenarCards);
-filtros.forEach(botao => botao.addEventListener('click', () => {
-  categoriaAtiva = botao.dataset.filter;
-  filtros.forEach(item => item.classList.toggle('active', item === botao));
-  filtrar();
-}));
-filtrar();
+})();
 </script>
 </body>
 </html>
