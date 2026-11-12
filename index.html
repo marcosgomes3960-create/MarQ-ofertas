@@ -1266,11 +1266,11 @@ nav{
   }
 
   function pontuacaoVendas(card) {
-    const selo = normalizar(card.querySelector('.sold')?.textContent || '');
-    const match = selo.match(/(\\d+(?:[.,]\\d+)?)\\s*(mil|milhao|milhoes)?\\s+vendidos?/);
+    const selo = card.querySelector('.sold')?.textContent || '';
+    const match = selo.match(/(\\d+(?:[.,]\\d+|\\s\\d{3})*)\\s*(mil|milhao|milhoes)?\\s+vendidos?/i);
     if (!match) return 0;
-    const quantidade = Number(match[1].replace(',', '.'));
-    const unidade = match[2] || '';
+    const quantidade = Number(match[1].replace(/[.\\s]/g, '').replace(',', '.'));
+    const unidade = (match[2] || '').toLowerCase();
     return quantidade * (unidade.startsWith('milhao') ? 1000000 : unidade === 'mil' ? 1000 : 1);
   }
 
