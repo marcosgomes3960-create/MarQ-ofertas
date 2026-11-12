@@ -150,8 +150,7 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
      categorySelect.innerHTML='<option value="all">Todas as categorias</option>'+categories.map(cat=>'<option value="'+safe(cat)+'">'+safe(cat)+'</option>').join('');
      if(categories.includes(previousCategory)) categorySelect.value=previousCategory;
      renderDashboard();
-     $('updated').textContent='Atualizado em '+now.toLocaleString('pt-BR');
-     showError(clicks.length===10000?'Exibindo os 10.000 registros mais recentes.':'Dados carregados com sucesso.');
+     if(allClicks.length===10000) showError('Exibindo os 10.000 cliques mais recentes; refine os filtros se necessário.');
    }catch(error){showError(error.message||String(error))}
    $('refresh').disabled=false;
  }
