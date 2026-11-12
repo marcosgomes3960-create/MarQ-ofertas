@@ -148,6 +148,12 @@ section { max-width:1180px; }
 .botao:hover { background:#176b47; }
 .sold { display:inline-block; color:#28764e; background:#e8f7ee; border-radius:20px; padding:5px 8px; font-size:11px; font-weight:800; margin:7px 0 2px; width:max-content; }
 .empty-state { display:none; text-align:center; color:#718078; padding:28px; background:white; border-radius:14px; }
+.catalog-tools { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 16px; }
+#contador { color:#718078; font-size:13px; }
+#ordenar { border:1px solid #dcebe2; background:white; color:#315b46; border-radius:10px; padding:10px 12px; font-size:13px; }
+.search-wrap { display:flex; align-items:center; }
+#limpar-busca { position:absolute; right:10px; border:0; background:#edf7f1; color:#286b49; border-radius:8px; padding:7px 10px; cursor:pointer; font-weight:700; }
+.search-wrap input { padding-right:88px; }
 .trust-row { width:92%; max-width:1180px; margin:0 auto 30px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; }
 .trust-item { background:white; border:1px solid #edf2ee; border-radius:13px; padding:15px; color:#4d6859; font-size:13px; }
 .trust-item strong { display:block; color:#246b49; margin-bottom:4px; }
@@ -189,6 +195,7 @@ footer { color:#5d7166; }
 <div class="search-wrap">
   <span class="search-icon">⌕</span>
   <input id="busca" type="search" placeholder="O que você está procurando?" aria-label="Buscar produtos">
+  <button id="limpar-busca" type="button" aria-label="Limpar busca">Limpar</button>
 </div>
 
 <div class="hero">
@@ -220,9 +227,18 @@ footer { color:#5d7166; }
 <section id="ofertas">
   <div class="section-head"><h2>🔥 Achadinhos em destaque</h2><span class="header-tag">OFERTAS PARA DESCOBRIR</span></div>
   <p class="section-sub">Toque em um produto para conferir os detalhes e comprar na loja parceira.</p>
-  <div class="produtos">
+  <div class="catalog-tools">
+    <span id="contador" aria-live="polite">5 produtos encontrados</span>
+    <label for="ordenar" class="header-tag">Ordenar:
+      <select id="ordenar">
+        <option value="destaques">Destaques</option>
+        <option value="az">Nome: A a Z</option>
+      </select>
+    </label>
+  </div>
+  <div class="produtos" id="grade-produtos">
 
-    <article class="card" data-category="beleza" data-search="escova secadora britania 1300w cabelo beleza">
+    <article class="card" data-category="beleza" data-tags="achadinhos" data-search="escova secadora britania 1300w cabelo beleza">
       <img src="https://placehold.co/500x400/e4f4ed/26845c?text=Escova+Secadora" alt="Escova secadora Britânia">
       <div class="info">
         <h3>Escova Secadora Britânia 1300W</h3>
@@ -231,7 +247,7 @@ footer { color:#5d7166; }
       </div>
     </article>
 
-    <article class="card" data-category="eletronicos" data-search="fone bluetooth airdots 2 preto caixa azul vermelho">
+    <article class="card" data-category="eletronicos" data-tags="achadinhos" data-search="fone bluetooth airdots 2 preto caixa azul vermelho">
       <img src="https://placehold.co/500x400/e2f3fc/2685ad?text=Fone+Bluetooth+AirDots+2" alt="Fone Bluetooth AirDots 2 Preto com caixa azul e vermelha">
       <div class="info">
         <h3>Fone Bluetooth AirDots 2 Preto – CX Azul e Vermelho</h3>
@@ -240,7 +256,7 @@ footer { color:#5d7166; }
       </div>
     </article>
 
-    <article class="card" data-category="casa" data-search="kit 4 caixa gaveteiro plastico organizador 16 gavetas preto">
+    <article class="card" data-category="casa" data-tags="achadinhos" data-search="kit 4 caixa gaveteiro plastico organizador 16 gavetas preto">
       <img src="https://placehold.co/500x400/e4f4ed/26845c?text=Kit+Organizador+16+Gavetas" alt="Kit com quatro caixas gaveteiro organizadoras de plástico com 16 gavetas, cor preta">
       <div class="info">
         <h3>Kit 4 Caixas Gaveteiro Plástico Organizador – 16 Gavetas 7001 Preto</h3>
@@ -249,7 +265,7 @@ footer { color:#5d7166; }
       </div>
     </article>
 
-    <article class="card" data-category="eletronicos" data-search="suporte celular veicular automotivo ayann ventosa carro painel para-brisa">
+    <article class="card" data-category="eletronicos" data-tags="achadinhos" data-search="suporte celular veicular automotivo ayann ventosa carro painel para-brisa">
       <img src="https://placehold.co/500x400/e2f3fc/2685ad?text=Suporte+Veicular" alt="Suporte universal de celular veicular AYANN com ventosa para painel e para-brisas">
       <div class="info">
         <h3>Suporte de Celular Veicular AYANN com Ventosa</h3>
@@ -258,7 +274,7 @@ footer { color:#5d7166; }
       </div>
     </article>
 
-    <article class="card" data-category="casa" data-search="mini astronauta projetor estrelas galaxia luminaria noturna">
+    <article class="card" data-category="casa" data-tags="achadinhos" data-search="mini astronauta projetor estrelas galaxia luminaria noturna">
       <img src="https://placehold.co/500x400/e4f4ed/26845c?text=Projetor+Astronauta" alt="Mini projetor astronauta de estrelas e galáxia, luminária noturna">
       <div class="info">
         <h3>Mini Astronauta Projetor de Estrelas e Galáxia</h3>
@@ -284,28 +300,44 @@ footer { color:#5d7166; }
 
 <script>
 const busca = document.getElementById('busca');
+const limparBusca = document.getElementById('limpar-busca');
+const grade = document.getElementById('grade-produtos');
+const ordenar = document.getElementById('ordenar');
+const contador = document.getElementById('contador');
 const cards = [...document.querySelectorAll('.card')];
 const filtros = [...document.querySelectorAll('[data-filter]')];
 const vazio = document.getElementById('sem-resultados');
 let categoriaAtiva = 'todos';
+const normalizar = texto => texto.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLocaleLowerCase('pt-BR');
 function filtrar() {
-  const termo = busca.value.trim().toLocaleLowerCase('pt-BR');
+  const termo = normalizar(busca.value.trim());
   let visiveis = 0;
   cards.forEach(card => {
-    const correspondeCategoria = categoriaAtiva === 'todos' || card.dataset.category === categoriaAtiva || categoriaAtiva === 'achadinhos';
-    const correspondeBusca = (card.dataset.search + ' ' + card.innerText).toLocaleLowerCase('pt-BR').includes(termo);
+    const correspondeCategoria = categoriaAtiva === 'todos' || card.dataset.category === categoriaAtiva || (categoriaAtiva === 'achadinhos' && (card.dataset.tags || '').includes('achadinhos'));
+    const correspondeBusca = normalizar((card.dataset.search || '') + ' ' + card.innerText).includes(termo);
     const mostrar = correspondeCategoria && correspondeBusca;
     card.style.display = mostrar ? '' : 'none';
     if (mostrar) visiveis++;
   });
+  contador.textContent = visiveis + (visiveis === 1 ? ' produto encontrado' : ' produtos encontrados');
   vazio.style.display = visiveis ? 'none' : 'block';
 }
+function ordenarCards() {
+  const lista = [...cards];
+  if (ordenar.value === 'az') lista.sort((a,b) => a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent, 'pt-BR'));
+  else lista.sort((a,b) => cards.indexOf(a) - cards.indexOf(b));
+  lista.forEach(card => grade.appendChild(card));
+  filtrar();
+}
 busca.addEventListener('input', filtrar);
+limparBusca.addEventListener('click', () => { busca.value = ''; filtrar(); busca.focus(); });
+ordenar.addEventListener('change', ordenarCards);
 filtros.forEach(botao => botao.addEventListener('click', () => {
   categoriaAtiva = botao.dataset.filter;
   filtros.forEach(item => item.classList.toggle('active', item === botao));
   filtrar();
 }));
+filtrar();
 </script>
 </body>
 </html>
