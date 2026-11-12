@@ -1267,7 +1267,7 @@ footer a{color:#fff!important}
   cards.forEach((card) => {
     const img = card.querySelector('.produto-imagem-link img');
     const src = img?.getAttribute('src') || '';
-    const temFotoExterna = (src.startsWith('https://') || src.startsWith('http://')).test(src);
+    const temFotoExterna = src.startsWith('https://') || src.startsWith('http://');
     card.dataset.marqFotoValida = temFotoExterna ? 'true' : 'false';
     if (temFotoExterna && img) {
       img.addEventListener('error', () => {
@@ -1352,8 +1352,9 @@ footer a{color:#fff!important}
         termos.every((termo) => texto.includes(termo));
 
       const imagemProduto = card.querySelector('.produto-imagem-link img');
+      const fotoSrc = imagemProduto?.getAttribute('src') || '';
       const temFotoReal = !!imagemProduto &&
-        (src.startsWith('https://') || src.startsWith('http://')).test(imagemProduto.getAttribute('src') || '') &&
+        (fotoSrc.startsWith('https://') || fotoSrc.startsWith('http://')) &&
         card.dataset.marqFotoValida !== 'false';
 
       // Sem busca, a vitrine mostra somente fotos reais.
