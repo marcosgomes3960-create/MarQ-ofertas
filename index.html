@@ -481,7 +481,7 @@ body.marq-cart-lock{overflow:hidden}
 @media(max-width:600px){.marq-cart-trigger{left:12px;bottom:12px;padding:11px 13px;font-size:12px}.marq-cart-panel{width:100%}.marq-cart-item{grid-template-columns:60px minmax(0,1fr) auto;gap:9px}.marq-cart-item img{width:60px;height:60px}.marq-cart-item .open-offer{padding:8px 7px;font-size:9px}}
 
 
-/* MARQ MOBILE-FIRST: categorias e catálogo aparecem antes do banner */
+/* MARQ MOBILE-FIRST: banner principal apresentado antes das categorias e do catálogo */
 .category-section{margin:18px auto 12px!important}
 #ofertas{margin:16px auto 24px!important}
 @media(max-width:600px){
@@ -1665,7 +1665,7 @@ footer{padding:34px 18px!important}
  trigger.append(el('span','','♡ Minha lista'));const count=el('span','marq-cart-count','0');trigger.append(count);
  const overlay=el('div','marq-cart-overlay');overlay.setAttribute('aria-hidden','true');
  const panel=el('aside','marq-cart-panel');panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Minha lista de ofertas');
- const head=el('div','marq-cart-head');head.append(el('h2','','Minha lista de ofertas'));const close=el('button','marq-cart-close','×');close.type='button';close.setAttribute('aria-label','Fechar carrinho');head.append(close);
+ const head=el('div','marq-cart-head');head.append(el('h2','','Minha lista de ofertas'));const close=el('button','marq-cart-close','×');close.type='button';close.setAttribute('aria-label','Fechar minha lista');head.append(close);
  const note=el('div','marq-cart-note','Salve aqui os produtos que deseja conferir. Sua lista fica neste aparelho e cada oferta abre seu próprio anúncio no Mercado Livre.');
  const list=el('div','marq-cart-items');const foot=el('div','marq-cart-foot');foot.append(el('p','','A MarQ não recebe pagamentos. Confira preço, frete e condições em cada anúncio parceiro.'));const continueLink=el('a','marq-cart-continue','VOLTAR ÀS OFERTAS');continueLink.href='#ofertas';foot.append(continueLink);
  panel.append(head,note,list,foot);overlay.append(panel);document.body.append(trigger,overlay);
