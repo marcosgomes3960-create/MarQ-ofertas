@@ -70,7 +70,8 @@ section h2 { margin-bottom: 18px; font-size: 24px; }
 .categoria {
   background: white;
   border-radius: 14px;
-  padding: 20px 10px;
+  padding: 0 0 13px;
+  overflow: hidden;
   text-align: center;
   font-weight: bold;
   box-shadow: 0 3px 12px #00000009;
@@ -140,6 +141,10 @@ section { max-width:1180px; }
 .categoria { border:1px solid #edf3ef; cursor:pointer; transition:.2s; color:#315b46; }
 .categoria:hover, .categoria.active { background:#e7f7ed; border-color:#a8dfbd; transform:translateY(-2px); }
 .categoria span { display:block; font-size:25px; margin-bottom:7px; }
+.categoria img { display:block; width:100%; height:104px; object-fit:cover; background:#edf5f1; margin-bottom:11px; }
+.categoria-label { display:block; padding:0 8px; font-size:14px; }
+#categorias { margin-top:18px; }
+@media(max-width:600px) { .categoria img { height:88px; } }
 .section-head { display:flex; align-items:end; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 .section-sub { color:#7b8a82; font-size:13px; margin-top:-10px; margin-bottom:18px; }
 .produtos { grid-template-columns:repeat(auto-fit,minmax(205px,1fr)); }
@@ -225,6 +230,18 @@ footer { color:#5d7166; }
   <button id="limpar-busca" type="button" aria-label="Limpar busca">Limpar</button>
 </div>
 
+<section id="categorias">
+  <h2>Encontre o que procura</h2>
+  <p class="section-sub">Explore nossa vitrine por categoria</p>
+  <div class="categorias">
+    <button class="categoria active" type="button" data-filter="todos"><img src="https://a-static.mlcdn.com.br/800x560/kit-4-organizador-gaveteiro-7001-modulavel-16-gavetas-multiuso-arqplast/olistplus/opmi0p1bfhlckda9/65c7cb39d2806ef65339aafec3590faa.jpeg" alt=""><span class="categoria-label">Todos</span></button>
+    <button class="categoria" type="button" data-filter="casa"><img src="https://i5.walmartimages.cl/asr/012bbe62-85b5-47bc-b034-385ecacff199.4fa695cd285ce632c10b89f3425c98d0.jpeg?odnBg=ffffff&odnHeight=2000&odnWidth=2000" alt=""><span class="categoria-label">Casa</span></button>
+    <button class="categoria" type="button" data-filter="eletronicos"><img src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-m0yn52hi7nbrfb" alt=""><span class="categoria-label">Eletrônicos</span></button>
+    <button class="categoria" type="button" data-filter="beleza"><img src="https://d10aktedg4flw1.cloudfront.net/offers/images/01JKRGR0EA3MPJS9XHKHS50E3J/01JKRGR0EAY4N8MA583QK1C99E.png" alt=""><span class="categoria-label">Beleza</span></button>
+    <button class="categoria" type="button" data-filter="achadinhos"><img src="https://http2.mlstatic.com/D_Q_NP_688434-MLA107886731106_032026-O.webp" alt=""><span class="categoria-label">Achadinhos</span></button>
+  </div>
+</section>
+
 <div class="hero">
   <div class="hero-content">
     <span class="hero-kicker">✨ SEU CANTINHO DE ACHADINHOS</span>
@@ -240,16 +257,7 @@ footer { color:#5d7166; }
   <div class="trust-item"><strong>💚 Apoie a MarQ</strong>Alguns links podem gerar comissão sem custo extra para você.</div>
 </div>
 
-<section id="categorias">
-  <h2>Explore por categoria</h2>
-  <div class="categorias">
-    <button class="categoria active" type="button" data-filter="todos"><span>✨</span>Todos</button>
-    <button class="categoria" type="button" data-filter="casa"><span>🏠</span>Casa</button>
-    <button class="categoria" type="button" data-filter="eletronicos"><span>📱</span>Eletrônicos</button>
-    <button class="categoria" type="button" data-filter="beleza"><span>💄</span>Beleza</button>
-    <button class="categoria" type="button" data-filter="achadinhos"><span>⭐</span>Achadinhos</button>
-  </div>
-</section>
+
 
 <section id="ofertas">
   <div class="section-head"><h2>🔥 Achadinhos em destaque</h2><span class="header-tag">OFERTAS PARA DESCOBRIR</span></div>
