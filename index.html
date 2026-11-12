@@ -444,6 +444,39 @@ footer{border-top:3px solid #55b9e8}
 /* Categoria Pets — preparada para receber produtos sem exibir itens fictícios */
 @media(min-width:851px){.categorias{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
 #sem-resultados{line-height:1.7;border:1px solid #e2eee6;color:#537262}
+
+/* MARQ-CART-V1 — carrinho de ofertas afiliadas */
+.marq-cart-trigger{position:fixed;left:18px;bottom:18px;z-index:80;display:flex;align-items:center;gap:9px;border:0;border-radius:999px;background:#155d40;color:#fff;padding:13px 17px;font-weight:800;font-size:13px;box-shadow:0 7px 24px #123d2a35;cursor:pointer}
+.marq-cart-trigger:hover{background:#104b35;transform:translateY(-2px)}
+.marq-cart-count{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:50px;background:#55b9e8;color:#103d2d;font-size:11px;font-weight:900}
+.marq-add-cart{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin:0 0 8px;padding:10px 8px;border:1px solid #b9dfc7;border-radius:9px;background:#f0f8f3;color:#176b47;font-size:11px;font-weight:900;letter-spacing:.35px;cursor:pointer;transition:.2s}
+.marq-add-cart:hover,.marq-add-cart.is-added{background:#e0f4e8;border-color:#83c69b}
+.marq-cart-overlay{position:fixed;inset:0;z-index:100;background:#10251bb0;opacity:0;visibility:hidden;transition:.22s}
+.marq-cart-overlay.open{opacity:1;visibility:visible}
+.marq-cart-panel{position:absolute;right:0;top:0;height:100%;width:min(460px,100%);background:#fff;display:flex;flex-direction:column;box-shadow:-12px 0 40px #0002;transform:translateX(25px);transition:.22s}
+.marq-cart-overlay.open .marq-cart-panel{transform:translateX(0)}
+.marq-cart-head{display:flex;align-items:center;justify-content:space-between;padding:21px 20px;border-bottom:1px solid #e7efe9}
+.marq-cart-head h2{margin:0;color:#174f37;font-size:21px}
+.marq-cart-close{width:36px;height:36px;border:0;border-radius:50%;background:#eff6f1;color:#245d43;font-size:23px;cursor:pointer}
+.marq-cart-note{padding:12px 20px;background:#f0f8f3;color:#5d7467;font-size:12px;line-height:1.55}
+.marq-cart-items{overflow:auto;padding:8px 16px;flex:1}
+.marq-cart-item{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 4px;border-bottom:1px solid #edf2ee}
+.marq-cart-item img{width:72px;height:72px;object-fit:contain;border-radius:10px;background:#f3f8f5}
+.marq-cart-item h3{font-size:13px;line-height:1.4;color:#263b30;margin:0 0 5px}
+.marq-cart-item small{display:block;color:#829188;font-size:10px}
+.marq-cart-item-actions{display:flex;align-items:center;gap:6px;margin-top:8px}
+.marq-cart-item-actions button{border:1px solid #dcebe2;background:#fff;color:#286b49;border-radius:7px;min-width:27px;height:27px;cursor:pointer;font-weight:800}
+.marq-cart-item-actions .remove{border:0;color:#9a5b5b;font-size:11px;margin-left:5px}
+.marq-cart-item .open-offer{border:0;background:#21865b;color:#fff;border-radius:8px;padding:9px 10px;font-size:10px;font-weight:900;cursor:pointer;white-space:nowrap}
+.marq-cart-empty{text-align:center;padding:48px 20px;color:#718078}
+.marq-cart-empty strong{display:block;color:#315b46;font-size:16px;margin-bottom:7px}
+.marq-cart-foot{padding:16px 20px calc(18px + env(safe-area-inset-bottom));border-top:1px solid #e7efe9;background:#fff}
+.marq-cart-foot p{font-size:11px;line-height:1.55;color:#718078;margin:0 0 12px}
+.marq-cart-continue{display:block;text-align:center;border-radius:10px;background:#176b47;color:white;padding:14px;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:.4px}
+.marq-cart-continue:hover{background:#104b35}
+body.marq-cart-lock{overflow:hidden}
+@media(max-width:600px){.marq-cart-trigger{left:12px;bottom:12px;padding:11px 13px;font-size:12px}.marq-cart-panel{width:100%}.marq-cart-item{grid-template-columns:60px minmax(0,1fr) auto;gap:9px}.marq-cart-item img{width:60px;height:60px}.marq-cart-item .open-offer{padding:8px 7px;font-size:9px}}
+
 </style>
 </head>
 <body>
@@ -1134,6 +1167,52 @@ footer{border-top:3px solid #55b9e8}
 
   filtrar();
 })();
+</script>
+<script>
+
+/* MARQ-CART-V1 — lista local; cada produto conserva seu próprio link afiliado */
+(() => {
+ const KEY='marq_ofertas_cart_v1';
+ const read=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}};
+ const save=(items)=>{try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){}};
+ let items=read();
+ const el=(tag,cls,txt)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n};
+ const trigger=el('button','marq-cart-trigger');trigger.type='button';trigger.setAttribute('aria-label','Abrir carrinho');
+ trigger.append(el('span','','🛒 Meu carrinho'));const count=el('span','marq-cart-count','0');trigger.append(count);
+ const overlay=el('div','marq-cart-overlay');overlay.setAttribute('aria-hidden','true');
+ const panel=el('aside','marq-cart-panel');panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Meu carrinho');
+ const head=el('div','marq-cart-head');head.append(el('h2','','Sua lista de ofertas'));const close=el('button','marq-cart-close','×');close.type='button';close.setAttribute('aria-label','Fechar carrinho');head.append(close);
+ const note=el('div','marq-cart-note','Seus produtos ficam salvos neste aparelho. Cada oferta abre seu próprio anúncio no Mercado Livre.');
+ const list=el('div','marq-cart-items');const foot=el('div','marq-cart-foot');foot.append(el('p','','A MarQ Ofertas não recebe pagamentos. Confira preço, frete e condições em cada anúncio.'));const continueLink=el('a','marq-cart-continue','VOLTAR ÀS OFERTAS');continueLink.href='#ofertas';foot.append(continueLink);
+ panel.append(head,note,list,foot);overlay.append(panel);document.body.append(trigger,overlay);
+ function open(){overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.classList.add('marq-cart-lock');close.focus()}
+ function shut(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.classList.remove('marq-cart-lock');trigger.focus()}
+ trigger.addEventListener('click',open);close.addEventListener('click',shut);overlay.addEventListener('click',e=>{if(e.target===overlay)shut()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))shut()});
+ function render(){
+  count.textContent=items.reduce((s,x)=>s+x.qty,0);list.replaceChildren();
+  if(!items.length){const empty=el('div','marq-cart-empty');empty.append(el('strong','','Seu carrinho está esperando por você'),el('span','','Adicione os achadinhos que deseja conferir depois.'));list.append(empty);return}
+  items.forEach(item=>{
+   const row=el('article','marq-cart-item');const img=document.createElement('img');img.src=item.image||'';img.alt='';img.loading='lazy';if(!item.image)img.hidden=true;
+   const details=el('div');details.append(el('h3','',item.title),el('small','','Preço e disponibilidade no anúncio'));
+   const actions=el('div','marq-cart-item-actions');const minus=el('button','','−');minus.type='button';minus.setAttribute('aria-label','Diminuir quantidade');const qty=el('span','',String(item.qty));const plus=el('button','','+');plus.type='button';plus.setAttribute('aria-label','Aumentar quantidade');const remove=el('button','remove','Remover');remove.type='button';actions.append(minus,qty,plus,remove);details.append(actions);
+   const buy=el('button','open-offer','VER OFERTA');buy.type='button';buy.addEventListener('click',()=>window.open(item.affiliate,'_blank','noopener,noreferrer'));
+   minus.addEventListener('click',()=>{item.qty=Math.max(1,item.qty-1);save(items);render()});plus.addEventListener('click',()=>{item.qty=Math.min(99,item.qty+1);save(items);render()});remove.addEventListener('click',()=>{items=items.filter(x=>x.id!==item.id);save(items);render()});
+   row.append(img,details,buy);list.append(row);
+  });
+ }
+ function add(product){
+  const found=items.find(x=>x.id===product.id);
+  if(found)found.qty=Math.min(99,found.qty+1);else items.push({...product,qty:1});
+  save(items);render();trigger.animate?.([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:220});
+ }
+ document.querySelectorAll('#grade-produtos > .card').forEach((card,index)=>{
+  const info=card.querySelector('.info');const title=card.querySelector('.produto-titulo-link')?.textContent.trim();const affiliate=card.querySelector('a.botao')?.href;const detail=card.querySelector('.produto-titulo-link')?.href;const image=card.querySelector('.produto-imagem-link img')?.src||'';
+  if(!info||!title||!affiliate||info.querySelector('.marq-add-cart'))return;
+  const id=detail||affiliate;const btn=el('button','marq-add-cart','＋ ADICIONAR AO CARRINHO');btn.type='button';btn.addEventListener('click',()=>{add({id,title,affiliate,detail,image});btn.textContent='✓ ADICIONADO';btn.classList.add('is-added');setTimeout(()=>{btn.textContent='＋ ADICIONAR AO CARRINHO';btn.classList.remove('is-added')},1400)});const details=info.querySelector('.detalhes-link');info.insertBefore(btn,details||info.querySelector('.botao'));
+ });
+ render();
+})();
+
 </script>
 </body>
 </html>
