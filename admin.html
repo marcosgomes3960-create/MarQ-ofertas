@@ -8,17 +8,17 @@
 <title>Painel administrativo | MarQ Ofertas</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{font-family:Arial,sans-serif;color:#20382b;background:#f2f7f4;font-synthesis:none}
-*{box-sizing:border-box}body{margin:0}header{background:#155d40;color:#fff;padding:20px max(5%,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}header strong{font-size:23px}header a{color:#e6fff0;text-decoration:none;font-weight:700;font-size:13px}
+:root{font-family:Inter,Arial,sans-serif;color:#183329;background:#f3f7f4;font-synthesis:none}body{background:linear-gradient(180deg,#eaf4ee 0,#f6f8f6 260px)}
+*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(120deg,#104b35,#21865b);color:#fff;padding:20px max(5%,calc((100% - 1120px)/2));box-shadow:0 8px 24px #104b3522;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}header strong{font-size:23px}header a{color:#e6fff0;text-decoration:none;font-weight:700;font-size:13px}
 main{max-width:1120px;margin:28px auto;padding:0 18px}.intro{margin-bottom:22px}.intro h1{font-size:28px;margin:0 0 7px}.intro p{color:#6c7e72;margin:0;line-height:1.5}
-.panel{background:#fff;border:1px solid #e3ece6;border-radius:17px;padding:20px;box-shadow:0 5px 18px #173d2909;margin-bottom:18px}
+.panel{background:#fff;border:1px solid #e3ece6;border-radius:18px;padding:21px;box-shadow:0 8px 26px #173d290b;margin-bottom:18px}.panel h2{font-size:16px;letter-spacing:-.2px;color:#244a37}.toolbar select{padding:11px 13px;border:1px solid #d7e5dc;border-radius:10px;background:#fff;color:#244a37;font-weight:700}.toolbar .filters{display:flex;gap:8px;flex-wrap:wrap}
 #login{max-width:430px;margin:45px auto}.field{display:block;margin:13px 0;color:#496052;font-size:13px;font-weight:700}.field input{display:block;width:100%;padding:13px;margin-top:7px;border:1px solid #d9e6dd;border-radius:10px;font-size:16px}
 button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:white;font-weight:800;cursor:pointer}button:disabled{opacity:.6;cursor:wait}.muted{color:#738278;font-size:12px;line-height:1.5}#status{margin-top:13px;color:#a13e32;font-size:13px;line-height:1.5;white-space:pre-wrap}
-.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.metric{background:#f7fbf8;border:1px solid #e7f0e9;border-radius:14px;padding:17px}.metric span{display:block;color:#718078;font-size:12px;font-weight:700}.metric strong{display:block;color:#176b47;font-size:30px;margin-top:8px}
+.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}.metric{background:linear-gradient(145deg,#fff,#f6fbf7);border:1px solid #e2eee6;border-radius:16px;padding:18px;box-shadow:0 5px 16px #173d2907}.metric span{display:block;color:#718078;font-size:12px;font-weight:700}.metric strong{display:block;color:#176b47;font-size:29px;margin-top:9px;letter-spacing:-1px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel h2{font-size:18px;margin:0 0 16px}.barrow{display:grid;grid-template-columns:minmax(0,1fr) 2fr 35px;gap:10px;align-items:center;margin:13px 0;font-size:12px}.barlabel{overflow-wrap:anywhere}.track{height:10px;background:#edf3ef;border-radius:99px;overflow:hidden}.fill{height:100%;background:#36a36e;border-radius:99px;min-width:2px}.barvalue{text-align:right;font-weight:800}
 .tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:540px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #edf2ee}th{color:#728177;font-size:11px;text-transform:uppercase;letter-spacing:.4px}td{color:#344c3d}.pill{display:inline-block;padding:5px 8px;border-radius:20px;background:#e8f7ee;color:#23734c;font-size:11px;font-weight:800}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:13px}.toolbar p{margin:0}.hidden{display:none!important}
-@media(max-width:760px){main{margin:20px auto}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}.metric strong{font-size:26px}.intro h1{font-size:24px}}
+@media(max-width:900px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:760px){main{margin:20px auto}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}.metric strong{font-size:26px}.intro h1{font-size:24px}}
 </style>
 </head>
 <body>
@@ -36,12 +36,12 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
 </section>
 <section id="dashboard" class="hidden">
 <div class="intro"><h1>Visão geral da loja</h1><p>Acompanhe os cliques registrados na vitrine. Os dados são atualizados quando você tocar em Atualizar.</p></div>
-<div class="toolbar"><p id="updated" class="muted">Aguardando dados…</p><button id="refresh" type="button">↻ Atualizar dados</button></div>
+<div class="toolbar"><p id="updated" class="muted">Aguardando dados…</p><div class="filters"><select id="periodFilter" aria-label="Período"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="month">Este mês</option><option value="all">Todo o período</option></select><select id="categoryFilter" aria-label="Categoria"><option value="all">Todas as categorias</option></select><button id="refresh" type="button">↻ Atualizar</button></div></div>
 <div class="metrics">
 <div class="metric"><span>Cliques totais</span><strong id="total">—</strong></div>
 <div class="metric"><span>Hoje</span><strong id="today">—</strong></div>
 <div class="metric"><span>Últimos 7 dias</span><strong id="week">—</strong></div>
-<div class="metric"><span>Produtos clicados</span><strong id="unique">—</strong></div>
+<div class="metric"><span>Este mês</span><strong id="month">—</strong></div><div class="metric"><span>Produtos clicados</span><strong id="unique">—</strong></div>
 </div>
 <div class="split" style="margin-top:18px">
 <div class="panel"><h2>Produtos mais acessados</h2><div id="productsChart" class="muted">Carregando…</div></div>
@@ -59,7 +59,7 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
  const ADMIN_ID='89fdb1b1-c59d-4928-8b7d-8e604046d456';
  const client=window.supabase.createClient(URL,KEY);
  const $=id=>document.getElementById(id);
- const login=$('login'), dashboard=$('dashboard'), status=$('status');
+ const login=$('login'), dashboard=$('dashboard'), status=$('status');\n let allClicks=[], allProducts=[];
  const safe=value=>String(value??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const dateFormat=value=>{const d=new Date(value);return Number.isNaN(d.getTime())?'—':d.toLocaleString('pt-BR')};
  function showError(message){$('dashboardStatus').textContent=message}
@@ -86,11 +86,53 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
    await enter(data.user);
  });
  $('logout').addEventListener('click',async()=>{await client.auth.signOut();location.reload()});
- $('refresh').addEventListener('click',loadData);
+ $('refresh').addEventListener('click',loadData);\n $('periodFilter').addEventListener('change',renderDashboard);\n $('categoryFilter').addEventListener('change',renderDashboard);
  function renderBars(target,items){
    const max=Math.max(1,...items.map(x=>x.count));
    $(target).innerHTML=items.length?items.map(x=>'<div class="barrow"><span class="barlabel">'+safe(x.name)+'</span><div class="track"><div class="fill" style="width:'+Math.max(1,x.count/max*100)+'%"></div></div><span class="barvalue">'+x.count+'</span></div>').join(''):'Nenhum clique registrado ainda.';
  }
+  function renderDashboard(){
+    const now=new Date();
+    const startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+    const startMonth=new Date(now.getFullYear(),now.getMonth(),1);
+    const period=$('periodFilter').value;
+    const category=$('categoryFilter').value;
+    let start=null;
+    if(period==='7') start=new Date(now.getTime()-7*86400000);
+    if(period==='30') start=new Date(now.getTime()-30*86400000);
+    if(period==='month') start=startMonth;
+    const productMap=new Map(allProducts.map(p=>[String(p.id),p]));
+    const filtered=allClicks.filter(c=>{
+      const d=new Date(c.data_clique);
+      const p=productMap.get(String(c.produto_id));
+      const cat=p?.categoria||'Sem categoria';
+      return (!start||d>=start)&&(category==='all'||cat===category);
+    });
+    const counts=new Map(), categoryCounts=new Map();
+    filtered.forEach(c=>{
+      const p=productMap.get(String(c.produto_id));
+      const name=p?.nome||('Produto #'+c.produto_id);
+      const cat=p?.categoria||'Sem categoria';
+      counts.set(name,(counts.get(name)||0)+1);
+      categoryCounts.set(cat,(categoryCounts.get(cat)||0)+1);
+    });
+    $('total').textContent=filtered.length.toLocaleString('pt-BR');
+    $('today').textContent=allClicks.filter(c=>new Date(c.data_clique)>=startToday&&(category==='all'||(productMap.get(String(c.produto_id))?.categoria||'Sem categoria')===category)).length.toLocaleString('pt-BR');
+    $('week').textContent=allClicks.filter(c=>new Date(c.data_clique)>=new Date(now.getTime()-7*86400000)&&(category==='all'||(productMap.get(String(c.produto_id))?.categoria||'Sem categoria')===category)).length.toLocaleString('pt-BR');
+    $('month').textContent=allClicks.filter(c=>new Date(c.data_clique)>=startMonth&&(category==='all'||(productMap.get(String(c.produto_id))?.categoria||'Sem categoria')===category)).length.toLocaleString('pt-BR');
+    $('unique').textContent=counts.size.toLocaleString('pt-BR');
+    const top=[...counts].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count).slice(0,8);
+    const cats=[...categoryCounts].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count);
+    renderBars('productsChart',top);renderBars('categoryChart',cats);
+    const productRows=[...counts].map(([name,count])=>({name,count,category:(allProducts.find(p=>p.nome===name)||{}).categoria||'—'})).sort((a,b)=>b.count-a.count);
+    $('productsTable').innerHTML=productRows.length?productRows.map(p=>'<tr><td>'+safe(p.name)+'</td><td>'+safe(p.category)+'</td><td><span class="pill">'+p.count+'</span></td></tr>').join(''):'<tr><td colspan="3">Nenhum clique neste filtro.</td></tr>';
+    $('recentTable').innerHTML=filtered.slice().sort((a,b)=>new Date(b.data_clique)-new Date(a.data_clique)).slice(0,30).map(c=>{
+      const p=productMap.get(String(c.produto_id));
+      return '<tr><td>'+safe(p?.nome||('Produto #'+c.produto_id))+'</td><td>'+safe(dateFormat(c.data_clique))+'</td><td>'+safe(c.origem||'—')+'</td></tr>';
+    }).join('')||'<tr><td colspan="3">Nenhum clique neste filtro.</td></tr>';
+    $('updated').textContent='Atualizado em '+now.toLocaleString('pt-BR');
+    showError('Exibindo '+filtered.length.toLocaleString('pt-BR')+' cliques conforme os filtros selecionados.');
+  }
  async function loadData(){
    $('refresh').disabled=true;showError('Buscando registros…');
    try{
@@ -100,30 +142,14 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
      ]);
      if(clickResult.error) throw new Error('Não foi possível ler cliques: '+clickResult.error.message);
      if(productResult.error) throw new Error('Não foi possível ler produtos: '+productResult.error.message);
-     const clicks=clickResult.data||[], products=productResult.data||[];
-     const productMap=new Map(products.map(p=>[String(p.id),p]));
-     const counts=new Map(), categories=new Map();
-     clicks.forEach(c=>{
-       const p=productMap.get(String(c.produto_id));
-       const name=p?.nome||('Produto #'+c.produto_id);
-       const cat=p?.categoria||'Sem categoria';
-       counts.set(name,(counts.get(name)||0)+1);
-       categories.set(cat,(categories.get(cat)||0)+1);
-     });
-     const now=new Date(), startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate()), startWeek=new Date(now.getTime()-7*86400000);
-     $('total').textContent=clicks.length.toLocaleString('pt-BR');
-     $('today').textContent=clicks.filter(c=>new Date(c.data_clique)>=startToday).length.toLocaleString('pt-BR');
-     $('week').textContent=clicks.filter(c=>new Date(c.data_clique)>=startWeek).length.toLocaleString('pt-BR');
-     $('unique').textContent=counts.size.toLocaleString('pt-BR');
-     const top=[...counts].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count).slice(0,8);
-     const cats=[...categories].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count);
-     renderBars('productsChart',top);renderBars('categoryChart',cats);
-     const productRows=[...counts].map(([name,count])=>({name,count,category:(products.find(p=>p.nome===name)||{}).categoria||'—'})).sort((a,b)=>b.count-a.count);
-     $('productsTable').innerHTML=productRows.length?productRows.map(p=>'<tr><td>'+safe(p.name)+'</td><td>'+safe(p.category)+'</td><td><span class="pill">'+p.count+'</span></td></tr>').join(''):'<tr><td colspan="3">Ainda não há cliques.</td></tr>';
-     $('recentTable').innerHTML=clicks.slice(0,30).map(c=>{
-       const p=productMap.get(String(c.produto_id));
-       return '<tr><td>'+safe(p?.nome||('Produto #'+c.produto_id))+'</td><td>'+safe(dateFormat(c.data_clique))+'</td><td>'+safe(c.origem||'—')+'</td></tr>';
-     }).join('')||'<tr><td colspan="3">Ainda não há cliques.</td></tr>';
+     allClicks=clickResult.data||[];
+     allProducts=productResult.data||[];
+     const categorySelect=$('categoryFilter');
+     const previousCategory=categorySelect.value;
+     const categories=[...new Set(allProducts.map(p=>p.categoria||'Sem categoria'))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+     categorySelect.innerHTML='<option value="all">Todas as categorias</option>'+categories.map(cat=>'<option value="'+safe(cat)+'">'+safe(cat)+'</option>').join('');
+     if(categories.includes(previousCategory)) categorySelect.value=previousCategory;
+     renderDashboard();
      $('updated').textContent='Atualizado em '+now.toLocaleString('pt-BR');
      showError(clicks.length===10000?'Exibindo os 10.000 registros mais recentes.':'Dados carregados com sucesso.');
    }catch(error){showError(error.message||String(error))}
