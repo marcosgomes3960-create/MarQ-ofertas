@@ -4,57 +4,128 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="theme-color" content="#155d40">
+<meta name="theme-color" content="#101a35">
 <link rel="manifest" href="./admin-manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="./icons/icon-192.svg">
-<title>Painel administrativo | MarQ Ofertas</title>
+<title>MarQ Admin | Central de comando</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{font-family:Inter,Arial,sans-serif;color:#183329;background:#f3f7f4;font-synthesis:none}body{background:linear-gradient(180deg,#eaf4ee 0,#f6f8f6 260px)}
-*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(120deg,#104b35,#21865b);color:#fff;padding:20px max(5%,calc((100% - 1120px)/2));box-shadow:0 8px 24px #104b3522;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}header strong{font-size:23px}header a{color:#e6fff0;text-decoration:none;font-weight:700;font-size:13px}
-main{max-width:1120px;margin:28px auto;padding:0 18px}.intro{margin-bottom:22px}.intro h1{font-size:28px;margin:0 0 7px}.intro p{color:#6c7e72;margin:0;line-height:1.5}
-.panel{background:#fff;border:1px solid #e3ece6;border-radius:18px;padding:21px;box-shadow:0 8px 26px #173d290b;margin-bottom:18px}.panel h2{font-size:16px;letter-spacing:-.2px;color:#244a37}.toolbar select{padding:11px 13px;border:1px solid #d7e5dc;border-radius:10px;background:#fff;color:#244a37;font-weight:700}.toolbar .filters{display:flex;gap:8px;flex-wrap:wrap}
-#login{max-width:430px;margin:45px auto}.field{display:block;margin:13px 0;color:#496052;font-size:13px;font-weight:700}.field input{display:block;width:100%;padding:13px;margin-top:7px;border:1px solid #d9e6dd;border-radius:10px;font-size:16px}
-button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:white;font-weight:800;cursor:pointer}button:disabled{opacity:.6;cursor:wait}.muted{color:#738278;font-size:12px;line-height:1.5}#status{margin-top:13px;color:#a13e32;font-size:13px;line-height:1.5;white-space:pre-wrap}
-.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}.metric{background:linear-gradient(145deg,#fff,#f6fbf7);border:1px solid #e2eee6;border-radius:16px;padding:18px;box-shadow:0 5px 16px #173d2907}.metric span{display:block;color:#718078;font-size:12px;font-weight:700}.metric strong{display:block;color:#176b47;font-size:29px;margin-top:9px;letter-spacing:-1px}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel h2{font-size:18px;margin:0 0 16px}.barrow{display:grid;grid-template-columns:minmax(0,1fr) 2fr 35px;gap:10px;align-items:center;margin:13px 0;font-size:12px}.barlabel{overflow-wrap:anywhere}.track{height:10px;background:#edf3ef;border-radius:99px;overflow:hidden}.fill{height:100%;background:#36a36e;border-radius:99px;min-width:2px}.barvalue{text-align:right;font-weight:800}
-.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:540px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #edf2ee}th{color:#728177;font-size:11px;text-transform:uppercase;letter-spacing:.4px}td{color:#344c3d}.pill{display:inline-block;padding:5px 8px;border-radius:20px;background:#e8f7ee;color:#23734c;font-size:11px;font-weight:800}
-.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:13px}.toolbar p{margin:0}.hidden{display:none!important}
-@media(max-width:900px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:760px){main{margin:20px auto}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}.metric strong{font-size:26px}.intro h1{font-size:24px}}
+:root{color-scheme:light;--navy:#101a35;--navy2:#192747;--blue:#315bff;--lime:#c7ed45;--orange:#ff713f;--ink:#18233d;--muted:#78839a;--line:#e8ecf4;--paper:#f4f6fb;--white:#fff;--green:#16865b;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.topbar{height:70px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 max(20px,calc((100% - 1380px)/2));gap:14px;position:sticky;top:0;z-index:10;box-shadow:0 8px 30px #101a3520}.brand{display:flex;align-items:center;gap:11px;font-weight:950;letter-spacing:-.5px}.brand-mark{width:36px;height:36px;border-radius:12px;background:var(--lime);color:var(--navy);display:grid;place-items:center;font-size:21px}.brand small{display:block;font-size:9px;letter-spacing:2px;color:#aeb9d2;font-weight:800;margin-top:2px}.top-actions{display:flex;align-items:center;gap:10px}.top-actions a,.top-actions button{color:#fff;text-decoration:none;border:1px solid #ffffff30;background:#ffffff0c;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800}.top-actions button{background:var(--lime);color:var(--navy);border:0}
+.layout{max-width:1380px;margin:26px auto;padding:0 20px;display:grid;grid-template-columns:225px minmax(0,1fr);gap:22px}.sidebar{background:var(--navy);border-radius:20px;padding:16px;height:max-content;position:sticky;top:92px;color:#fff}.side-label{font-size:9px;color:#8f9bb8;letter-spacing:1.7px;font-weight:900;padding:10px 10px}.navbtn{width:100%;border:0;background:transparent;color:#dce3f4;text-align:left;padding:12px;border-radius:11px;font-size:13px;font-weight:750;display:flex;align-items:center;gap:10px;margin:3px 0}.navbtn.active{background:#ffffff16;color:var(--lime)}.navbtn span:first-child{width:20px;text-align:center;font-size:16px}.side-note{margin:20px 5px 4px;padding:13px;border:1px solid #ffffff20;border-radius:12px;color:#b7c2d8;font-size:10px;line-height:1.6}.side-note b{color:var(--lime);display:block;font-size:11px;margin-bottom:4px}
+main{min-width:0}.page{display:none}.page.active{display:block}.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:4px 0 20px}.eyebrow{font-size:10px;color:var(--blue);font-weight:950;letter-spacing:1.7px}.page-head h1{font-size:clamp(25px,3vw,34px);letter-spacing:-1.1px;margin:5px 0}.page-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filters select,.field input,.field select{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 12px;color:var(--ink);outline:none}.btn{border:0;border-radius:10px;padding:11px 15px;background:var(--blue);color:#fff;font-weight:850;font-size:12px}.btn.secondary{background:#eaf0ff;color:var(--blue)}.btn.dark{background:var(--navy);color:#fff}.btn:disabled{opacity:.5;cursor:wait}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.metric{background:#fff;border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:0 5px 20px #1a2a4a08;min-width:0}.metric-top{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px;font-weight:800}.metric-icon{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#eef1ff;color:var(--blue);font-size:15px}.metric strong{display:block;font-size:clamp(24px,3vw,31px);letter-spacing:-1px;margin:10px 0 3px;color:var(--navy)}.metric small{color:var(--muted);font-size:10px}.metric.accent{background:var(--navy);border-color:var(--navy)}.metric.accent .metric-top,.metric.accent small{color:#b6c2dc}.metric.accent strong{color:var(--lime)}.metric.orange .metric-icon{background:#fff0e9;color:var(--orange)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.85fr);gap:16px;margin-top:17px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:19px;box-shadow:0 5px 20px #1a2a4a08;min-width:0}.card h2{font-size:15px;margin:0 0 4px;letter-spacing:-.3px}.card .sub{font-size:11px;color:var(--muted);margin:0 0 16px}.chart-wrap{height:220px;position:relative}.chart-wrap canvas{width:100%;height:100%;display:block}.barrow{display:grid;grid-template-columns:minmax(0,1fr) 1.2fr 32px;gap:9px;align-items:center;margin:14px 0;font-size:11px}.barlabel{overflow-wrap:anywhere;font-weight:700}.track{height:9px;border-radius:20px;background:#edf0f7;overflow:hidden}.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--blue),#6b8aff)}.barvalue{text-align:right;font-weight:900}
+.table-card{margin-top:16px}.table-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:560px;font-size:12px}th{text-align:left;color:#8791a5;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:11px;border-bottom:1px solid var(--line)}td{padding:12px 11px;border-bottom:1px solid #f0f2f7;color:#35415c}tbody tr:last-child td{border:0}.pill{display:inline-block;padding:5px 8px;border-radius:20px;background:#eef1ff;color:var(--blue);font-weight:850;font-size:10px}.pill.good{background:#e6f7ef;color:#148054}.pill.warn{background:#fff1e8;color:#c35a27}.muted{color:var(--muted)}.empty{text-align:center;color:var(--muted);padding:25px;font-size:12px}
+.notice-list{display:grid;gap:9px}.notice{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:12px;background:#f7f8fc;font-size:11px;line-height:1.5}.notice i{font-style:normal;width:27px;height:27px;flex:0 0 27px;border-radius:9px;display:grid;place-items:center;background:#eaf0ff;color:var(--blue)}.notice b{display:block;color:var(--ink);font-size:11px}.notice.warn i{background:#fff0e6;color:var(--orange)}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:block;color:#58647c;font-size:11px;font-weight:800}.field input,.field select{display:block;width:100%;margin-top:6px;font-size:13px}.field.full{grid-column:1/-1}.form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.hint{font-size:10px;line-height:1.6;color:var(--muted);margin-top:10px}
+#login{max-width:440px;margin:8vh auto;background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 18px 55px #16244212}#login h1{margin:0 0 7px;font-size:25px}#login p{font-size:12px;color:var(--muted);line-height:1.6}#login .field{display:block;margin:15px 0}#login .field input{padding:14px;font-size:15px}#login button{width:100%;padding:14px;margin-top:5px}#status{font-size:12px;color:#bd4d38;white-space:pre-wrap;line-height:1.5;margin-top:12px}
+#toast{position:fixed;right:18px;bottom:18px;background:var(--navy);color:#fff;padding:13px 16px;border-radius:12px;box-shadow:0 10px 35px #101a3540;font-size:12px;z-index:30;max-width:calc(100vw - 36px)}
+@media(max-width:1000px){.layout{grid-template-columns:190px minmax(0,1fr)}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:680px){.topbar{height:62px;padding:0 14px}.top-actions a{display:none}.layout{display:block;margin:14px auto;padding:0 12px}.sidebar{position:static;display:flex;overflow:auto;gap:4px;padding:7px;border-radius:13px;margin-bottom:16px}.side-label,.side-note{display:none}.navbtn{white-space:nowrap;width:auto;flex:0 0 auto;padding:10px;font-size:11px}.navbtn span:first-child{width:auto}.page-head{align-items:flex-start}.metrics{gap:8px}.metric{padding:13px;border-radius:14px}.metric strong{font-size:25px}.card{padding:15px;border-radius:15px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.chart-wrap{height:190px}}
 </style>
 </head>
 <body>
-<header><strong>MarQ Ofertas · Painel</strong><div><a href="./">VOLTAR À VITRINE</a>　<button id="logout" class="hidden" type="button">Sair</button></div></header>
-<main>
-<section id="login" class="panel">
-<h1 style="margin:0 0 8px">Acesso administrativo</h1>
-<p class="muted">Entre com o e-mail e a senha da conta administradora do Supabase.</p>
-<form id="loginForm">
-<label class="field">E-mail<input id="email" type="email" autocomplete="username" required></label>
-<label class="field">Senha<input id="password" type="password" autocomplete="current-password" required></label>
-<button id="loginButton" type="submit">Entrar no painel</button>
-</form>
-<div id="status" role="status"></div>
+<header class="topbar">
+ <div class="brand"><span class="brand-mark">Q</span><span>MarQ <small>CENTRAL DE COMANDO</small></span></div>
+ <div class="top-actions"><a href="./" target="_blank" rel="noopener">↗ Abrir vitrine</a><button id="logout" class="hidden" type="button">Sair da conta</button></div>
+</header>
+<section id="login">
+ <div class="brand" style="color:var(--navy);margin-bottom:22px"><span class="brand-mark">Q</span><span>MarQ Admin <small style="color:#8791a5">ACESSO RESTRITO</small></span></div>
+ <h1>Bem-vindo de volta.</h1><p>Entre com o e-mail e a senha da conta administradora do Supabase para acessar os números da sua loja.</p>
+ <form id="loginForm">
+  <label class="field">E-mail<input id="email" type="email" autocomplete="username" required></label>
+  <label class="field">Senha<input id="password" type="password" autocomplete="current-password" required></label>
+  <button class="btn" id="loginButton" type="submit">Entrar no painel →</button>
+ </form><div id="status" role="status"></div>
+ <p class="hint">Acesso protegido por autenticação. Não compartilhe sua senha.</p>
 </section>
-<section id="dashboard" class="hidden">
-<div class="intro"><h1>Visão geral da loja</h1><p>Acompanhe os cliques registrados na vitrine. Os dados são atualizados quando você tocar em Atualizar.</p></div>
-<div class="toolbar"><p id="updated" class="muted">Aguardando dados…</p><div class="filters"><select id="periodFilter" aria-label="Período"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="month">Este mês</option><option value="all">Todo o período</option></select><select id="categoryFilter" aria-label="Categoria"><option value="all">Todas as categorias</option></select><button id="refresh" type="button">↻ Atualizar</button></div></div>
-<div class="metrics">
-<div class="metric"><span>Cliques totais</span><strong id="total">—</strong></div>
-<div class="metric"><span>Hoje</span><strong id="today">—</strong></div>
-<div class="metric"><span>Últimos 7 dias</span><strong id="week">—</strong></div>
-<div class="metric"><span>Este mês</span><strong id="month">—</strong></div><div class="metric"><span>Produtos clicados</span><strong id="unique">—</strong></div>
+<div id="app" class="layout hidden">
+ <aside class="sidebar">
+  <div class="side-label">PAINEL</div>
+  <button class="navbtn active" data-page="overview"><span>▦</span>Visão geral</button>
+  <button class="navbtn" data-page="products"><span>▣</span>Produtos</button>
+  <button class="navbtn" data-page="sales"><span>↗</span>Vendas e ganhos</button>
+  <button class="navbtn" data-page="reports"><span>▤</span>Relatórios</button>
+  <div class="side-note"><b>MARQ • INTELIGÊNCIA</b>Dados reais da vitrine, organizados para ajudar você a decidir o próximo passo.</div>
+ </aside>
+ <main>
+  <section class="page active" id="page-overview">
+   <div class="page-head"><div><span class="eyebrow">SEU NEGÓCIO EM UM SÓ LUGAR</span><h1>Visão geral</h1><p>Acompanhe o movimento da MarQ e descubra o que merece atenção.</p></div>
+    <div class="filters"><select id="periodFilter" aria-label="Período"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="month">Este mês</option><option value="all">Todo o período</option></select><button class="btn" id="refresh">↻ Atualizar</button></div>
+   </div>
+   <div class="metrics">
+    <div class="metric accent"><div class="metric-top"><span>Cliques no período</span><i class="metric-icon">↗</i></div><strong id="total">—</strong><small id="periodLabel">Últimos 30 dias</small></div>
+    <div class="metric"><div class="metric-top"><span>Cliques hoje</span><i class="metric-icon">◷</i></div><strong id="today">—</strong><small>Movimento de hoje</small></div>
+    <div class="metric"><div class="metric-top"><span>Produtos alcançados</span><i class="metric-icon">▣</i></div><strong id="unique">—</strong><small>Produtos com ao menos um clique</small></div>
+    <div class="metric orange"><div class="metric-top"><span>Vendas registradas</span><i class="metric-icon">R$</i></div><strong id="orders">—</strong><small id="commissionCaption">Cadastre dados dos relatórios</small></div>
+   </div>
+   <div class="grid2">
+    <article class="card"><h2>Movimento de cliques</h2><p class="sub">Evolução diária no período selecionado</p><div class="chart-wrap"><canvas id="clickChart" aria-label="Gráfico diário de cliques"></canvas></div></article>
+    <article class="card"><h2>O que merece atenção</h2><p class="sub">Avisos gerados a partir dos dados disponíveis</p><div id="notifications" class="notice-list"><div class="empty">Carregando indicadores…</div></div></article>
+   </div>
+   <div class="grid2">
+    <article class="card"><h2>Produtos mais acessados</h2><p class="sub">Ranking por cliques registrados</p><div id="productsChart"></div></article>
+    <article class="card"><h2>Cliques por categoria</h2><p class="sub">Categorias com maior interesse</p><div id="categoryChart"></div></article>
+   </div>
+   <article class="card table-card"><div class="table-head"><div><h2>Atividade recente</h2><p class="sub">Os últimos acessos registrados na vitrine</p></div><button class="btn secondary" id="exportRecent">↓ Exportar CSV</button></div><div class="tablewrap"><table><thead><tr><th>Produto</th><th>Data e hora</th><th>Origem</th></tr></thead><tbody id="recentTable"></tbody></table></div></article>
+   <p class="hint" id="dashboardStatus" role="status"></p>
+  </section>
+  <section class="page" id="page-products">
+   <div class="page-head"><div><span class="eyebrow">CATÁLOGO E INTERESSE</span><h1>Produtos</h1><p>Veja quais produtos recebem atenção e abra seus anúncios.</p></div><button class="btn" id="exportProducts">↓ Exportar produtos</button></div>
+   <div class="metrics">
+    <div class="metric"><div class="metric-top"><span>Produtos cadastrados</span><i class="metric-icon">▣</i></div><strong id="productCount">—</strong><small>Registros no catálogo do Supabase</small></div>
+    <div class="metric"><div class="metric-top"><span>Com cliques</span><i class="metric-icon">↗</i></div><strong id="productWithClicks">—</strong><small>Produtos que despertaram interesse</small></div>
+    <div class="metric"><div class="metric-top"><span>Sem cliques</span><i class="metric-icon">◌</i></div><strong id="productNoClicks">—</strong><small>No período selecionado</small></div>
+    <div class="metric"><div class="metric-top"><span>Links cadastrados</span><i class="metric-icon">⌁</i></div><strong id="productLinks">—</strong><small>Links de afiliado disponíveis</small></div>
+   </div>
+   <article class="card table-card"><div class="table-head"><div><h2>Desempenho do catálogo</h2><p class="sub">Os cliques são contabilizados pela vitrine MarQ.</p></div><input id="productSearch" placeholder="Buscar produto…" aria-label="Buscar produto" style="border:1px solid var(--line);padding:10px;border-radius:10px;min-width:170px"></div><div class="tablewrap"><table><thead><tr><th>Produto</th><th>Categoria</th><th>Cliques</th><th>Link afiliado</th></tr></thead><tbody id="catalogTable"></tbody></table></div></article>
+   <p class="hint">O catálogo da vitrine continua sendo a fonte principal dos produtos. Esta tela consulta os registros sincronizados no Supabase; não altera automaticamente os cartões do site.</p>
+  </section>
+  <section class="page" id="page-sales">
+   <div class="page-head"><div><span class="eyebrow">RESULTADOS DO PROGRAMA DE AFILIADOS</span><h1>Vendas e ganhos</h1><p>Registre os números confirmados nos relatórios do Mercado Livre.</p></div></div>
+   <div class="metrics">
+    <div class="metric"><div class="metric-top"><span>Pedidos registrados</span><i class="metric-icon">▤</i></div><strong id="salesCount">—</strong><small>Conforme registros importados/manual</small></div>
+    <div class="metric"><div class="metric-top"><span>Valor dos pedidos</span><i class="metric-icon">R$</i></div><strong id="salesValue">—</strong><small>Valor de venda informado</small></div>
+    <div class="metric accent"><div class="metric-top"><span>Comissão estimada</span><i class="metric-icon">✦</i></div><strong id="commissionValue">—</strong><small>Não representa pagamento confirmado</small></div>
+    <div class="metric"><div class="metric-top"><span>Comissão confirmada</span><i class="metric-icon">✓</i></div><strong id="paidValue">—</strong><small>Registros marcados como paga</small></div>
+   </div>
+   <div class="grid2">
+    <article class="card"><h2>Adicionar registro de venda</h2><p class="sub">Use os dados do painel/relatório de afiliados. Não é uma venda detectada automaticamente.</p>
+     <form id="saleForm" class="form-grid">
+      <label class="field full">Produto<select id="saleProduct"><option value="">Produto não identificado</option></select></label>
+      <label class="field">Data do pedido<input id="saleDate" type="date" required></label>
+      <label class="field">Status<select id="saleStatus"><option value="estimada">Estimativa</option><option value="confirmada">Confirmada</option><option value="paga">Paga</option><option value="cancelada">Cancelada</option></select></label>
+      <label class="field">Valor do pedido (R$)<input id="saleAmount" type="number" min="0" step="0.01" placeholder="0,00" required></label>
+      <label class="field">Comissão (R$)<input id="saleCommission" type="number" min="0" step="0.01" placeholder="0,00" required></label>
+      <label class="field full">Identificador do pedido (opcional)<input id="saleOrder" maxlength="100" placeholder="Código do relatório"></label>
+      <label class="field full">Observação (opcional)<input id="saleNote" maxlength="250" placeholder="Ex.: relatório Mercado Livre de novembro"></label>
+      <div class="field full form-actions"><button class="btn" id="saveSale" type="submit">＋ Salvar registro</button></div>
+     </form><p class="hint">Os dados ficam privados no Supabase. A tabela de vendas precisa ser criada pelo SQL de instalação incluído neste projeto.</p>
+    </article>
+    <article class="card"><h2>Como manter os números corretos</h2><p class="sub">Fluxo recomendado para conciliar afiliados</p>
+     <div class="notice-list">
+      <div class="notice"><i>1</i><div><b>Consulte o relatório de afiliados</b>Confira pedidos, status, valor e comissão no Mercado Livre.</div></div>
+      <div class="notice"><i>2</i><div><b>Registre os valores aqui</b>Cadastre ou atualize os dados com base no relatório oficial.</div></div>
+      <div class="notice warn"><i>3</i><div><b>Não confunda clique com venda</b>O painel não presume que um clique gerou pedido.</div></div>
+     </div>
+    </article>
+   </div>
+   <article class="card table-card"><div class="table-head"><div><h2>Histórico de vendas</h2><p class="sub">Registros inseridos por você</p></div><button class="btn secondary" id="exportSales">↓ Exportar CSV</button></div><div class="tablewrap"><table><thead><tr><th>Data</th><th>Produto</th><th>Pedido</th><th>Valor</th><th>Comissão</th><th>Status</th></tr></thead><tbody id="salesTable"></tbody></table></div></article>
+   <p class="hint" id="salesStatus"></p>
+  </section>
+  <section class="page" id="page-reports">
+   <div class="page-head"><div><span class="eyebrow">DADOS DA OPERAÇÃO</span><h1>Relatórios</h1><p>Exporte os dados que o painel recebeu e mantenha seu controle.</p></div></div>
+   <div class="grid2">
+    <article class="card"><h2>Relatório de cliques</h2><p class="sub">Histórico carregado do Supabase, respeitando o período selecionado.</p><p><strong id="reportClicks">—</strong> <span class="muted">cliques no filtro atual</span></p><button class="btn" id="exportAllClicks">Exportar cliques CSV</button></article>
+    <article class="card"><h2>Relatório de vendas</h2><p class="sub">Pedidos e comissões que você registrou com base nos relatórios oficiais.</p><p><strong id="reportSales">—</strong> <span class="muted">registros armazenados</span></p><button class="btn" id="exportAllSales">Exportar vendas CSV</button></article>
+   </div>
+   <article class="card table-card"><h2>Integridade dos dados</h2><div id="healthList" class="notice-list" style="margin-top:15px"></div></article>
+  </section>
+ </main>
 </div>
-<div class="split" style="margin-top:18px">
-<div class="panel"><h2>Produtos mais acessados</h2><div id="productsChart" class="muted">Carregando…</div></div>
-<div class="panel"><h2>Cliques por categoria</h2><div id="categoryChart" class="muted">Carregando…</div></div>
-</div>
-<div class="panel"><h2>Desempenho por produto</h2><div class="tablewrap"><table><thead><tr><th>Produto</th><th>Categoria</th><th>Cliques</th></tr></thead><tbody id="productsTable"></tbody></table></div></div>
-<div class="panel"><h2>Últimos cliques</h2><div class="tablewrap"><table><thead><tr><th>Produto</th><th>Data e hora</th><th>Origem</th></tr></thead><tbody id="recentTable"></tbody></table></div></div>
-<div id="dashboardStatus" class="muted"></div>
-</section>
-</main>
+<div id="toast" class="hidden" role="status"></div>
 <script>
 (() => {
  const URL='https://zonclgsfqtylnedxigxd.supabase.co';
@@ -62,113 +133,127 @@ button{border:0;border-radius:10px;padding:12px 17px;background:#21865b;color:wh
  const ADMIN_ID='89fdb1b1-c59d-4928-8b7d-8e604046d456';
  const client=window.supabase.createClient(URL,KEY);
  const $=id=>document.getElementById(id);
- const login=$('login'), dashboard=$('dashboard'), status=$('status');
- let allClicks=[], allProducts=[];
- const safe=value=>String(value??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const dateFormat=value=>{const d=new Date(value);return Number.isNaN(d.getTime())?'—':d.toLocaleString('pt-BR')};
- function showError(message){$('dashboardStatus').textContent=message}
- async function checkSession(){
-   const {data,error}=await client.auth.getSession();
-   if(error){status.textContent=error.message;return}
-   if(data.session) await enter(data.session.user);
- }
+ const login=$('login'),app=$('app'),status=$('status');
+ let clicks=[],products=[],sales=[],salesReady=false,filteredClicks=[];
+ const safe=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+ const dateFmt=v=>{const d=new Date(v);return Number.isNaN(d.getTime())?'—':d.toLocaleString('pt-BR')};
+ const productMap=()=>new Map(products.map(p=>[String(p.id),p]));
+ function toast(msg){$('toast').textContent=msg;$('toast').classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.add('hidden'),3500)}
+ function showError(msg){$('dashboardStatus').textContent=msg}
+ function goPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+name));document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===name))}
+ document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>goPage(b.dataset.page)));
  async function enter(user){
-   if(!user || user.id!==ADMIN_ID){
-     await client.auth.signOut();
-     login.classList.remove('hidden');dashboard.classList.add('hidden');$('logout').classList.add('hidden');
-     status.textContent='Esta conta não tem autorização de administrador. Entre com a conta vinculada ao usuário administrador configurado no Supabase.';
-     return;
-   }
-   status.textContent='';login.classList.add('hidden');dashboard.classList.remove('hidden');$('logout').classList.remove('hidden');
-   await loadData();
+  if(!user||user.id!==ADMIN_ID){await client.auth.signOut();login.classList.remove('hidden');app.classList.add('hidden');$('logout').classList.add('hidden');status.textContent='Esta conta não está autorizada para administrar a MarQ.';return}
+  status.textContent='';login.classList.add('hidden');app.classList.remove('hidden');$('logout').classList.remove('hidden');await loadData();
  }
- $('loginForm').addEventListener('submit',async e=>{
-   e.preventDefault();$('loginButton').disabled=true;status.textContent='Verificando acesso…';
-   const {data,error}=await client.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
-   $('loginButton').disabled=false;
-   if(error){status.textContent='Não foi possível entrar: '+error.message;return}
-   await enter(data.user);
- });
+ $('loginForm').addEventListener('submit',async e=>{e.preventDefault();$('loginButton').disabled=true;status.textContent='Validando acesso…';const {data,error}=await client.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});$('loginButton').disabled=false;if(error){status.textContent='Não foi possível entrar: '+error.message;return}await enter(data.user)});
  $('logout').addEventListener('click',async()=>{await client.auth.signOut();location.reload()});
- $('refresh').addEventListener('click',loadData);
- $('periodFilter').addEventListener('change',renderDashboard);
- $('categoryFilter').addEventListener('change',renderDashboard);
- function renderBars(target,items){
-   const max=Math.max(1,...items.map(x=>x.count));
-   $(target).innerHTML=items.length?items.map(x=>'<div class="barrow"><span class="barlabel">'+safe(x.name)+'</span><div class="track"><div class="fill" style="width:'+Math.max(1,x.count/max*100)+'%"></div></div><span class="barvalue">'+x.count+'</span></div>').join(''):'Nenhum clique registrado ainda.';
+ client.auth.onAuthStateChange((_event,session)=>{if(!session){app.classList.add('hidden');login.classList.remove('hidden');$('logout').classList.add('hidden')}});
+ $('refresh').addEventListener('click',loadData);$('periodFilter').addEventListener('change',renderAll);$('productSearch').addEventListener('input',renderCatalog);
+ function periodStart(){const now=new Date(),v=$('periodFilter').value;if(v==='7')return new Date(now.getTime()-7*86400000);if(v==='30')return new Date(now.getTime()-30*86400000);if(v==='month')return new Date(now.getFullYear(),now.getMonth(),1);return null}
+ function filtered(){const start=periodStart();return clicks.filter(c=>!start||new Date(c.data_clique)>=start)}
+ function bars(target,items){const max=Math.max(1,...items.map(x=>x.count));$(target).innerHTML=items.length?items.map(x=>'<div class="barrow"><span class="barlabel">'+safe(x.name)+'</span><div class="track"><div class="fill" style="width:'+Math.max(1,x.count/max*100)+'%"></div></div><span class="barvalue">'+x.count+'</span></div>').join(''):'<div class="empty">Ainda não há cliques para mostrar.</div>'}
+ function drawChart(rows){
+  const canvas=$('clickChart'),ctx=canvas.getContext('2d'),rect=canvas.getBoundingClientRect(),ratio=window.devicePixelRatio||1;
+  canvas.width=Math.max(1,rect.width*ratio);canvas.height=Math.max(1,rect.height*ratio);ctx.scale(ratio,ratio);
+  const w=rect.width,h=rect.height,pad={l:28,r:10,t:14,b:25},cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+  ctx.clearRect(0,0,w,h);const max=Math.max(4,...rows.map(x=>x.count));ctx.font='10px system-ui';ctx.fillStyle='#8993a8';ctx.strokeStyle='#edf0f6';ctx.lineWidth=1;
+  for(let i=0;i<4;i++){const y=pad.t+ch*i/3;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(String(Math.round(max*(3-i)/3)),2,y+3)}
+  if(!rows.length)return;
+  const pts=rows.map((r,i)=>({x:pad.l+(rows.length===1?cw/2:cw*i/(rows.length-1)),y:pad.t+ch-(r.count/max)*ch}));
+  const grad=ctx.createLinearGradient(0,pad.t,0,h);grad.addColorStop(0,'rgba(49,91,255,.22)');grad.addColorStop(1,'rgba(49,91,255,0)');
+  ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,pad.t+ch);ctx.lineTo(pts[0].x,pad.t+ch);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle='#315bff';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.stroke();
+  pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle='#315bff';ctx.lineWidth=2;ctx.stroke()});
+  const step=Math.max(1,Math.ceil(rows.length/6));rows.forEach((r,i)=>{if(i%step===0||i===rows.length-1){const x=pts[i].x;ctx.fillStyle='#8993a8';ctx.textAlign='center';ctx.fillText(r.label,x,h-5)}});ctx.textAlign='left';
  }
-  function renderDashboard(){
-    const now=new Date();
-    const startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-    const startMonth=new Date(now.getFullYear(),now.getMonth(),1);
-    const period=$('periodFilter').value;
-    const category=$('categoryFilter').value;
-    let start=null;
-    if(period==='7') start=new Date(now.getTime()-7*86400000);
-    if(period==='30') start=new Date(now.getTime()-30*86400000);
-    if(period==='month') start=startMonth;
-    const productMap=new Map(allProducts.map(p=>[String(p.id),p]));
-    const filtered=allClicks.filter(c=>{
-      const d=new Date(c.data_clique);
-      const p=productMap.get(String(c.produto_id));
-      const cat=p?.categoria||'Sem categoria';
-      return (!start||d>=start)&&(category==='all'||cat===category);
-    });
-    const counts=new Map(), categoryCounts=new Map();
-    filtered.forEach(c=>{
-      const p=productMap.get(String(c.produto_id));
-      const name=p?.nome||('Produto #'+c.produto_id);
-      const cat=p?.categoria||'Sem categoria';
-      counts.set(name,(counts.get(name)||0)+1);
-      categoryCounts.set(cat,(categoryCounts.get(cat)||0)+1);
-    });
-    $('total').textContent=filtered.length.toLocaleString('pt-BR');
-    $('today').textContent=allClicks.filter(c=>new Date(c.data_clique)>=startToday&&(category==='all'||(productMap.get(String(c.produto_id))?.categoria||'Sem categoria')===category)).length.toLocaleString('pt-BR');
-    $('week').textContent=allClicks.filter(c=>new Date(c.data_clique)>=new Date(now.getTime()-7*86400000)&&(category==='all'||(productMap.get(String(c.produto_id))?.categoria||'Sem categoria')===category)).length.toLocaleString('pt-BR');
-    $('month').textContent=allClicks.filter(c=>new Date(c.data_clique)>=startMonth&&(category==='all'||(productMap.get(String(c.produto_id))?.categoria||'Sem categoria')===category)).length.toLocaleString('pt-BR');
-    $('unique').textContent=counts.size.toLocaleString('pt-BR');
-    const top=[...counts].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count).slice(0,8);
-    const cats=[...categoryCounts].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count);
-    renderBars('productsChart',top);renderBars('categoryChart',cats);
-    const productRows=[...counts].map(([name,count])=>({name,count,category:(allProducts.find(p=>p.nome===name)||{}).categoria||'—'})).sort((a,b)=>b.count-a.count);
-    $('productsTable').innerHTML=productRows.length?productRows.map(p=>'<tr><td>'+safe(p.name)+'</td><td>'+safe(p.category)+'</td><td><span class="pill">'+p.count+'</span></td></tr>').join(''):'<tr><td colspan="3">Nenhum clique neste filtro.</td></tr>';
-    $('recentTable').innerHTML=filtered.slice().sort((a,b)=>new Date(b.data_clique)-new Date(a.data_clique)).slice(0,30).map(c=>{
-      const p=productMap.get(String(c.produto_id));
-      return '<tr><td>'+safe(p?.nome||('Produto #'+c.produto_id))+'</td><td>'+safe(dateFormat(c.data_clique))+'</td><td>'+safe(c.origem||'—')+'</td></tr>';
-    }).join('')||'<tr><td colspan="3">Nenhum clique neste filtro.</td></tr>';
-    $('updated').textContent='Atualizado em '+now.toLocaleString('pt-BR');
-    showError('Exibindo '+filtered.length.toLocaleString('pt-BR')+' cliques conforme os filtros selecionados.');
-  }
+ function renderOverview(){
+  const now=new Date(),startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate()),list=filtered(),map=productMap();
+  $('total').textContent=list.length.toLocaleString('pt-BR');$('today').textContent=clicks.filter(c=>new Date(c.data_clique)>=startToday).length.toLocaleString('pt-BR');$('unique').textContent=new Set(list.map(c=>String(c.produto_id))).size.toLocaleString('pt-BR');
+  $('orders').textContent=sales.filter(s=>s.status!=='cancelada').length.toLocaleString('pt-BR');$('commissionCaption').textContent=salesReady?'Comissões registradas no painel':'Configure a tabela de vendas';
+  const byProduct=new Map(),byCategory=new Map();list.forEach(c=>{const p=map.get(String(c.produto_id)),name=p?.nome||('Produto #'+c.produto_id),cat=p?.categoria||'Sem categoria';byProduct.set(name,(byProduct.get(name)||0)+1);byCategory.set(cat,(byCategory.get(cat)||0)+1)});
+  bars('productsChart',[...byProduct].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count).slice(0,7));
+  bars('categoryChart',[...byCategory].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count));
+  const days=$('periodFilter').value==='all'?30:Number($('periodFilter').value==='month'?Math.min(31,now.getDate()):$('periodFilter').value);
+  const start=periodStart()||new Date(now.getTime()-(days-1)*86400000);const first=new Date(start.getFullYear(),start.getMonth(),start.getDate());const n=Math.min(62,Math.max(1,Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-first)/86400000)+1));const counts=new Map();
+  list.forEach(c=>{const d=new Date(c.data_clique),key=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();counts.set(key,(counts.get(key)||0)+1)});
+  const rows=Array.from({length:n},(_,i)=>{const d=new Date(first.getFullYear(),first.getMonth(),first.getDate()+i),key=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();return {label:d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}),count:counts.get(key)||0}});drawChart(rows);
+  $('recentTable').innerHTML=list.slice().sort((a,b)=>new Date(b.data_clique)-new Date(a.data_clique)).slice(0,20).map(c=>{const p=map.get(String(c.produto_id));return '<tr><td>'+safe(p?.nome||('Produto #'+c.produto_id))+'</td><td>'+safe(dateFmt(c.data_clique))+'</td><td>'+safe(c.origem||'—')+'</td></tr>'}).join('')||'<tr><td colspan="3" class="empty">Nenhum clique neste período.</td></tr>';
+  const top=[...byProduct].sort((a,b)=>b[1]-a[1]);const notices=[];
+  if(!list.length)notices.push(['◷','A vitrine está sem cliques neste período','Confira se os links e o registro de cliques estão funcionando.']);
+  if(top[0]&&top[0][1]>=5)notices.push(['↗','Produto em destaque: '+top[0][0],top[0][1]+' cliques no período. Considere destacá-lo na vitrine.']);
+  const noClick=products.filter(p=>!list.some(c=>String(c.produto_id)===String(p.id)));
+  if(noClick.length)notices.push(['!','Produtos sem cliques',noClick.length+' produto(s) sem registro no período.']);
+  if(!salesReady)notices.push(['R$','Vendas ainda não conectadas','Execute o SQL de instalação e registre os dados do relatório de afiliados.']);
+  if(!notices.length)notices.push(['✓','Tudo em acompanhamento','Não há alertas importantes com os dados atuais.']);
+  $('notifications').innerHTML=notices.map((n,i)=>'<div class="notice '+(i===0&&n[0]==='!'?'warn':'')+'"><i>'+n[0]+'</i><div><b>'+safe(n[1])+'</b>'+safe(n[2])+'</div></div>').join('');
+  $('periodLabel').textContent=$('periodFilter').selectedOptions[0].textContent;
+  $('dashboardStatus').textContent='Atualizado em '+now.toLocaleString('pt-BR')+' · '+clicks.length.toLocaleString('pt-BR')+' cliques carregados.';
+ }
+ function renderCatalog(){
+  const map=productMap(),counts=new Map();filtered().forEach(c=>counts.set(String(c.produto_id),(counts.get(String(c.produto_id))||0)+1));
+  const q=$('productSearch').value.trim().toLocaleLowerCase('pt-BR');
+  const rows=products.filter(p=>(String(p.nome||'')+' '+String(p.categoria||'')).toLocaleLowerCase('pt-BR').includes(q)).sort((a,b)=>(counts.get(String(b.id))||0)-(counts.get(String(a.id))||0));
+  $('productCount').textContent=products.length.toLocaleString('pt-BR');$('productWithClicks').textContent=products.filter(p=>(counts.get(String(p.id))||0)>0).length.toLocaleString('pt-BR');$('productNoClicks').textContent=products.filter(p=>!(counts.get(String(p.id))||0)).length.toLocaleString('pt-BR');$('productLinks').textContent=products.filter(p=>p.link_afiliado).length.toLocaleString('pt-BR');
+  $('catalogTable').innerHTML=rows.map(p=>'<tr><td><b>'+safe(p.nome||('Produto #'+p.id))+'</b></td><td>'+safe(p.categoria||'—')+'</td><td><span class="pill">'+(counts.get(String(p.id))||0)+'</span></td><td>'+(p.link_afiliado?'<a href="'+safe(p.link_afiliado)+'" target="_blank" rel="noopener" class="pill good">Abrir oferta ↗</a>':'<span class="muted">Sem link</span>')+'</td></tr>').join('')||'<tr><td colspan="4" class="empty">Nenhum produto encontrado.</td></tr>';
+ }
+ function renderSales(){
+  const valid=sales.filter(s=>s.status!=='cancelada'),sum=(arr,key)=>arr.reduce((a,s)=>a+Number(s[key]||0),0);
+  $('salesCount').textContent=valid.length.toLocaleString('pt-BR');$('salesValue').textContent=money(sum(valid,'valor_venda'));$('commissionValue').textContent=money(sum(valid,'comissao'));$('paidValue').textContent=money(sum(sales.filter(s=>s.status==='paga'),'comissao'));
+  const map=productMap();$('salesTable').innerHTML=sales.slice().sort((a,b)=>new Date(b.data_venda)-new Date(a.data_venda)).map(s=>'<tr><td>'+safe(new Date(s.data_venda).toLocaleDateString('pt-BR'))+'</td><td>'+safe(map.get(String(s.produto_id))?.nome||'Não identificado')+'</td><td>'+safe(s.numero_pedido||'—')+'</td><td>'+money(s.valor_venda)+'</td><td>'+money(s.comissao)+'</td><td><span class="pill '+(s.status==='paga'?'good':s.status==='cancelada'?'warn':'')+'">'+safe(s.status)+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Nenhum registro de venda. Cadastre os dados do relatório oficial.</td></tr>';
+  $('reportSales').textContent=sales.length.toLocaleString('pt-BR');$('reportClicks').textContent=filtered().length.toLocaleString('pt-BR');
+ }
+ function renderHealth(){
+  const items=[['Autenticação','Sessão protegida pelo Supabase Auth'],['Cliques','Tabela cliques · '+clicks.length+' registros carregados'],['Produtos','Tabela produtos · '+products.length+' registros carregados'],['Vendas',salesReady?'Tabela vendas conectada · '+sales.length+' registros':'Tabela vendas não configurada. Execute supabase/painel_marq.sql']];
+  $('healthList').innerHTML=items.map((x,i)=>'<div class="notice"><i>'+(i===3&&!salesReady?'!':'✓')+'</i><div><b>'+x[0]+'</b>'+safe(x[1])+'</div></div>').join('');
+ }
+ function renderAll(){filteredClicks=filtered();renderOverview();renderCatalog();renderSales();renderHealth()}
  async function loadData(){
-   $('refresh').disabled=true;showError('Buscando registros…');
-   try{
-     const [clickResult,productResult]=await Promise.all([
-       client.from('cliques').select('id,produto_id,data_clique,origem').order('data_clique',{ascending:false}).limit(10000),
-       client.from('produtos').select('id,nome,categoria').limit(10000)
-     ]);
-     if(clickResult.error) throw new Error('Não foi possível ler cliques: '+clickResult.error.message);
-     if(productResult.error) throw new Error('Não foi possível ler produtos: '+productResult.error.message);
-     allClicks=clickResult.data||[];
-     allProducts=productResult.data||[];
-     const categorySelect=$('categoryFilter');
-     const previousCategory=categorySelect.value;
-     const categories=[...new Set(allProducts.map(p=>p.categoria||'Sem categoria'))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-     categorySelect.innerHTML='<option value="all">Todas as categorias</option>'+categories.map(cat=>'<option value="'+safe(cat)+'">'+safe(cat)+'</option>').join('');
-     if(categories.includes(previousCategory)) categorySelect.value=previousCategory;
-     renderDashboard();
-     if(allClicks.length===10000) showError('Exibindo os 10.000 cliques mais recentes; refine os filtros se necessário.');
-   }catch(error){showError(error.message||String(error))}
-   $('refresh').disabled=false;
+  $('refresh').disabled=true;showError('Atualizando dados seguros do painel…');
+  try{
+   const [cr,pr,sr]=await Promise.all([
+    client.from('cliques').select('id,produto_id,data_clique,origem').order('data_clique',{ascending:false}).limit(10000),
+    client.from('produtos').select('id,nome,categoria,link_afiliado').limit(10000),
+    client.from('vendas').select('id,produto_id,data_venda,valor_venda,comissao,status,numero_pedido,observacoes').order('data_venda',{ascending:false}).limit(5000)
+   ]);
+   if(cr.error)throw new Error('Leitura de cliques: '+cr.error.message);
+   if(pr.error)throw new Error('Leitura de produtos: '+pr.error.message);
+   clicks=cr.data||[];products=pr.data||[];salesReady=!sr.error;sales=salesReady?(sr.data||[]):[];
+   $('salesStatus').textContent=salesReady?'Vendas conectadas. Registros baseados nos dados inseridos no painel.':'Tabela vendas ainda não está disponível. Abra o arquivo supabase/painel_marq.sql no GitHub e execute-o no SQL Editor do Supabase. Detalhe: '+(sr.error?.message||'tabela não encontrada');
+   $('saleProduct').innerHTML='<option value="">Produto não identificado</option>'+products.map(p=>'<option value="'+safe(p.id)+'">'+safe(p.nome||('Produto #'+p.id))+'</option>').join('');
+   $('saleDate').value=new Date().toISOString().slice(0,10);
+   renderAll();if(clicks.length===10000)showError('Foram carregados os 10.000 cliques mais recentes.');
+  }catch(e){showError('Não foi possível atualizar: '+(e.message||String(e)))}
+  $('refresh').disabled=false;
  }
+ function csv(filename,rows){
+  if(!rows.length){toast('Não há dados para exportar.');return}
+  const keys=Object.keys(rows[0]),escape=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const content='\uFEFF'+[keys.map(escape).join(';'),...rows.map(r=>keys.map(k=>escape(r[k])).join(';'))].join('\r\n');
+  const blob=new Blob([content],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);
+ }
+ function clickRows(){const map=productMap();return filtered().map(c=>({produto:map.get(String(c.produto_id))?.nome||c.produto_id,categoria:map.get(String(c.produto_id))?.categoria||'',data:dateFmt(c.data_clique),origem:c.origem||''}))}
+ function saleRows(){const map=productMap();return sales.map(s=>({data:s.data_venda,produto:map.get(String(s.produto_id))?.nome||'',pedido:s.numero_pedido||'',valor:s.valor_venda,comissao:s.comissao,status:s.status,observacoes:s.observacoes||''}))}
+ $('exportRecent').addEventListener('click',()=>csv('marq-cliques-recentes.csv',clickRows().slice(0,20)));
+ $('exportAllClicks').addEventListener('click',()=>csv('marq-relatorio-cliques.csv',clickRows()));
+ $('exportProducts').addEventListener('click',()=>{const map=productMap(),counts=new Map();filtered().forEach(c=>counts.set(String(c.produto_id),(counts.get(String(c.produto_id))||0)+1));csv('marq-produtos.csv',products.map(p=>({id:p.id,nome:p.nome,categoria:p.categoria,cliques:counts.get(String(p.id))||0,link_afiliado:p.link_afiliado||''})))});
+ $('exportSales').addEventListener('click',()=>csv('marq-vendas-comissoes.csv',saleRows()));$('exportAllSales').addEventListener('click',()=>csv('marq-vendas-comissoes.csv',saleRows()));
+ $('saleForm').addEventListener('submit',async e=>{
+  e.preventDefault();if(!salesReady){toast('Instale primeiro a tabela de vendas pelo SQL do projeto.');return}
+  const btn=$('saveSale');btn.disabled=true;
+  const payload={produto_id:$('saleProduct').value||null,data_venda:new Date($('saleDate').value+'T12:00:00').toISOString(),valor_venda:Number($('saleAmount').value),comissao:Number($('saleCommission').value),status:$('saleStatus').value,numero_pedido:$('saleOrder').value.trim()||null,observacoes:$('saleNote').value.trim()||null};
+  const {error}=await client.from('vendas').insert(payload);btn.disabled=false;
+  if(error){toast('Não foi possível salvar: '+error.message);return}
+  $('saleForm').reset();$('saleDate').value=new Date().toISOString().slice(0,10);toast('Registro de venda salvo.');await loadData();
+ });
+ async function checkSession(){const {data,error}=await client.auth.getSession();if(error){status.textContent=error.message;return}if(data.session)await enter(data.session.user)}
+ let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(!$('app').classList.contains('hidden'))renderOverview()},150)});
  checkSession();
 })();
 </script>
 <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch(error => console.warn("Não foi possível ativar o modo aplicativo:", error));
-  });
-}
+if("serviceWorker"in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}))}
 </script>
 </body>
 </html>
