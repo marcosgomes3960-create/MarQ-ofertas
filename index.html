@@ -289,6 +289,30 @@ footer strong{color:#fff}
 @media(max-width:850px){.categorias{grid-template-columns:repeat(2,minmax(0,1fr))!important}.categoria:last-child{grid-column:auto}}
 @media(max-width:430px){.categorias{gap:8px!important}.categoria{padding:8px!important;gap:8px}.categoria img{width:46px!important;height:46px!important;min-width:46px}.categoria b{font-size:12px}.categoria small{font-size:9px}}
 
+
+/* Catálogo de produtos — acabamento de loja profissional */
+#ofertas{background:transparent;border:0;padding:0;width:92%;max-width:1180px;margin:42px auto}
+#ofertas .section-head{align-items:center;margin-bottom:5px}
+#ofertas .section-head h2{font-size:clamp(24px,3vw,30px);color:#203d30}
+#ofertas .section-sub{margin:0 0 20px;color:#77877e;font-size:13px}
+#ofertas .catalog-tools{padding:12px 15px;background:#fff;border:1px solid #e7eee9;border-radius:13px;margin-bottom:17px}
+#contador{font-weight:700;color:#61766a}
+#ordenar{border-color:#e1ebe4;padding:9px 12px}
+#grade-produtos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#grade-produtos .card{position:relative;display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #e8eee9;border-radius:18px;box-shadow:0 5px 18px #163d2909;transition:transform .2s ease,box-shadow .2s ease}
+#grade-produtos .card:hover{transform:translateY(-4px);box-shadow:0 12px 28px #163d2916}
+#grade-produtos .card>img{width:100%;height:220px;object-fit:contain;padding:16px;background:linear-gradient(145deg,#f8fbf9,#f0f7f3);border-bottom:1px solid #edf2ee}
+#grade-produtos .info{padding:16px;min-height:unset;flex:1;display:flex;flex-direction:column}
+#grade-produtos .info h3{font-size:15px;line-height:1.45;color:#2b4034;min-height:44px;margin-bottom:6px}
+#grade-produtos .sold{font-size:10px;letter-spacing:.2px;margin:3px 0 8px}
+#grade-produtos .preco{font-size:22px;color:#176b47;margin:9px 0 13px;min-height:48px}
+#grade-produtos .preco small{font-size:10px;line-height:1.4;color:#89958e;font-weight:500}
+#grade-produtos .detalhes-link{background:#f4faf6;border:1px solid #e0eee5;color:#28734d;border-radius:10px;padding:10px;font-size:11px;margin-top:auto}
+#grade-produtos .botao{border-radius:10px;padding:13px 8px;font-size:12px;letter-spacing:.25px;margin-top:8px}
+#ofertas>.aviso{background:#f5f9f6;border:1px solid #e8f0ea;border-radius:12px;padding:13px 15px;line-height:1.6;margin-top:17px}
+@media(max-width:760px){#grade-produtos{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}#grade-produtos .card>img{height:165px;padding:10px}#grade-produtos .info{padding:11px}#grade-produtos .info h3{font-size:13px;min-height:54px}#grade-produtos .preco{font-size:19px;min-height:55px}#grade-produtos .detalhes-link{font-size:10px;padding:9px 3px}#grade-produtos .botao{font-size:11px;padding:11px 4px}}
+@media(max-width:390px){#grade-produtos{gap:9px}#grade-produtos .card>img{height:145px}#grade-produtos .info{padding:9px}#grade-produtos .info h3{font-size:12px}}
+
 </style>
 </head>
 <body>
