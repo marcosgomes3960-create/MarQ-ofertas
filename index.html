@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarQ Ofertas | Achadinhos que valem a pena</title>
+<style>
+:root {
+  --verde: #b9edcf;
+  --verde-escuro: #21865b;
+  --azul: #dff3ff;
+  --texto: #24352e;
+  --branco: #fff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Arial, sans-serif;
+  color: var(--texto);
+  background: #f6faf8;
+}
+header {
+  background: white;
+  padding: 17px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 2px 12px #0000000b;
+}
+.logo { font-size: 27px; font-weight: 900; color: var(--verde-escuro); }
+.logo span { color: #55a9d8; }
+header small { color: #718078; }
+nav {
+  background: var(--verde);
+  padding: 13px 5%;
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+nav a { color: #245d43; text-decoration: none; font-weight: bold; }
+.hero {
+  margin: 22px auto;
+  width: 92%;
+  padding: 38px 25px;
+  border-radius: 20px;
+  background: linear-gradient(120deg, #c8f2d9, #dff3ff);
+}
+.hero h1 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 12px; }
+.hero p { font-size: 16px; margin-bottom: 20px; }
+.hero a {
+  display: inline-block;
+  background: var(--verde-escuro);
+  color: white;
+  padding: 13px 22px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+}
+section { width: 92%; margin: 30px auto; }
+section h2 { margin-bottom: 18px; font-size: 24px; }
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 12px;
+}
+.categoria {
+  background: white;
+  border-radius: 14px;
+  padding: 20px 10px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 3px 12px #00000009;
+}
+.produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 17px;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px #0000000c;
+}
+.card img {
+  width: 100%;
+  height: 175px;
+  object-fit: cover;
+  background: #edf5f1;
+}
+.info { padding: 13px; }
+.info h3 { font-size: 15px; min-height: 38px; }
+.preco { color: var(--verde-escuro); font-size: 21px; font-weight: 900; margin: 10px 0; }
+.botao {
+  display: block;
+  background: var(--verde-escuro);
+  color: white;
+  text-align: center;
+  padding: 11px 5px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+.aviso { color: #78857e; font-size: 11px; margin-top: 9px; }
+footer {
+  background: #e5f5ed;
+  text-align: center;
+  padding: 30px 15px;
+  margin-top: 40px;
+  line-height: 1.8;
+}
+footer strong { color: var(--verde-escuro); }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">MarQ <span>Ofertas</span></div>
+    <small>Achadinhos que valem a pena!</small>
+  </div>
+  <strong>🛍️ Sua loja de oportunidades</strong>
+</header>
+
+<nav>
+  <a href="#">Início</a>
+  <a href="#categorias">Categorias</a>
+  <a href="#ofertas">Ofertas</a>
+  <a href="#sobre">Sobre nós</a>
+</nav>
+
+<div class="hero">
+  <h1>Seu próximo achadinho está aqui! 💚</h1>
+  <p>Produtos incríveis, ofertas especiais e descobertas que fazem seu dinheiro valer mais.</p>
+  <a href="#ofertas">VER OFERTAS</a>
+</div>
+
+<section id="categorias">
+  <h2>Explore por categoria</h2>
+  <div class="categorias">
+    <div class="categoria">🏠<br>Casa</div>
+    <div class="categoria">📱<br>Eletrônicos</div>
+    <div class="categoria">💄<br>Beleza</div>
+    <div class="categoria">👕<br>Moda</div>
+    <div class="categoria">✨<br>Achadinhos</div>
+  </div>
+</section>
+
+<section id="ofertas">
+  <h2>🔥 Achadinhos em destaque</h2>
+  <div class="produtos">
+
+    <article class="card">
+      <img src="https://placehold.co/500x400/e4f4ed/26845c?text=Produto+1" alt="Produto em destaque">
+      <div class="info">
+        <h3>Seu primeiro achadinho</h3>
+        <div class="preco">Confira o preço</div>
+        <a class="botao" href="#" target="_blank" rel="noopener">VER OFERTA</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="https://placehold.co/500x400/e2f3fc/2685ad?text=Produto+2" alt="Produto em destaque">
+      <div class="info">
+        <h3>Oferta especial</h3>
+        <div class="preco">Confira o preço</div>
+        <a class="botao" href="#" target="_blank" rel="noopener">VER OFERTA</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="https://placehold.co/500x400/e4f4ed/26845c?text=Produto+3" alt="Produto em destaque">
+      <div class="info">
+        <h3>Mais um achadinho</h3>
+        <div class="preco">Confira o preço</div>
+        <a class="botao" href="#" target="_blank" rel="noopener">VER OFERTA</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="https://placehold.co/500x400/e2f3fc/2685ad?text=Produto+4" alt="Produto em destaque">
+      <div class="info">
+        <h3>Novidade para você</h3>
+        <div class="preco">Confira o preço</div>
+        <a class="botao" href="#" target="_blank" rel="noopener">VER OFERTA</a>
+      </div>
+    </article>
+
+  </div>
+  <p class="aviso">Os produtos e links de demonstração serão substituídos pelos seus links de afiliado.</p>
+</section>
+
+<footer id="sobre">
+  <strong>MarQ Ofertas</strong>
+  <p>Os melhores achadinhos em um só lugar.</p>
+  <p>Alguns links podem gerar comissão para nossa loja, sem custo adicional para você.</p>
+  <small>© 2026 MarQ Ofertas. Todos os direitos reservados.</small>
+</footer>
+
+</body>
+</html>
