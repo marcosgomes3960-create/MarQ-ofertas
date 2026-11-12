@@ -713,9 +713,106 @@ footer a{color:#fff!important}
 .sugestao-sem-foto{display:grid;place-items:center;width:48px;height:48px;flex:none;border-radius:9px;background:linear-gradient(145deg,#eef7fb,#f2f8f4);color:#267da8;font-size:25px;font-weight:800}
 #grade-produtos .card[hidden]{display:none!important}
 
+
+/* MARQ 2026 — acabamento final da vitrine e hierarquia da página */
+html{scroll-behavior:smooth;scroll-padding-top:18px}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif!important;background:#f4f6fc!important}
+.skip-link{position:absolute;left:-9999px;top:8px;z-index:1000;background:#fff;color:#17233f;padding:12px 16px;border-radius:10px}
+.skip-link:focus{left:12px}
+.brand-header{max-width:none}
+.brand-promise{letter-spacing:.35px}
+.search-wrap{margin:18px auto 12px!important}
+.search-wrap input{border-radius:14px!important;min-height:52px}
+nav{position:relative;z-index:5}
+.hero{width:92%;max-width:1180px;min-height:350px!important;margin:22px auto 16px!important;padding:clamp(28px,5vw,58px)!important;display:grid!important;grid-template-columns:minmax(0,1.25fr) minmax(230px,.75fr);align-items:center;gap:22px;border-radius:26px!important;isolation:isolate}
+.hero-content{max-width:650px}
+.hero h1{max-width:620px;font-size:clamp(34px,5vw,58px)!important;line-height:1.02!important;letter-spacing:-1.7px!important}
+.hero p{max-width:560px;line-height:1.7!important;font-size:15px!important;margin:15px 0 20px!important}
+.hero-actions{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.hero-actions a{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:13px 19px!important;border-radius:12px!important;font-size:12px;letter-spacing:.35px}
+.hero-actions .hero-secondary{background:#ffffff16!important;color:#fff!important;border:1px solid #ffffff60;box-shadow:none!important}
+.hero-highlights{display:flex;gap:8px;flex-wrap:wrap;margin-top:23px}
+.hero-highlights span{font-size:10px;font-weight:800;letter-spacing:.3px;color:#fff;background:#ffffff18;border:1px solid #ffffff35;padding:7px 11px;border-radius:99px}
+.hero-art{position:relative;min-height:245px;display:grid;place-items:center}
+.hero-art-card{position:relative;z-index:2;width:min(100%,270px);min-height:225px;padding:24px;border-radius:23px;background:linear-gradient(145deg,#fff,#f0f3ff);color:#17233f;box-shadow:0 24px 50px #101b3d45;transform:rotate(4deg);display:flex;flex-direction:column;justify-content:space-between}
+.hero-art-card>span{font-size:11px;font-weight:950;letter-spacing:4px;color:#315bff}
+.hero-art-card strong{font-size:29px;line-height:1.03;letter-spacing:-1.2px}
+.hero-art-card em{font-style:normal;color:#ff6b35}
+.hero-art-card small{font-size:8px;letter-spacing:1.5px;color:#75809a;font-weight:900}
+.hero-orbit{position:absolute;border:1px solid #ffffff45;border-radius:50%;transform:rotate(-20deg)}
+.orbit-one{width:280px;height:190px}
+.orbit-two{width:220px;height:270px;transform:rotate(45deg)}
+.hero-art-chip{position:absolute;z-index:3;padding:10px 13px;border-radius:12px;background:#c7ed45;color:#26334d;font-size:10px;font-weight:900;box-shadow:0 8px 20px #101b3d30}
+.chip-top{top:18px;right:-4px;transform:rotate(5deg)}
+.chip-bottom{bottom:13px;left:-5px;background:#fff;color:#315bff;transform:rotate(-5deg)}
+.trust-row{margin:0 auto 32px!important;gap:12px}
+.trust-item{border-radius:15px!important;padding:16px!important;line-height:1.55}
+.trust-item strong{font-size:13px}
+.category-section{margin:28px auto 14px!important}
+.category-heading h2{font-size:clamp(23px,3vw,29px)!important}
+.categoria{flex-basis:150px!important;min-height:68px}
+.categoria small{display:block!important;font-size:9px!important;color:#7b8497!important;line-height:1.2}
+.categoria.active{background:#eef1ff!important;border-color:#9aafff!important}
+#ofertas{margin:25px auto 34px!important}
+#ofertas .section-head{margin-bottom:8px}
+#ofertas .section-head h2:before{content:"✦";color:#ff6b35;font-size:.9em}
+#ofertas .catalog-tools{border-radius:12px;padding:11px 14px}
+#ordenar{border-radius:9px;padding:10px 12px}
+#grade-produtos .card{border-radius:16px!important;overflow:hidden}
+#grade-produtos .card>img,#grade-produtos .produto-imagem-link{transition:background .2s ease}
+#grade-produtos .info h3{font-weight:750}
+#grade-produtos .botao{min-height:40px;display:flex;align-items:center;justify-content:center}
+#grade-produtos .marq-add-cart{min-height:36px}
+.about-section,.faq-item,.como-card{border-radius:16px!important}
+.video-showcase{max-width:1180px;width:92%;margin:38px auto}
+.video-showcase-head{margin-bottom:16px}
+.video-preview-card{border-radius:16px;overflow:hidden}
+footer{padding:34px 18px!important}
+.footer-inner{line-height:1.8}
+@media(min-width:1000px){
+ #grade-produtos{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important}
+ #grade-produtos .produto-imagem-link,#grade-produtos .product-placeholder{min-height:205px}
+ #grade-produtos .card img{height:205px!important}
+}
+@media(max-width:760px){
+ .hero{grid-template-columns:1fr!important;min-height:unset!important;gap:8px!important}
+ .hero-art{min-height:170px;margin-top:4px}
+ .hero-art-card{width:205px;min-height:155px;padding:16px;border-radius:17px}
+ .hero-art-card strong{font-size:23px}
+ .orbit-one{width:220px;height:145px}
+ .orbit-two{width:170px;height:205px}
+ .chip-top{top:4px;right:2px}
+ .chip-bottom{bottom:0;left:2px}
+ .trust-row{grid-template-columns:1fr!important}
+}
+@media(max-width:600px){
+ .search-wrap{margin:12px auto 10px!important}
+ .hero{width:94%;padding:25px 20px!important;margin:14px auto 12px!important;border-radius:20px!important}
+ .hero h1{font-size:34px!important}
+ .hero p{font-size:13px!important}
+ .hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ .hero-actions a{font-size:10px;padding:12px 8px!important;min-height:44px}
+ .hero-highlights{margin-top:17px;gap:6px}
+ .hero-highlights span{font-size:9px;padding:6px 9px}
+ .hero-art{min-height:155px}
+ .hero-art-card{width:190px;min-height:145px}
+ .trust-row{width:94%;gap:7px!important;margin-bottom:22px!important}
+ .trust-item{padding:12px!important;font-size:11px}
+ .category-section{margin:18px auto 10px!important}
+ .categoria{flex-basis:138px!important}
+ .categoria small{display:block!important;font-size:9px!important}
+ #ofertas{width:94%!important;margin:17px auto 25px!important}
+ #grade-produtos{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
 </style>
 </head>
 <body>
+<a class="skip-link" href="#ofertas">Pular para as ofertas</a>
 
 <div class="topline">💚 Achadinhos selecionados para facilitar seu dia a dia</div>
 <header class="brand-header">
@@ -723,7 +820,7 @@ footer a{color:#fff!important}
     <span class="brand-symbol" aria-hidden="true"><i></i><b>Q</b></span>
     <span class="brand-type"><span class="brand-name">MarQ <em>Ofertas</em></span><span class="brand-slogan">ACHOU, GOSTOU, ECONOMIZOU.</span></span>
   </a>
-  <div class="brand-promise"><span class="promise-dot"></span><span>ACHADINHOS QUE VALEM A PENA</span></div>
+  <div class="brand-promise"><span class="promise-dot"></span><span>OFERTAS E DESCOBERTAS SELECIONADAS</span></div>
 </header>
 
 <div class="search-wrap">
@@ -742,6 +839,34 @@ footer a{color:#fff!important}
   <a href="#sobre">Sobre nós</a>
 </nav>
 
+<!-- APRESENTAÇÃO PRINCIPAL MARQ -->
+<div class="hero" aria-labelledby="marq-hero-title">
+  <div class="hero-content">
+    <span class="hero-kicker">✦ CURADORIA MARQ OFERTAS</span>
+    <h1 id="marq-hero-title">Seu próximo achadinho começa aqui.</h1>
+    <p>Produtos úteis, boas descobertas e ofertas para deixar sua rotina mais prática. Explore com calma e confira cada oferta na loja parceira.</p>
+    <div class="hero-actions">
+      <a href="#ofertas">EXPLORAR OFERTAS <span aria-hidden="true">→</span></a>
+      <a class="hero-secondary" href="#categorias">VER CATEGORIAS</a>
+    </div>
+    <div class="hero-highlights" aria-label="Categorias da MarQ">
+      <span>Casa</span><span>Pets</span><span>Beleza</span><span>Tecnologia</span>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+    <div class="hero-art-card hero-art-main"><span>MARQ</span><strong>Achou.<br>Gostou.<br><em>Economizou.</em></strong><small>ACHADINHOS QUE VALEM A PENA</small></div>
+    <div class="hero-art-chip chip-top">✦ Boas descobertas</div>
+    <div class="hero-art-chip chip-bottom">♡ Favoritos da vitrine</div>
+  </div>
+</div>
+
+<div class="trust-row">
+  <div class="trust-item"><strong>✦ Achadinhos selecionados</strong>Uma vitrine organizada para facilitar sua descoberta.</div>
+  <div class="trust-item"><strong>↗ Compra na loja parceira</strong>Confira vendedor, preço, frete e condições antes de finalizar.</div>
+  <div class="trust-item"><strong>♡ Apoie a MarQ</strong>Alguns links podem gerar comissão, sem custo adicional para você.</div>
+</div>
+
 <section id="categorias" class="category-section">
   <div class="category-heading"><div><span class="eyebrow">EXPLORE A MARQ</span><h2>Encontre seu próximo achadinho</h2><p class="section-sub">Categorias escolhidas para facilitar sua busca</p></div></div>
   <div class="categorias">
@@ -756,8 +881,8 @@ footer a{color:#fff!important}
 </section>
 
 <section id="ofertas">
-  <div class="section-head"><h2>🏆 Os mais vendidos e queridinhos</h2><span class="header-tag">SELEÇÃO POPULAR</span></div>
-  <p class="section-sub">Comece pelos produtos com maior volume de vendas informado nos anúncios. Confira preço, avaliações e detalhes na loja parceira.</p>
+  <div class="section-head"><h2>Ofertas em destaque na MarQ</h2><span class="header-tag">SELEÇÃO POPULAR</span></div>
+  <p class="section-sub">Explore os destaques da vitrine. Quando houver informação de popularidade, ela vem do anúncio original; confirme preço e condições na loja parceira.</p>
   <div class="catalog-tools">
     <span id="contador" aria-live="polite">7 produtos encontrados</span>
     <label for="ordenar" class="header-tag">Ordenar:
@@ -1137,21 +1262,6 @@ footer a{color:#fff!important}
   <p class="aviso">Preço e disponibilidade podem mudar. Confira as condições no Mercado Livre. Alguns links são de afiliado e podem gerar comissão para a MarQ Ofertas, sem custo adicional para você.</p>
 </section>
 
-<div class="hero">
-  <div class="hero-content">
-    <span class="hero-kicker">✨ SEU CANTINHO DE ACHADINHOS</span>
-    <h1>Boas escolhas começam com um bom achado.</h1>
-    <p>Descubra produtos úteis, novidades e oportunidades selecionadas para você. Encontre seu próximo favorito na MarQ Ofertas!</p>
-    <a href="#ofertas">EXPLORAR PRODUTOS</a>
-  </div>
-</div>
-
-<div class="trust-row">
-  <div class="trust-item"><strong>🛍️ Produtos selecionados</strong>Achadinhos escolhidos para sua rotina.</div>
-  <div class="trust-item"><strong>🔒 Compra na loja parceira</strong>Finalize seu pedido diretamente no Mercado Livre.</div>
-  <div class="trust-item"><strong>💚 Apoie a MarQ</strong>Alguns links podem gerar comissão sem custo extra para você.</div>
-</div>
-
 <section id="como-comprar" class="como-comprar">
   <div class="section-head"><h2>🛒 Comprar na MarQ é simples</h2><span class="header-tag">3 PASSOS FÁCEIS</span></div>
   <p class="section-sub">Veja como encontrar seu achadinho e finalizar a compra com tranquilidade.</p>
@@ -1282,6 +1392,18 @@ footer a{color:#fff!important}
   });
   const filtros = Array.from(document.querySelectorAll('#categorias [data-filter]'));
   let categoriaAtiva = 'todos';
+  // Exibe a quantidade real de itens cadastrados em cada categoria.
+  filtros.forEach((item) => {
+    const chave = item.dataset.filter || 'todos';
+    const quantidade = cards.filter((card) => {
+      if (chave === 'todos') return true;
+      if (chave === 'achadinhos') return (card.dataset.tags || '').split(/\s+/).includes('achadinhos');
+      return card.dataset.category === chave;
+    }).length;
+    const detalhe = item.querySelector('small');
+    if (detalhe) detalhe.textContent = quantidade ? quantidade + (quantidade === 1 ? ' produto' : ' produtos') : 'Em breve';
+    item.setAttribute('aria-pressed', chave === 'todos' ? 'true' : 'false');
+  });
 
   const normalizar = (valor) => String(valor || '')
     .normalize('NFD')
@@ -1372,7 +1494,9 @@ footer a{color:#fff!important}
     vazio.style.display = visiveis ? 'none' : 'block';
     vazio.textContent = termos.length === 0 && categoriaAtiva === 'pets'
       ? '🐾 Estamos preparando uma seleção especial para seu pet. Em breve, novidades por aqui!'
-      : termos.length === 0
+      : termos.length === 0 && categoriaAtiva === 'esportes'
+        ? '🏃 Estamos preparando os primeiros achadinhos de Esportes. Enquanto isso, explore as outras categorias.'
+        : termos.length === 0
         ? 'Estamos preparando fotos reais para os próximos produtos desta categoria.'
         : 'Não encontramos produtos com essa busca. Tente outro termo.';
   }
@@ -1440,7 +1564,7 @@ footer a{color:#fff!important}
 
   filtros.forEach((botao) => botao.addEventListener('click', () => {
     categoriaAtiva = botao.dataset.filter || 'todos';
-    filtros.forEach((item) => item.classList.toggle('active', item === botao));
+    filtros.forEach((item) => { item.classList.toggle('active', item === botao); item.setAttribute('aria-pressed', item === botao ? 'true' : 'false'); });
     filtrar();
     document.getElementById('ofertas')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }));
@@ -1537,20 +1661,20 @@ footer a{color:#fff!important}
  const save=(items)=>{try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){}};
  let items=read();
  const el=(tag,cls,txt)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n};
- const trigger=el('button','marq-cart-trigger');trigger.type='button';trigger.setAttribute('aria-label','Abrir carrinho');
- trigger.append(el('span','','🛒 Meu carrinho'));const count=el('span','marq-cart-count','0');trigger.append(count);
+ const trigger=el('button','marq-cart-trigger');trigger.type='button';trigger.setAttribute('aria-label','Abrir minha lista de ofertas');
+ trigger.append(el('span','','♡ Minha lista'));const count=el('span','marq-cart-count','0');trigger.append(count);
  const overlay=el('div','marq-cart-overlay');overlay.setAttribute('aria-hidden','true');
- const panel=el('aside','marq-cart-panel');panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Meu carrinho');
- const head=el('div','marq-cart-head');head.append(el('h2','','Sua lista de ofertas'));const close=el('button','marq-cart-close','×');close.type='button';close.setAttribute('aria-label','Fechar carrinho');head.append(close);
- const note=el('div','marq-cart-note','Seus produtos ficam salvos neste aparelho. Cada oferta abre seu próprio anúncio no Mercado Livre.');
- const list=el('div','marq-cart-items');const foot=el('div','marq-cart-foot');foot.append(el('p','','A MarQ Ofertas não recebe pagamentos. Confira preço, frete e condições em cada anúncio.'));const continueLink=el('a','marq-cart-continue','VOLTAR ÀS OFERTAS');continueLink.href='#ofertas';foot.append(continueLink);
+ const panel=el('aside','marq-cart-panel');panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Minha lista de ofertas');
+ const head=el('div','marq-cart-head');head.append(el('h2','','Minha lista de ofertas'));const close=el('button','marq-cart-close','×');close.type='button';close.setAttribute('aria-label','Fechar carrinho');head.append(close);
+ const note=el('div','marq-cart-note','Salve aqui os produtos que deseja conferir. Sua lista fica neste aparelho e cada oferta abre seu próprio anúncio no Mercado Livre.');
+ const list=el('div','marq-cart-items');const foot=el('div','marq-cart-foot');foot.append(el('p','','A MarQ não recebe pagamentos. Confira preço, frete e condições em cada anúncio parceiro.'));const continueLink=el('a','marq-cart-continue','VOLTAR ÀS OFERTAS');continueLink.href='#ofertas';foot.append(continueLink);
  panel.append(head,note,list,foot);overlay.append(panel);document.body.append(trigger,overlay);
  function open(){overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.classList.add('marq-cart-lock');close.focus()}
  function shut(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.classList.remove('marq-cart-lock');trigger.focus()}
  trigger.addEventListener('click',open);close.addEventListener('click',shut);overlay.addEventListener('click',e=>{if(e.target===overlay)shut()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))shut()});
  function render(){
   count.textContent=items.reduce((s,x)=>s+x.qty,0);list.replaceChildren();
-  if(!items.length){const empty=el('div','marq-cart-empty');empty.append(el('strong','','Seu carrinho está esperando por você'),el('span','','Adicione os achadinhos que deseja conferir depois.'));list.append(empty);return}
+  if(!items.length){const empty=el('div','marq-cart-empty');empty.append(el('strong','','Sua lista está esperando por você'),el('span','','Salve os achadinhos que deseja conferir depois.'));list.append(empty);return}
   items.forEach(item=>{
    const row=el('article','marq-cart-item');const img=document.createElement('img');img.src=item.image||'';img.alt='';img.loading='lazy';if(!item.image)img.hidden=true;
    const details=el('div');details.append(el('h3','',item.title),el('small','','Preço e disponibilidade no anúncio'));
@@ -1568,7 +1692,7 @@ footer a{color:#fff!important}
  document.querySelectorAll('#grade-produtos > .card').forEach((card,index)=>{
   const info=card.querySelector('.info');const title=card.querySelector('.produto-titulo-link')?.textContent.trim();const affiliate=card.querySelector('a.botao')?.href;const detail=card.querySelector('.produto-titulo-link')?.href;const image=card.querySelector('.produto-imagem-link img')?.src||'';
   if(!info||!title||!affiliate||info.querySelector('.marq-add-cart'))return;
-  const id=detail||affiliate;const btn=el('button','marq-add-cart','＋ ADICIONAR AO CARRINHO');btn.type='button';btn.addEventListener('click',()=>{add({id,title,affiliate,detail,image});btn.textContent='✓ ADICIONADO';btn.classList.add('is-added');setTimeout(()=>{btn.textContent='＋ ADICIONAR AO CARRINHO';btn.classList.remove('is-added')},1400)});const details=info.querySelector('.detalhes-link');info.insertBefore(btn,details||info.querySelector('.botao'));
+  const id=detail||affiliate;const btn=el('button','marq-add-cart','＋ SALVAR NA MINHA LISTA');btn.type='button';btn.addEventListener('click',()=>{add({id,title,affiliate,detail,image});btn.textContent='✓ ADICIONADO';btn.classList.add('is-added');setTimeout(()=>{btn.textContent='＋ SALVAR NA MINHA LISTA';btn.classList.remove('is-added')},1400)});const details=info.querySelector('.detalhes-link');info.insertBefore(btn,details||info.querySelector('.botao'));
  });
  render();
 })();
