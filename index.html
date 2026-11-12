@@ -1215,7 +1215,7 @@ body.marq-cart-lock{overflow:hidden}
       const resposta = await fetch(SUPABASE_URL + '/rest/v1/cliques', {
         method: 'POST',
         headers: { ...headers, Prefer: 'return=minimal' },
-        body: JSON.stringify({ produto_id: produtoId, data_clique: new Date().toISOString(), origem }),
+        body: JSON.stringify({ id_do_produto: produtoId, data_clique: new Date().toISOString(), origem }),
         keepalive: true
       });
       if (!resposta.ok) {
