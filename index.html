@@ -272,6 +272,23 @@ footer strong{color:#fff}
  #ofertas .card img{height:145px}
 }
 
+
+/* Categorias compactas com fotografia contextual */
+.category-section{margin:30px auto 34px!important}
+.category-heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:15px}
+.eyebrow{display:block;color:#21865b;font-size:10px;font-weight:900;letter-spacing:1.8px;margin-bottom:7px}
+.category-heading h2{margin:0 0 5px!important;font-size:clamp(22px,3vw,28px)!important;color:#213d30}
+.category-heading .section-sub{margin:0!important;font-size:13px}
+.categorias{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px!important}
+.categoria{display:flex!important;align-items:center;gap:11px;text-align:left!important;padding:10px!important;min-width:0;border:1px solid #e7eee9!important;border-radius:15px!important;background:#fff!important;box-shadow:0 4px 14px #173d2908!important;transition:all .18s ease}
+.categoria img{width:54px!important;height:54px!important;min-width:54px;object-fit:cover;border-radius:11px;margin:0!important}
+.categoria span{display:flex;flex-direction:column;gap:4px;min-width:0;padding:0!important}
+.categoria b{font-size:13px;color:#294d39}
+.categoria small{font-size:10px;line-height:1.25;color:#849188;font-weight:500}
+.categoria:hover,.categoria.active{transform:translateY(-2px);background:#f1faf4!important;border-color:#9bd4b0!important;box-shadow:0 7px 17px #173d2912!important}
+@media(max-width:850px){.categorias{grid-template-columns:repeat(2,minmax(0,1fr))!important}.categoria:last-child{grid-column:auto}}
+@media(max-width:430px){.categorias{gap:8px!important}.categoria{padding:8px!important;gap:8px}.categoria img{width:46px!important;height:46px!important;min-width:46px}.categoria b{font-size:12px}.categoria small{font-size:9px}}
+
 </style>
 </head>
 <body>
@@ -300,15 +317,14 @@ footer strong{color:#fff}
   <button id="limpar-busca" type="button" aria-label="Limpar busca">Limpar</button>
 </div>
 
-<section id="categorias">
-  <h2>Encontre o que procura</h2>
-  <p class="section-sub">Explore nossa vitrine por categoria</p>
+<section id="categorias" class="category-section">
+  <div class="category-heading"><div><span class="eyebrow">EXPLORE A MARQ</span><h2>Encontre seu próximo achadinho</h2><p class="section-sub">Categorias escolhidas para facilitar sua busca</p></div></div>
   <div class="categorias">
-    <button class="categoria active" type="button" data-filter="todos"><img src="https://a-static.mlcdn.com.br/800x560/kit-4-organizador-gaveteiro-7001-modulavel-16-gavetas-multiuso-arqplast/olistplus/opmi0p1bfhlckda9/65c7cb39d2806ef65339aafec3590faa.jpeg" alt=""><span class="categoria-label">Todos</span></button>
-    <button class="categoria" type="button" data-filter="casa"><img src="https://i5.walmartimages.cl/asr/012bbe62-85b5-47bc-b034-385ecacff199.4fa695cd285ce632c10b89f3425c98d0.jpeg?odnBg=ffffff&odnHeight=2000&odnWidth=2000" alt=""><span class="categoria-label">Casa</span></button>
-    <button class="categoria" type="button" data-filter="eletronicos"><img src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-m0yn52hi7nbrfb" alt=""><span class="categoria-label">Eletrônicos</span></button>
-    <button class="categoria" type="button" data-filter="beleza"><img src="https://d10aktedg4flw1.cloudfront.net/offers/images/01JKRGR0EA3MPJS9XHKHS50E3J/01JKRGR0EAY4N8MA583QK1C99E.png" alt=""><span class="categoria-label">Beleza</span></button>
-    <button class="categoria" type="button" data-filter="achadinhos"><img src="https://http2.mlstatic.com/D_Q_NP_688434-MLA107886731106_032026-O.webp" alt=""><span class="categoria-label">Achadinhos</span></button>
+    <button class="categoria active" type="button" data-filter="todos"><img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=160&h=160&fit=crop&auto=format" alt="Seleção de produtos e acessórios"><span><b>Todos</b><small>Ver vitrine completa</small></span></button>
+    <button class="categoria" type="button" data-filter="casa"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=160&h=160&fit=crop&auto=format" alt="Sala de estar decorada"><span><b>Casa</b><small>Conforto e organização</small></span></button>
+    <button class="categoria" type="button" data-filter="eletronicos"><img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=160&h=160&fit=crop&auto=format" alt="Fones e acessórios eletrônicos"><span><b>Eletrônicos</b><small>Tecnologia no dia a dia</small></span></button>
+    <button class="categoria" type="button" data-filter="beleza"><img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=160&h=160&fit=crop&auto=format" alt="Mulher usando maquiagem"><span><b>Beleza</b><small>Cuidados e autoestima</small></span></button>
+    <button class="categoria" type="button" data-filter="achadinhos"><img src="https://images.unsplash.com/photo- Shopping?w=160&h=160&fit=crop&auto=format" alt="Achadinhos e compras"><span><b>Achadinhos</b><small>Descobertas especiais</small></span></button>
   </div>
 </section>
 
