@@ -313,17 +313,50 @@ footer strong{color:#fff}
 @media(max-width:760px){#grade-produtos{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}#grade-produtos .card>img{height:165px;padding:10px}#grade-produtos .info{padding:11px}#grade-produtos .info h3{font-size:13px;min-height:54px}#grade-produtos .preco{font-size:19px;min-height:55px}#grade-produtos .detalhes-link{font-size:10px;padding:9px 3px}#grade-produtos .botao{font-size:11px;padding:11px 4px}}
 @media(max-width:390px){#grade-produtos{gap:9px}#grade-produtos .card>img{height:145px}#grade-produtos .info{padding:9px}#grade-produtos .info h3{font-size:12px}}
 
+
+/* Identidade de marca MarQ Ofertas */
+.brand-header{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:21px clamp(18px,5.5vw,78px);background:linear-gradient(105deg,#fff 0%,#fbfefc 66%,#f0f9fc 100%);border-bottom:1px solid #e8f0eb;box-shadow:0 4px 20px #153e2808}
+.brand-lockup{display:inline-flex;align-items:center;gap:13px;text-decoration:none;min-width:0}
+.brand-symbol{position:relative;display:grid;place-items:center;width:52px;height:52px;flex:0 0 52px;border-radius:16px;background:linear-gradient(145deg,#23885e,#145d40);box-shadow:0 6px 15px #176b4730;overflow:hidden}
+.brand-symbol:before{content:"";position:absolute;width:42px;height:42px;border:1px solid #ffffff50;border-radius:13px;transform:rotate(45deg)}
+.brand-symbol i{position:absolute;width:24px;height:24px;border:3px solid #fff;border-radius:50%;opacity:.95}
+.brand-symbol b{position:relative;color:#fff;font-size:16px;font-weight:900;line-height:1;transform:translate(5px,5px)}
+.brand-type{display:flex;flex-direction:column;gap:3px}
+.brand-name{font-size:clamp(27px,3.4vw,35px);font-weight:900;letter-spacing:-1.7px;line-height:1;color:#185d40}
+.brand-name em{font-style:normal;color:#58a9d1;font-weight:700}
+.brand-slogan{font-size:9px;letter-spacing:2.15px;font-weight:800;color:#82958a;white-space:nowrap}
+.brand-promise{display:flex;align-items:center;gap:9px;padding:10px 15px;border:1px solid #dceee3;background:#f5fbf7;border-radius:999px;color:#47735a;font-size:10px;font-weight:800;letter-spacing:1.1px}
+.promise-dot{width:7px;height:7px;border-radius:50%;background:#4ca878;box-shadow:0 0 0 4px #dff3e7}
+nav{background:#fff!important;border-bottom:1px solid #e9f0eb;padding:0 clamp(18px,5.5vw,78px)!important;gap:clamp(18px,3vw,34px)!important;min-height:48px;align-items:center;box-shadow:0 3px 12px #153e2805}
+nav a{position:relative;color:#536b5d!important;font-size:12px;font-weight:750!important;letter-spacing:.35px;padding:16px 0;text-decoration:none}
+nav a:hover{color:#176b47!important}
+nav a:after{content:"";position:absolute;left:0;right:100%;bottom:8px;height:2px;background:#4aa977;border-radius:2px;transition:right .18s ease}
+nav a:hover:after{right:0}
+@media(max-width:600px){
+ .brand-header{padding:16px 17px;gap:8px}
+ .brand-lockup{gap:10px}
+ .brand-symbol{width:43px;height:43px;flex-basis:43px;border-radius:13px}
+ .brand-symbol i{width:20px;height:20px}
+ .brand-symbol b{font-size:14px}
+ .brand-name{font-size:27px;letter-spacing:-1.4px}
+ .brand-slogan{font-size:7px;letter-spacing:1.45px}
+ .brand-promise{font-size:0;padding:10px;border-radius:50%}
+ .promise-dot{width:8px;height:8px}
+ nav{padding:0 17px!important;gap:22px!important;min-height:45px}
+ nav a{font-size:11px;padding:15px 0}
+}
+
 </style>
 </head>
 <body>
 
 <div class="topline">💚 Achadinhos selecionados para facilitar seu dia a dia</div>
-<header>
-  <div class="header-main">
-    <div class="logo">MarQ <span>Ofertas</span></div>
-    <small class="header-tag">ACHOU, GOSTOU, ECONOMIZOU.</small>
-  </div>
-  <strong>🛍️ Sua loja de oportunidades</strong>
+<header class="brand-header">
+  <a class="brand-lockup" href="#" aria-label="MarQ Ofertas - início">
+    <span class="brand-symbol" aria-hidden="true"><i></i><b>Q</b></span>
+    <span class="brand-type"><span class="brand-name">MarQ <em>Ofertas</em></span><span class="brand-slogan">ACHOU, GOSTOU, ECONOMIZOU.</span></span>
+  </a>
+  <div class="brand-promise"><span class="promise-dot"></span><span>ACHADINHOS QUE VALEM A PENA</span></div>
 </header>
 
 <nav>
