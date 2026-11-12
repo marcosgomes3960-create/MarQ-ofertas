@@ -603,7 +603,7 @@ nav a:hover:after{right:0}
     const encontrados = cards.filter((card) => {
       const titulo = normalizar(card.querySelector('h3')?.textContent || '');
       const buscaCompleta = normalizar([card.dataset.search, titulo, card.dataset.tags || ''].join(' '));
-      return termo.split(/\\s+/).every((parte) => buscaCompleta.includes(parte));
+      return termo.split(/\s+/).every((parte) => buscaCompleta.includes(parte));
     }).slice(0, 6);
 
     if (!encontrados.length) {
@@ -680,7 +680,7 @@ nav a:hover:after{right:0}
       const encontrados = cards.filter((card) => {
         const titulo = normalizar(card.querySelector('h3')?.textContent || '');
         const texto = normalizar([card.dataset.search, titulo, card.dataset.tags || ''].join(' '));
-        return termo && termo.split(/\\s+/).every((parte) => texto.includes(parte));
+        return termo && termo.split(/\s+/).every((parte) => texto.includes(parte));
       });
       if (encontrados.length === 1) { abrirProduto(encontrados[0]); return; }
       filtrar();
