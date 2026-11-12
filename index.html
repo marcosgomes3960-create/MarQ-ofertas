@@ -279,7 +279,7 @@ footer strong{color:#fff}
 .eyebrow{display:block;color:#21865b;font-size:10px;font-weight:900;letter-spacing:1.8px;margin-bottom:7px}
 .category-heading h2{margin:0 0 5px!important;font-size:clamp(22px,3vw,28px)!important;color:#213d30}
 .category-heading .section-sub{margin:0!important;font-size:13px}
-.categorias{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px!important}
+.categorias{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px!important}
 .categoria{display:flex!important;align-items:center;gap:11px;text-align:left!important;padding:10px!important;min-width:0;border:1px solid #e7eee9!important;border-radius:15px!important;background:#fff!important;box-shadow:0 4px 14px #173d2908!important;transition:all .18s ease}
 .categoria img{width:54px!important;height:54px!important;min-width:54px;object-fit:cover;border-radius:11px;margin:0!important}
 .categoria span{display:flex;flex-direction:column;gap:4px;min-width:0;padding:0!important}
@@ -440,6 +440,10 @@ footer{border-top:3px solid #55b9e8}
 .whatsapp-float:hover{background:linear-gradient(135deg,#176b47,#125638);transform:translateY(-2px);box-shadow:0 10px 26px #164f3940}
 .contact-icon{width:21px;height:21px;flex:0 0 21px;opacity:.98}
 @media(max-width:600px){.whatsapp-float{right:13px;bottom:13px;padding:11px 14px 11px 11px;font-size:12px;gap:8px}.contact-icon{width:19px;height:19px;flex-basis:19px}}
+
+/* Categoria Pets — preparada para receber produtos sem exibir itens fictícios */
+@media(min-width:851px){.categorias{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+#sem-resultados{line-height:1.7;border:1px solid #e2eee6;color:#537262}
 </style>
 </head>
 <body>
@@ -477,6 +481,7 @@ footer{border-top:3px solid #55b9e8}
     <button class="categoria" type="button" data-filter="eletronicos"><img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=160&h=160&fit=crop&auto=format" alt="Fones e acessórios eletrônicos"><span><b>Eletrônicos</b><small>Tecnologia no dia a dia</small></span></button>
     <button class="categoria" type="button" data-filter="beleza"><img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=160&h=160&fit=crop&auto=format" alt="Mulher usando maquiagem"><span><b>Beleza</b><small>Cuidados e autoestima</small></span></button>
     <button class="categoria" type="button" data-filter="achadinhos"><img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=160&h=160&fit=crop&auto=format" alt="Achadinhos e compras"><span><b>Achadinhos</b><small>Descobertas especiais</small></span></button>
+    <button class="categoria" type="button" data-filter="pets"><img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=160&h=160&fit=crop&auto=format" alt="Cachorro de estimação"><span><b>Pets</b><small>Cães, gatos e acessórios</small></span></button>
   </div>
 </section>
 
@@ -891,6 +896,9 @@ footer{border-top:3px solid #55b9e8}
       ? ' produto encontrado na MarQ Ofertas'
       : ' produtos encontrados na MarQ Ofertas');
     vazio.style.display = visiveis ? 'none' : 'block';
+    vazio.textContent = categoriaAtiva === 'pets' && termos.length === 0
+      ? '🐾 Estamos preparando uma seleção especial para seu pet. Em breve, novidades por aqui!'
+      : 'Não encontramos produtos com essa busca. Tente outro termo.';
   }
 
   function ordenarCards() {
