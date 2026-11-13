@@ -80,7 +80,7 @@ main{min-width:0}.page{display:none}.page.active{display:block}.page-head{displa
     <div class="metric"><div class="metric-top"><span>Sem cliques</span><i class="metric-icon">◌</i></div><strong id="productNoClicks">—</strong><small>No período selecionado</small></div>
     <div class="metric"><div class="metric-top"><span>Links cadastrados</span><i class="metric-icon">⌁</i></div><strong id="productLinks">—</strong><small>Links de afiliado disponíveis</small></div>
    </div>
-   <article class="card table-card"><div class="table-head"><div><h2>Desempenho do catálogo</h2><p class="sub">Os cliques são contabilizados pela vitrine MarQ.</p></div><input id="productSearch" placeholder="Buscar produto…" aria-label="Buscar produto" style="border:1px solid var(--line);padding:10px;border-radius:10px;min-width:170px"></div><div class="tablewrap"><table><thead><tr><th>Produto</th><th>Categoria</th><th>Cliques</th><th>Link afiliado</th></tr></thead><tbody id="catalogTable"></tbody></table></div></article>
+   <article class="card table-card"><div class="table-head"><div><h2>Desempenho do catálogo</h2><p class="sub">Defina a taxa de cada produto. Esta informação fica somente no painel administrativo.</p></div><input id="productSearch" placeholder="Buscar produto…" aria-label="Buscar produto" style="border:1px solid var(--line);padding:10px;border-radius:10px;min-width:170px"></div><div class="tablewrap"><table><thead><tr><th>Produto</th><th>Categoria</th><th>Cliques</th><th>Comissão privada</th><th>Link afiliado</th></tr></thead><tbody id="catalogTable"></tbody></table></div></article>
    <p class="hint">O catálogo da vitrine continua sendo a fonte principal dos produtos. Esta tela consulta os registros sincronizados no Supabase; não altera automaticamente os cartões do site.</p>
   </section>
   <section class="page" id="page-sales">
@@ -136,7 +136,7 @@ main{min-width:0}.page{display:none}.page.active{display:block}.page-head{displa
  const client=window.supabase.createClient(URL,KEY);
  const $=id=>document.getElementById(id);
  const login=$('login'),app=$('app'),status=$('status');
- let clicks=[],products=[],sales=[],salesReady=false,filteredClicks=[];
+ let clicks=[],products=[],sales=[],salesReady=false,commissionRates=new Map(),commissionsReady=false,filteredClicks=[];
  const safe=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
  const dateFmt=v=>{const d=new Date(v);return Number.isNaN(d.getTime())?'—':d.toLocaleString('pt-BR')};
@@ -153,6 +153,17 @@ main{min-width:0}.page{display:none}.page.active{display:block}.page-head{displa
  $('logout').addEventListener('click',async()=>{await client.auth.signOut();location.reload()});
  client.auth.onAuthStateChange((_event,session)=>{if(!session){app.classList.add('hidden');login.classList.remove('hidden');$('logout').classList.add('hidden')}});
  $('refresh').addEventListener('click',loadData);$('periodFilter').addEventListener('change',renderAll);$('productSearch').addEventListener('input',renderCatalog);
+ $('catalogTable').addEventListener('click',async e=>{
+  const btn=e.target.closest('.save-private-rate');if(!btn)return;
+  const row=btn.closest('tr'),productId=row?.dataset.productId,input=row?.querySelector('.private-rate');
+  if(!productId||!input)return;
+  const raw=input.value.trim();if(raw===''||!Number.isFinite(Number(raw))||Number(raw)<0||Number(raw)>100){toast('Informe uma comissão entre 0% e 100%.');input.focus();return}
+  btn.disabled=true;
+  const {error}=await client.from('comissoes_produtos').upsert({produto_id:String(productId),taxa_percentual:Number(raw),updated_at:new Date().toISOString()},{onConflict:'produto_id'});
+  btn.disabled=false;
+  if(error){toast('Não foi possível salvar a comissão: '+error.message);return}
+  commissionRates.set(String(productId),Number(raw));toast('Comissão privada salva. Só aparece no seu painel.');renderCatalog();
+ });
  function periodStart(){const now=new Date(),v=$('periodFilter').value;if(v==='7')return new Date(now.getTime()-7*86400000);if(v==='30')return new Date(now.getTime()-30*86400000);if(v==='month')return new Date(now.getFullYear(),now.getMonth(),1);return null}
  function filtered(){const start=periodStart();return clicks.filter(c=>!start||new Date(c.data_clique)>=start)}
  function bars(target,items){const max=Math.max(1,...items.map(x=>x.count));$(target).innerHTML=items.length?items.map(x=>'<div class="barrow"><span class="barlabel">'+safe(x.name)+'</span><div class="track"><div class="fill" style="width:'+Math.max(1,x.count/max*100)+'%"></div></div><span class="barvalue">'+x.count+'</span></div>').join(''):'<div class="empty">Ainda não há cliques para mostrar.</div>'}
@@ -198,7 +209,7 @@ main{min-width:0}.page{display:none}.page.active{display:block}.page-head{displa
   const q=$('productSearch').value.trim().toLocaleLowerCase('pt-BR');
   const rows=products.filter(p=>(String(p.nome||'')+' '+String(p.categoria||'')).toLocaleLowerCase('pt-BR').includes(q)).sort((a,b)=>(counts.get(String(b.id))||0)-(counts.get(String(a.id))||0));
   $('productCount').textContent=products.length.toLocaleString('pt-BR');$('productWithClicks').textContent=products.filter(p=>(counts.get(String(p.id))||0)>0).length.toLocaleString('pt-BR');$('productNoClicks').textContent=products.filter(p=>!(counts.get(String(p.id))||0)).length.toLocaleString('pt-BR');$('productLinks').textContent=products.filter(p=>p.link_afiliado).length.toLocaleString('pt-BR');
-  $('catalogTable').innerHTML=rows.map(p=>'<tr><td><b>'+safe(p.nome||('Produto #'+p.id))+'</b></td><td>'+safe(p.categoria||'—')+'</td><td><span class="pill">'+(counts.get(String(p.id))||0)+'</span></td><td>'+(p.link_afiliado?'<a href="'+safe(p.link_afiliado)+'" target="_blank" rel="noopener" class="pill good">Abrir oferta ↗</a>':'<span class="muted">Sem link</span>')+'</td></tr>').join('')||'<tr><td colspan="4" class="empty">Nenhum produto encontrado.</td></tr>';
+  $('catalogTable').innerHTML=rows.map(p=>{const rate=commissionRates.get(String(p.id));return '<tr data-product-id="'+safe(p.id)+'"><td><b>'+safe(p.nome||('Produto #'+p.id))+'</b></td><td>'+safe(p.categoria||'—')+'</td><td><span class="pill">'+(counts.get(String(p.id))||0)+'</span></td><td><div style="display:flex;gap:6px;align-items:center;min-width:145px"><input class="private-rate" type="number" min="0" max="100" step="0.01" aria-label="Comissão percentual privada" placeholder="Ex.: 12" value="'+(rate==null?'':safe(rate))+'" style="width:82px;border:1px solid var(--line);padding:8px;border-radius:8px"><button type="button" class="btn secondary save-private-rate" style="padding:8px 9px">Salvar</button></div></td><td>'+(p.link_afiliado?'<a href="'+safe(p.link_afiliado)+'" target="_blank" rel="noopener" class="pill good">Abrir oferta ↗</a>':'<span class="muted">Sem link</span>')+'</td></tr>'}).join('')||'<tr><td colspan="5" class="empty">Nenhum produto encontrado.</td></tr>';
  }
  function renderSales(){
   const valid=sales.filter(s=>s.status!=='cancelada'),sum=(arr,key)=>arr.reduce((a,s)=>a+Number(s[key]||0),0);
@@ -207,21 +218,23 @@ main{min-width:0}.page{display:none}.page.active{display:block}.page-head{displa
   $('reportSales').textContent=sales.length.toLocaleString('pt-BR');$('reportClicks').textContent=filtered().length.toLocaleString('pt-BR');
  }
  function renderHealth(){
-  const items=[['Autenticação','Sessão protegida pelo Supabase Auth'],['Cliques','Tabela cliques · '+clicks.length+' registros carregados'],['Produtos','Tabela produtos · '+products.length+' registros carregados'],['Vendas',salesReady?'Tabela vendas conectada · '+sales.length+' registros':'Tabela vendas não configurada. Execute supabase/painel_marq.sql']];
+  const items=[['Autenticação','Sessão protegida pelo Supabase Auth'],['Cliques','Tabela cliques · '+clicks.length+' registros carregados'],['Produtos','Tabela produtos · '+products.length+' registros carregados'],['Comissões privadas',commissionsReady?'Tabela privada conectada · '+commissionRates.size+' taxas cadastradas':'Execute o SQL atualizado para ativar as comissões privadas'],['Vendas',salesReady?'Tabela vendas conectada · '+sales.length+' registros':'Tabela vendas não configurada. Execute supabase/painel_marq.sql']];
   $('healthList').innerHTML=items.map((x,i)=>'<div class="notice"><i>'+(i===3&&!salesReady?'!':'✓')+'</i><div><b>'+x[0]+'</b>'+safe(x[1])+'</div></div>').join('');
  }
  function renderAll(){filteredClicks=filtered();renderOverview();renderCatalog();renderSales();renderHealth()}
  async function loadData(){
   $('refresh').disabled=true;showError('Atualizando dados seguros do painel…');
   try{
-   const [cr,pr,sr]=await Promise.all([
+   const [cr,pr,sr,rr]=await Promise.all([
     client.from('cliques').select('id,produto_id,data_clique,origem').order('data_clique',{ascending:false}).limit(10000),
     client.from('produtos').select('id,nome,categoria,link_afiliado').limit(10000),
-    client.from('vendas').select('id,produto_id,data_venda,valor_venda,comissao,taxa_comissao,tipo_comissao,status,numero_pedido,observacoes').order('data_venda',{ascending:false}).limit(5000)
+    client.from('vendas').select('id,produto_id,data_venda,valor_venda,comissao,taxa_comissao,tipo_comissao,status,numero_pedido,observacoes').order('data_venda',{ascending:false}).limit(5000),
+    client.from('comissoes_produtos').select('produto_id,taxa_percentual')
    ]);
    if(cr.error)throw new Error('Leitura de cliques: '+cr.error.message);
    if(pr.error)throw new Error('Leitura de produtos: '+pr.error.message);
    clicks=cr.data||[];products=pr.data||[];salesReady=!sr.error;sales=salesReady?(sr.data||[]):[];
+   commissionsReady=!rr.error;commissionRates=new Map((rr.data||[]).map(x=>[String(x.produto_id),Number(x.taxa_percentual)]));
    $('salesStatus').textContent=salesReady?'Vendas conectadas. Registros baseados nos dados inseridos no painel.':'Tabela vendas ainda não está disponível. Abra o arquivo supabase/painel_marq.sql no GitHub e execute-o no SQL Editor do Supabase. Detalhe: '+(sr.error?.message||'tabela não encontrada');
    $('saleProduct').innerHTML='<option value="">Produto não identificado</option>'+products.map(p=>'<option value="'+safe(p.id)+'">'+safe(p.nome||('Produto #'+p.id))+'</option>').join('');
    $('saleDate').value=new Date().toISOString().slice(0,10);
