@@ -15,6 +15,14 @@ create table if not exists public.vendas (
   created_at timestamptz not null default now()
 );
 
+-- Campos para identificar a origem da comissão e a taxa usada.
+-- A taxa pode ficar nula quando o relatório não a informa.
+alter table public.vendas
+  add column if not exists tipo_comissao text not null default 'nao_informada'
+    check (tipo_comissao in ('direta','indireta','nao_informada')),
+  add column if not exists taxa_comissao numeric(7,4) null
+    check (taxa_comissao is null or (taxa_comissao >= 0 and taxa_comissao <= 100));
+
 alter table public.vendas enable row level security;
 
 grant select, insert, update, delete on public.vendas to authenticated;
