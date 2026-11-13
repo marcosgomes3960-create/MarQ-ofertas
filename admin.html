@@ -265,7 +265,7 @@ main{min-width:0}.page{display:none}.page.active{display:block}.page-head{displa
  }
  $('saleAmount').addEventListener('input',updateCommissionPreview);
  $('saleRate').addEventListener('input',updateCommissionPreview);
- $('saleProduct').addEventListener('change',()=>{const id=$('saleProduct').value;if(id&&commissionRates.has(String(id))){$('saleRate').value=commissionRates.get(String(id));updateCommissionPreview()}else{$('saleRate').value='';updateCommissionPreview()}});
+ $('saleProduct').addEventListener('change',()=>{const id=$('saleProduct').value;if(id&&commissionRates.has(String(id)))$('saleRate').value=commissionRates.get(String(id));else $('saleRate').value='';if(id&&referencePrices.has(String(id))&&!$('saleAmount').value)$('saleAmount').value=referencePrices.get(String(id)).toFixed(2);updateCommissionPreview()});
  $('saleForm').addEventListener('submit',async e=>{
   e.preventDefault();if(!salesReady){toast('Instale primeiro a tabela de vendas pelo SQL do projeto.');return}
   const btn=$('saveSale');btn.disabled=true;
