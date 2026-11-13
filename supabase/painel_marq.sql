@@ -11,6 +11,10 @@ create table if not exists public.comissoes_produtos (
   updated_at timestamptz not null default now()
 );
 
+alter table public.comissoes_produtos
+  add column if not exists preco_referencia numeric(12,2) null
+    check (preco_referencia is null or preco_referencia >= 0);
+
 alter table public.comissoes_produtos enable row level security;
 grant select, insert, update, delete on public.comissoes_produtos to authenticated;
 drop policy if exists "MarQ admin gerencia comissoes privadas" on public.comissoes_produtos;
