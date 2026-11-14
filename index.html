@@ -1385,6 +1385,50 @@ footer a{color:#f4d78e!important}
 }
 </style>
 
+
+<style id="marq-precos-unificados-v2">
+/* Padronização global: todos os formatos de preço dos cards seguem o mesmo padrão */
+#grade-produtos .card .preco,
+#grade-produtos .card .preco.promo-price{
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  justify-content:center!important;gap:4px!important;min-height:0!important;
+  margin:10px 0 13px!important;padding:10px 11px!important;
+  background:#fff!important;border:1px solid #f2c8cd!important;border-left:4px solid #e60014!important;
+  border-radius:8px!important;color:#e60014!important;font-size:23px!important;
+  font-weight:950!important;line-height:1.12!important;letter-spacing:-.45px!important;
+}
+#grade-produtos .card .preco::before{
+  content:"PREÇO NA OFERTA"!important;display:inline-flex!important;align-items:center!important;
+  background:#e60014!important;color:#fff!important;padding:4px 7px!important;border-radius:3px!important;
+  font-size:8px!important;font-weight:900!important;letter-spacing:.8px!important;line-height:1.2!important;
+}
+#grade-produtos .card .preco strong,
+#grade-produtos .card .preco.promo-price strong{
+  color:#e60014!important;font-size:23px!important;font-weight:950!important;
+  line-height:1.12!important;letter-spacing:-.45px!important;
+}
+#grade-produtos .card .preco small,
+#grade-produtos .card .preco.promo-price small{
+  display:block!important;color:#666!important;font-size:10px!important;
+  font-weight:600!important;line-height:1.4!important;letter-spacing:0!important;
+}
+#grade-produtos .card .preco .old-price,
+#grade-produtos .card .preco del,
+#grade-produtos .card .preco s,
+#grade-produtos .card .preco .preco-antigo{
+  color:#888!important;font-size:11px!important;font-weight:600!important;
+  text-decoration:line-through!important;line-height:1.3!important;
+}
+#grade-produtos .card .preco .old-price{display:block!important}
+@media(max-width:600px){
+ #grade-produtos .card .preco,
+ #grade-produtos .card .preco.promo-price{font-size:19px!important;padding:8px!important;margin:8px 0 10px!important}
+ #grade-produtos .card .preco strong,
+ #grade-produtos .card .preco.promo-price strong{font-size:19px!important}
+ #grade-produtos .card .preco::before{font-size:7px!important}
+}
+</style>
+
 </head>
 <body>
 <a class="skip-link" href="#ofertas">Pular para as ofertas</a>
