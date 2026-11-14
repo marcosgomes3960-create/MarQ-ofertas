@@ -864,6 +864,29 @@ nav[aria-label="Navegação principal"] a{padding:5px 0}
 }
 @media(max-width:360px){.marq-quicklinks{gap:5px}.marq-quicklink strong{font-size:9px}}
 
+
+/* MARQ ETAPA 2 — favoritos persistentes */
+.marq-fav-toggle{position:absolute;top:12px;right:12px;z-index:3;width:39px;height:39px;border:1px solid #e8edf1;border-radius:50%;background:#ffffffed;color:#718096;font-size:21px;display:grid;place-items:center;box-shadow:0 4px 14px #17233f14}
+.marq-fav-toggle[aria-pressed="true"]{color:#e34f72;background:#fff1f4;border-color:#ffd5df}
+#grade-produtos .card{position:relative}
+.marq-fav-overlay{position:fixed;inset:0;background:#101a3580;z-index:80;display:none;align-items:flex-end;justify-content:center;padding:16px}
+.marq-fav-overlay.open{display:flex}
+.marq-fav-panel{width:min(100%,560px);max-height:min(78vh,720px);overflow:auto;background:#fff;border-radius:23px;padding:20px;box-shadow:0 20px 70px #101a3540}
+.marq-fav-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.marq-fav-head h2{font-size:20px;margin:0;color:#17233f}
+.marq-fav-close{border:0;background:#f1f4f7;border-radius:50%;width:36px;height:36px;font-size:22px;color:#536174}
+.marq-fav-note{font-size:12px;color:#78839a;line-height:1.5;margin-bottom:14px}
+.marq-fav-items{display:grid;gap:10px}
+.marq-fav-item{display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:11px;padding:10px;border:1px solid #e9edf2;border-radius:14px}
+.marq-fav-item img{width:64px;height:64px;object-fit:contain;background:#f5f7fa;border-radius:10px}
+.marq-fav-item h3{font-size:12px;line-height:1.4;margin:0 0 4px;color:#24314a}
+.marq-fav-item small{font-size:10px;color:#7b8794}
+.marq-fav-item button{border:0;border-radius:9px;background:#fff0e9;color:#bf552d;padding:8px;font-size:10px;font-weight:850}
+.marq-fav-empty{text-align:center;padding:28px 12px;color:#78839a;font-size:13px;line-height:1.6}
+.marq-fav-empty strong{display:block;color:#17233f;font-size:15px;margin-bottom:4px}
+.marq-fav-open{border:0;border-radius:9px;background:#17233f;color:white;padding:9px 10px;font-size:10px;font-weight:850}
+@media(max-width:680px){.marq-fav-overlay{padding:0}.marq-fav-panel{border-radius:23px 23px 0 0;max-height:82vh;padding:18px 15px calc(18px + env(safe-area-inset-bottom))}.marq-fav-item{grid-template-columns:54px minmax(0,1fr) auto}.marq-fav-item img{width:54px;height:54px}}
+
 </style>
 </head>
 <body>
@@ -1895,7 +1918,8 @@ if ("serviceWorker" in navigator) {
   <a href="#" class="active"><span class="nav-icon" aria-hidden="true">⌂</span><span>Início</span></a>
   <a href="#categorias"><span class="nav-icon" aria-hidden="true">▦</span><span>Categorias</span></a>
   <a href="#ofertas"><span class="nav-icon" aria-hidden="true">🔥</span><span>Ofertas</span></a>
-  <button type="button" id="marq-nav-lista"><span class="nav-icon" aria-hidden="true">♡</span><span>Minha lista</span></button>
+  <button type="button" id="marq-nav-favoritos"><span class="nav-icon" aria-hidden="true">♥</span><span>Favoritos</span></button>
+  <button type="button" id="marq-nav-lista"><span class="nav-icon" aria-hidden="true">▤</span><span>Minha lista</span></button>
 </nav>
 <script>
 (() => {
@@ -1911,6 +1935,39 @@ if ("serviceWorker" in navigator) {
   document.getElementById('marq-nav-lista')?.addEventListener('click', () => {
     document.querySelector('.marq-cart-trigger')?.click();
   });
+})();
+</script>
+
+
+<script>
+/* MARQ-FAVORITOS-V1 — favoritos locais por aparelho, sem interferir no carrinho/lista */
+(() => {
+ const KEY='marq_ofertas_favoritos_v1';
+ const read=()=>{try{const v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}};
+ const save=items=>{try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){}};
+ let items=read();
+ const grid=document.getElementById('grade-produtos');
+ if(!grid)return;
+ const overlay=document.createElement('div');overlay.className='marq-fav-overlay';overlay.setAttribute('aria-hidden','true');
+ const panel=document.createElement('section');panel.className='marq-fav-panel';panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Meus favoritos');
+ const head=document.createElement('div');head.className='marq-fav-head';
+ const title=document.createElement('h2');title.textContent='Meus favoritos';
+ const close=document.createElement('button');close.className='marq-fav-close';close.type='button';close.textContent='×';close.setAttribute('aria-label','Fechar favoritos');
+ head.append(title,close);
+ const note=document.createElement('p');note.className='marq-fav-note';note.textContent='Guarde seus achadinhos para encontrar novamente. Seus favoritos ficam salvos neste aparelho.';
+ const list=document.createElement('div');list.className='marq-fav-items';panel.append(head,note,list);overlay.append(panel);document.body.append(overlay);
+ const keyFor=card=>card.querySelector('.produto-titulo-link')?.getAttribute('href')||card.querySelector('.botao')?.href||'';
+ const snapshot=card=>({key:keyFor(card),title:card.querySelector('.produto-titulo-link')?.textContent?.trim()||'Produto MarQ',price:card.querySelector('.preco')?.innerText?.trim()||'Confira o preço no anúncio',detail:card.querySelector('.detalhes-link')?.href||'#ofertas',image:card.querySelector('.produto-imagem-link img')?.src||''});
+ const isSaved=key=>items.some(x=>x.key===key);
+ function refreshButtons(){grid.querySelectorAll('.card').forEach(card=>{const key=keyFor(card);let b=card.querySelector('.marq-fav-toggle');if(!b){b=document.createElement('button');b.type='button';b.className='marq-fav-toggle';b.setAttribute('aria-label','Salvar nos favoritos');card.append(b)}const saved=isSaved(key);b.textContent=saved?'♥':'♡';b.setAttribute('aria-pressed',String(saved));b.setAttribute('aria-label',saved?'Remover dos favoritos':'Salvar nos favoritos')})}
+ function render(){list.replaceChildren();if(!items.length){const e=document.createElement('div');e.className='marq-fav-empty';const strong=document.createElement('strong');strong.textContent='Seus favoritos aparecem aqui';e.append(strong,document.createTextNode('Toque no coração de um produto para guardá-lo.'));list.append(e);return}
+ items.forEach(item=>{const row=document.createElement('article');row.className='marq-fav-item';const img=document.createElement('img');img.alt='';img.src=item.image||'';if(!item.image)img.hidden=true;const info=document.createElement('div');const h=document.createElement('h3');h.textContent=item.title;const small=document.createElement('small');small.textContent=item.price;info.append(h,small);const actions=document.createElement('div');actions.style.display='grid';actions.style.gap='6px';const open=document.createElement('button');open.type='button';open.className='marq-fav-open';open.textContent='VER PRODUTO';open.addEventListener('click',()=>{const card=[...grid.querySelectorAll('.card')].find(c=>keyFor(c)===item.key);if(card){card.querySelector('.detalhes-link')?.click()}else if(item.detail&&item.detail!=='#ofertas'){location.href=item.detail}});const remove=document.createElement('button');remove.type='button';remove.textContent='REMOVER';remove.addEventListener('click',()=>{items=items.filter(x=>x.key!==item.key);save(items);render();refreshButtons()});actions.append(open,remove);row.append(img,info,actions);list.append(row)})}
+ function show(){render();overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');close.focus()}
+ function hide(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true')}
+ grid.addEventListener('click',e=>{const b=e.target.closest('.marq-fav-toggle');if(!b)return;const card=b.closest('.card');if(!card)return;const item=snapshot(card);items=isSaved(item.key)?items.filter(x=>x.key!==item.key):[...items,item];save(items);refreshButtons();if(isSaved(item.key))b.animate?.([{transform:'scale(.85)'},{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:220})});
+ document.getElementById('marq-nav-favoritos')?.addEventListener('click',show);
+ close.addEventListener('click',hide);overlay.addEventListener('click',e=>{if(e.target===overlay)hide()});document.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
+ refreshButtons();
 })();
 </script>
 
