@@ -2162,5 +2162,42 @@ if ("serviceWorker" in navigator) {
 })();
 </script>
 
+
+<style>
+/* Galeria de fotos dos produtos */
+#grade-produtos .produto-galeria{position:relative}
+#grade-produtos .produto-galeria img{display:block}
+#grade-produtos .galeria-nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;padding:0;margin:0;border:0;border-radius:50%;background:#ffffffed;color:#176b47;font-size:20px;line-height:1;box-shadow:0 2px 8px #0002;cursor:pointer;z-index:3}
+#grade-produtos .galeria-prev{left:7px}#grade-produtos .galeria-next{right:7px}
+#grade-produtos .galeria-count{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);padding:3px 8px;border-radius:20px;background:#173d29c9;color:white;font-size:10px;font-weight:800;z-index:2}
+</style>
+<script>
+/* MARQ-PRODUCT-GALLERY-V1 */
+(async()=>{
+ const base='https://zonclgsfqtylnedxigxd.supabase.co/rest/v1/',key='sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK';
+ const headers={apikey:key,Authorization:'Bearer '+key};
+ const norm=v=>{try{const u=new URL(v,location.href);return(u.origin.toLowerCase()+u.pathname).replace(/\/$/,'')}catch(e){return String(v||'').trim()}};
+ try{
+  const [pr,ir]=await Promise.all([
+   fetch(base+'produtos?select=id,link_afiliado&limit=1000',{headers,cache:'no-store'}),
+   fetch(base+'produto_imagens?select=produto_id,image_url,ordem&order=ordem.asc&limit=5000',{headers,cache:'no-store'})
+  ]);
+  if(!pr.ok||!ir.ok)throw new Error('HTTP '+(!pr.ok?pr.status:ir.status));
+  const products=await pr.json(),rows=await ir.json(),idByLink=new Map(products.filter(x=>x.link_afiliado).map(x=>[norm(x.link_afiliado),x.id]));
+  const byId=new Map();rows.forEach(x=>{if(!x.image_url)return;if(!byId.has(x.produto_id))byId.set(x.produto_id,[]);byId.get(x.produto_id).push(x.image_url)});
+  document.querySelectorAll('#grade-produtos .card').forEach(card=>{
+   const buy=card.querySelector('a.botao'),link=card.querySelector('.produto-imagem-link'),img=link?.querySelector('img');if(!buy||!link||!img)return;
+   const id=idByLink.get(norm(buy.href)),gallery=byId.get(id)||[];if(!gallery.length)return;
+   let current=0;const show=()=>{img.src=gallery[current];img.removeAttribute('srcset');img.loading='lazy';counter.textContent=(current+1)+'/'+gallery.length};
+   if(gallery.length===1){img.src=gallery[0];return}
+   link.classList.add('produto-galeria');const prev=document.createElement('button'),next=document.createElement('button'),counter=document.createElement('span');
+   prev.type=next.type='button';prev.className='galeria-nav galeria-prev';next.className='galeria-nav galeria-next';prev.textContent='‹';next.textContent='›';prev.setAttribute('aria-label','Foto anterior');next.setAttribute('aria-label','Próxima foto');counter.className='galeria-count';
+   const move=(delta,e)=>{e.preventDefault();e.stopPropagation();current=(current+delta+gallery.length)%gallery.length;show()};
+   prev.addEventListener('click',e=>move(-1,e));next.addEventListener('click',e=>move(1,e));link.append(prev,next,counter);show();
+  });
+ }catch(e){console.warn('[MarQ] Não foi possível carregar a galeria de fotos:',e)}
+})();
+</script>
+
 </body>
 </html>
