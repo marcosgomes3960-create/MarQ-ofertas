@@ -1272,13 +1272,81 @@ footer a{color:#f4d78e!important}
  #grade-produtos .produto-imagem-link{height:170px!important;min-height:170px!important}
  #grade-produtos .info{padding:8px!important}
 }
+
+/* MARQ CAMPAIGN CAROUSEL — vermelho, dourado e branco */
+.marq-campaigns{width:92%;max-width:1180px;margin:26px auto 30px;position:relative}
+.marq-slides{position:relative;min-height:330px;border-radius:25px;overflow:hidden;background:#64101f;box-shadow:0 14px 34px #64101f20}
+.marq-slide{position:absolute;inset:0;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:12px;padding:clamp(25px,5vw,58px);opacity:0;visibility:hidden;transform:translateX(18px);transition:opacity .55s ease,transform .55s ease,visibility .55s}
+.marq-slide.is-active{position:relative;opacity:1;visibility:visible;transform:translateX(0)}
+.marq-slide-gamer{background:radial-gradient(circle at 78% 48%,#b52b3b 0,#8f1728 29%,transparent 55%),linear-gradient(115deg,#4b0b18,#8f1728 68%,#64101f)}
+.marq-slide-home{background:radial-gradient(circle at 78% 45%,#f2d99a 0,#d6ad58 28%,transparent 56%),linear-gradient(115deg,#fff 0%,#fff9ed 48%,#f3dfb2 100%)}
+.marq-slide-tech{background:radial-gradient(circle at 78% 50%,#b58a3b 0,#8f1728 28%,transparent 58%),linear-gradient(115deg,#64101f,#8f1728 70%,#4b0b18)}
+.marq-slide-copy{position:relative;z-index:2;max-width:570px}
+.marq-slide-kicker{display:inline-flex;padding:7px 12px;border:1px solid currentColor;border-radius:30px;font-size:11px;font-weight:900;letter-spacing:1.3px;margin-bottom:17px;color:#f1d58e}
+.marq-slide-home .marq-slide-kicker{color:#8f1728}
+.marq-slide-copy h1{font-size:clamp(30px,4.4vw,52px);line-height:1.04;letter-spacing:-1.5px;color:#fff;margin:0 0 14px;max-width:570px}
+.marq-slide-home .marq-slide-copy h1{color:#64101f}
+.marq-slide-copy p{font-size:15px;line-height:1.65;color:#fff9ed;max-width:480px;margin-bottom:23px}
+.marq-slide-home .marq-slide-copy p{color:#64101f}
+.marq-slide-copy>a{display:inline-flex;align-items:center;gap:14px;background:#d6ad58;color:#4b0b18;padding:14px 21px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:.35px;box-shadow:0 5px 15px #0002}
+.marq-slide-home .marq-slide-copy>a{background:#8f1728;color:white}
+.marq-slide-art{position:relative;min-height:245px;display:flex;align-items:center;justify-content:center;isolation:isolate}
+.art-orbit,.tech-ring{position:absolute;width:245px;height:245px;border:1px solid #f3d58c99;border-radius:50%;box-shadow:0 0 0 24px #ffffff08,0 0 0 48px #ffffff06}
+.art-symbol{position:absolute;font-size:170px;line-height:1;color:#f4d58b;opacity:.18;transform:rotate(-20deg)}
+.art-glass{width:190px;height:210px;border:1px solid #ffffff80;border-radius:25px;background:linear-gradient(145deg,#ffffff32,#ffffff0a);backdrop-filter:blur(5px);box-shadow:0 20px 45px #25050d66;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(7deg);color:#fff}
+.art-glass b{font-size:23px;letter-spacing:5px}.art-glass strong{font-size:66px;line-height:1;color:#f3d58c;letter-spacing:-5px}.art-glass small{font-size:9px;letter-spacing:2px;margin-top:12px}
+.art-chip{position:absolute;bottom:5px;right:0;background:#fff;color:#64101f;border-radius:30px;padding:9px 13px;font-size:9px;font-weight:900;letter-spacing:1px;box-shadow:0 5px 15px #0002}
+.home-art{background:radial-gradient(circle,#ffffff55,transparent 68%)}
+.home-sun{position:absolute;width:180px;height:180px;border-radius:50%;background:#fff9ed;border:1px solid #d6ad58;right:12%;top:4%}
+.home-scene{position:relative;width:240px;height:190px;z-index:1;filter:drop-shadow(0 16px 12px #64101f25)}
+.home-roof{position:absolute;top:4px;left:22px;width:196px;height:100px;background:#8f1728;clip-path:polygon(50% 0,100% 56%,91% 68%,50% 27%,9% 68%,0 56%);border-bottom:5px solid #d6ad58}
+.home-wall{position:absolute;left:42px;top:55px;width:156px;height:117px;background:#fff;border:5px solid #d6ad58;border-radius:5px 5px 0 0}
+.home-window{position:absolute;left:17px;top:22px;width:48px;height:43px;background:#f2d99a;border:5px solid #8f1728;border-radius:4px}
+.home-door{position:absolute;right:18px;bottom:0;width:43px;height:72px;background:#8f1728;border:4px solid #d6ad58;border-bottom:0;border-radius:22px 22px 0 0}
+.home-base{position:absolute;left:22px;bottom:9px;width:196px;height:12px;background:#d6ad58;border-radius:50%}
+.home-plant{position:absolute;right:0;bottom:28px;color:#8f1728;font-size:36px}
+.tech-art .tech-ring{border-color:#f3d58c88;width:270px;height:270px}
+.tech-phone{position:absolute;width:112px;height:194px;border:7px solid #f2d99a;border-radius:23px;background:linear-gradient(150deg,#fff,#f5e7c5);transform:rotate(-9deg);box-shadow:0 18px 35px #30071366;display:flex;justify-content:center;padding-top:12px}
+.tech-phone span{width:35px;height:5px;background:#8f1728;border-radius:5px}
+.tech-watch{position:absolute;right:12%;top:20%;width:67px;height:67px;border:7px solid #d6ad58;border-radius:20px;background:#fff9ed;color:#8f1728;display:grid;place-items:center;font-size:35px;box-shadow:0 10px 22px #30071355}
+.tech-earbuds{position:absolute;left:8%;bottom:18%;width:58px;height:58px;border-radius:50%;background:#fff;color:#8f1728;display:grid;place-items:center;font-size:30px;box-shadow:0 10px 22px #30071355}
+.marq-carousel-controls{position:absolute;z-index:5;right:22px;bottom:18px;display:flex;align-items:center;gap:8px}
+.marq-carousel-controls button{width:34px;height:34px;border:1px solid #ffffff88;border-radius:50%;background:#ffffffed;color:#64101f;font-size:20px;display:grid;place-items:center;cursor:pointer}
+.marq-carousel-controls .marq-carousel-toggle{font-size:13px;font-weight:900}
+.marq-carousel-dots{display:flex;gap:6px;align-items:center;padding:0 4px}
+.marq-carousel-dots button{width:8px;height:8px;min-width:8px;height:8px;padding:0;border:0;background:#ffffff80}
+.marq-carousel-dots button.is-active{width:22px;background:#d6ad58;border-radius:8px}
+.marq-carousel-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:650px){
+ .marq-campaigns{width:94%;margin:17px auto 25px}
+ .marq-slides{min-height:440px;border-radius:20px}
+ .marq-slide{grid-template-columns:1fr;padding:27px 22px 80px;align-content:start;gap:0}
+ .marq-slide-copy h1{font-size:34px;max-width:380px}
+ .marq-slide-copy p{font-size:13px;max-width:340px;margin-bottom:16px}
+ .marq-slide-copy>a{padding:12px 17px;font-size:10px}
+ .marq-slide-art{position:absolute;right:4px;bottom:36px;width:47%;min-height:180px;opacity:.95}
+ .art-orbit,.tech-ring{width:150px;height:150px}
+ .art-glass{width:115px;height:135px;border-radius:17px}
+ .art-glass b{font-size:14px}.art-glass strong{font-size:45px}.art-glass small{font-size:6px}
+ .art-symbol{font-size:110px}
+ .art-chip{font-size:7px;padding:7px 9px;bottom:0}
+ .home-sun{width:120px;height:120px}
+ .home-scene{transform:scale(.72);transform-origin:center}
+ .tech-phone{width:76px;height:135px;border-width:5px;border-radius:16px}
+ .tech-watch{width:48px;height:48px;font-size:25px;border-width:5px}
+ .tech-earbuds{width:42px;height:42px;font-size:22px}
+ .marq-carousel-controls{right:13px;bottom:12px;gap:6px}
+ .marq-carousel-controls button{width:31px;height:31px}
+}
+@media(prefers-reduced-motion:reduce){.marq-slide{transition:none}.marq-campaigns *{scroll-behavior:auto!important}}
+
 </style>
 
 </head>
 <body>
 <a class="skip-link" href="#ofertas">Pular para as ofertas</a>
 
-<div class="topline">💚 Achadinhos selecionados para facilitar seu dia a dia</div>
+<div class="topline">❤️ Achadinhos selecionados para facilitar seu dia a dia</div>
 <header class="brand-header">
   <a class="brand-lockup" href="#" aria-label="MarQ Ofertas - início">
     <span class="brand-symbol" aria-hidden="true"><i></i><b>Q</b></span>
@@ -1304,27 +1372,49 @@ footer a{color:#f4d78e!important}
   <a href="#sobre">Sobre nós</a>
 </nav>
 
-<!-- APRESENTAÇÃO PRINCIPAL MARQ -->
-<div class="hero" aria-labelledby="marq-hero-title">
-  <div class="hero-content">
-    <span class="hero-kicker">✦ CURADORIA MARQ OFERTAS</span>
-    <h1 id="marq-hero-title">Seu próximo achadinho começa aqui.</h1>
-    <p>Produtos úteis, boas descobertas e ofertas para deixar sua rotina mais prática. Explore com calma e confira cada oferta na loja parceira.</p>
-    <div class="hero-actions">
-      <a href="#ofertas">EXPLORAR OFERTAS <span aria-hidden="true">→</span></a>
-      <a class="hero-secondary" href="#categorias">VER CATEGORIAS</a>
-    </div>
-    <div class="hero-highlights" aria-label="Categorias da MarQ">
-      <span>Casa</span><span>Pets</span><span>Beleza</span><span>Tecnologia</span>
-    </div>
+<!-- CARROSSEL DE CAMPANHAS MARQ -->
+<section class="marq-campaigns" aria-label="Campanhas em destaque">
+  <div class="marq-slides">
+    <article class="marq-slide is-active marq-slide-gamer" aria-hidden="false">
+      <div class="marq-slide-copy">
+        <span class="marq-slide-kicker">✦ EM ALTA NA MARQ</span>
+        <h1>O universo gamer está aqui.</h1>
+        <p>Novidades, acessórios e achadinhos para quem gosta de tecnologia e diversão.</p>
+        <a href="#ofertas">EXPLORAR OFERTAS <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="marq-slide-art gamer-art" aria-hidden="true"><span class="art-orbit"></span><span class="art-symbol">⌁</span><div class="art-glass"><b>GAME</b><strong>ON</strong><small>PLAY YOUR WAY</small></div><span class="art-chip">TECNOLOGIA • GAMES</span></div>
+    </article>
+    <article class="marq-slide marq-slide-home" aria-hidden="true">
+      <div class="marq-slide-copy">
+        <span class="marq-slide-kicker">✦ CASA & DECORAÇÃO</span>
+        <h1>Seu espaço, do seu jeito.</h1>
+        <p>Ideias bonitas e produtos que deixam cada cantinho mais especial.</p>
+        <a href="#categorias">DESCOBRIR CATEGORIAS <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="marq-slide-art home-art" aria-hidden="true"><span class="home-sun"></span><div class="home-scene"><div class="home-roof"></div><div class="home-wall"><span class="home-window"></span><span class="home-door"></span></div><div class="home-base"></div><span class="home-plant">✦</span></div><span class="art-chip">CONFORTO • ESTILO</span></div>
+    </article>
+    <article class="marq-slide marq-slide-tech" aria-hidden="true">
+      <div class="marq-slide-copy">
+        <span class="marq-slide-kicker">✦ ACHADINHOS DE TECNOLOGIA</span>
+        <h1>Boas escolhas fazem a diferença.</h1>
+        <p>Confira eletrônicos e acessórios selecionados para facilitar sua rotina.</p>
+        <a href="#ofertas">VER ACHADINHOS <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="marq-slide-art tech-art" aria-hidden="true"><span class="tech-ring"></span><div class="tech-phone"><span></span></div><div class="tech-watch">◷</div><div class="tech-earbuds">♫</div><span class="art-chip">INOVAÇÃO • PRATICIDADE</span></div>
+    </article>
   </div>
-  <div class="hero-art" aria-hidden="true">
-    <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
-    <div class="hero-art-card hero-art-main"><span>MARQ</span><strong>Achou.<br>Gostou.<br><em>Economizou.</em></strong><small>ACHADINHOS QUE VALEM A PENA</small></div>
-    <div class="hero-art-chip chip-top">✦ Boas descobertas</div>
-    <div class="hero-art-chip chip-bottom">♡ Favoritos da vitrine</div>
+  <div class="marq-carousel-controls">
+    <button class="marq-carousel-toggle" type="button" aria-label="Pausar carrossel">Ⅱ</button>
+    <button class="marq-carousel-prev" type="button" aria-label="Banner anterior">‹</button>
+    <div class="marq-carousel-dots" aria-label="Escolher banner">
+      <button class="is-active" type="button" aria-label="Mostrar banner 1" aria-current="true"></button>
+      <button type="button" aria-label="Mostrar banner 2"></button>
+      <button type="button" aria-label="Mostrar banner 3"></button>
+    </div>
+    <button class="marq-carousel-next" type="button" aria-label="Próximo banner">›</button>
   </div>
-</div>
+  <p class="marq-carousel-status" aria-live="polite">Banner 1 de 3</p>
+</section>
 
 
 <section class="shein-daily" aria-labelledby="shein-daily-title">
@@ -2583,5 +2673,30 @@ if ("serviceWorker" in navigator) {
 
 
 <div class="marq-redirect" id="marq-redirect" role="status" aria-live="polite" aria-hidden="true"><div class="marq-redirect-box"><div class="marq-redirect-emblem" id="marq-redirect-emblem"><span class="marq-light"></span><span class="marq-light"></span><span class="marq-light"></span><span class="marq-light"></span><span id="marq-redirect-mark" class="marq-redirect-brand">ML</span></div><div class="marq-redirect-title" id="marq-redirect-title">Preparando sua oferta...</div><div class="marq-redirect-sub">Você está saindo da MarQ Ofertas</div><div class="marq-redirect-dots"><i></i><i></i><i></i></div></div></div>
+
+<script>
+/* MARQ-CAROUSEL-V1 — rotação controlável, pausa ao interagir */
+(() => {
+ const root=document.querySelector('.marq-campaigns');
+ if(!root)return;
+ const slides=[...root.querySelectorAll('.marq-slide')],dots=[...root.querySelectorAll('.marq-carousel-dots button')];
+ const prev=root.querySelector('.marq-carousel-prev'),next=root.querySelector('.marq-carousel-next'),toggle=root.querySelector('.marq-carousel-toggle'),status=root.querySelector('.marq-carousel-status');
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let index=0,paused=reduced,timer=null;
+ function show(n){index=(n+slides.length)%slides.length;slides.forEach((s,i)=>{const active=i===index;s.classList.toggle('is-active',active);s.setAttribute('aria-hidden',String(!active))});dots.forEach((d,i)=>{d.classList.toggle('is-active',i===index);if(i===index)d.setAttribute('aria-current','true');else d.removeAttribute('aria-current')});if(status)status.textContent='Banner '+(index+1)+' de '+slides.length}
+ function updateToggle(){if(toggle){toggle.textContent=paused?'▶':'Ⅱ';toggle.setAttribute('aria-label',paused?'Reproduzir carrossel':'Pausar carrossel')}}
+ function stop(){if(timer){clearInterval(timer);timer=null}}
+ function start(){stop();if(!paused)timer=setInterval(()=>show(index+1),6500);updateToggle()}
+ prev?.addEventListener('click',()=>{show(index-1);paused=true;start()});
+ next?.addEventListener('click',()=>{show(index+1);paused=true;start()});
+ dots.forEach((d,i)=>d.addEventListener('click',()=>{show(i);paused=true;start()}));
+ toggle?.addEventListener('click',()=>{paused=!paused;start()});
+ root.addEventListener('mouseenter',()=>stop());root.addEventListener('mouseleave',()=>{if(!paused)start()});
+ root.addEventListener('focusin',stop);root.addEventListener('focusout',()=>{if(!paused)start()});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(!paused)start()});
+ show(0);start();
+})();
+</script>
+
 </body>
 </html>
