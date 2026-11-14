@@ -2093,8 +2093,10 @@ footer a{color:var(--mq-deep)!important}
     if (!link) return;
     evento.preventDefault();
     const destino = link.href;
-    const ehShein = /shein\\.com|onelink\\.shein/i.test(destino);
-    const ehShopee = /shopee\\.(com|com\\.br)|shp\\.ee/i.test(destino);
+    let hostDestino = '';
+    try { hostDestino = new URL(destino, window.location.href).hostname.toLowerCase(); } catch (_) {}
+    const ehShein = hostDestino === 'shein.com' || hostDestino.endsWith('.shein.com') || hostDestino === 'shein.com.br' || hostDestino.endsWith('.shein.com.br');
+    const ehShopee = hostDestino === 'shopee.com' || hostDestino.endsWith('.shopee.com') || hostDestino === 'shopee.com.br' || hostDestino.endsWith('.shopee.com.br') || hostDestino === 'shp.ee' || hostDestino.endsWith('.shp.ee');
     const nomeLoja = ehShein ? 'SHEIN' : ehShopee ? 'Shopee' : 'Mercado Livre';
     const plataforma = ehShein ? 'shein' : ehShopee ? 'shopee' : 'ml';
     const logo = ehShein ? 'https://cdn.simpleicons.org/shein/FFFFFF' : ehShopee ? 'https://cdn.simpleicons.org/shopee/FFFFFF' : 'https://cdn.simpleicons.org/mercadolibre/222222';
