@@ -928,8 +928,8 @@ nav[aria-label="Navegação principal"] a{padding:5px 0}
 @media(prefers-reduced-motion:reduce){.marq-redirect *,.marq-redirect:before,.marq-redirect:after{animation:none!important;transition:none!important}}
 
 .marq-redirect-brand{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:15px;border-radius:inherit;overflow:hidden}
-.marq-redirect-brand img{display:block;width:100%;height:100%;max-width:88px;max-height:88px;object-fit:contain}
-.marq-redirect-emblem.is-ml{background:#ffe600}.marq-redirect-emblem.is-shein{background:#111;color:#fff}.marq-redirect-emblem.is-shopee{background:#ee4d2d}
+.marq-redirect-brand img{display:block;width:100%;height:100%;max-width:88px;max-height:88px;object-fit:contain}.marq-redirect-emblem.is-ml .marq-redirect-brand{padding:5px}.marq-redirect-emblem.is-ml .marq-redirect-brand img{max-width:104px;max-height:78px}
+.marq-redirect-emblem.is-ml{background:transparent;box-shadow:0 0 0 1px #ffffff70,0 0 28px #65c8d8a8,0 0 75px #48b99b77}.marq-redirect-emblem.is-shein{background:#111;color:#fff}.marq-redirect-emblem.is-shopee{background:#ee4d2d}
 </style>
 
 <style id="marq-experience-refresh">
@@ -2099,7 +2099,7 @@ footer a{color:var(--mq-deep)!important}
     const ehShopee = hostDestino === 'shopee.com' || hostDestino.endsWith('.shopee.com') || hostDestino === 'shopee.com.br' || hostDestino.endsWith('.shopee.com.br') || hostDestino === 'shp.ee' || hostDestino.endsWith('.shp.ee');
     const nomeLoja = ehShein ? 'SHEIN' : ehShopee ? 'Shopee' : 'Mercado Livre';
     const plataforma = ehShein ? 'shein' : ehShopee ? 'shopee' : 'ml';
-    const logo = ehShein ? 'https://cdn.simpleicons.org/shein/FFFFFF' : ehShopee ? 'https://cdn.simpleicons.org/shopee/FFFFFF' : 'https://cdn.simpleicons.org/mercadolibre/222222';
+    const logo = ehShein ? 'https://cdn.simpleicons.org/shein/FFFFFF' : ehShopee ? 'https://cdn.simpleicons.org/shopee/FFFFFF' : 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/mercado-libre/default.svg';
     const tela = document.getElementById('marq-redirect');
     const emblema = document.getElementById('marq-redirect-emblem');
     const marca = document.getElementById('marq-redirect-mark');
