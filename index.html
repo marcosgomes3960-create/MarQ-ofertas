@@ -1009,6 +1009,7 @@ footer a{color:var(--mq-deep)!important}
   <a href="#">Início</a>
   <a href="#categorias">Categorias</a>
   <a href="#ofertas">Ofertas</a>
+  <a href="#lojas-parceiras">Lojas</a>
   <a href="#como-comprar">Como comprar</a>
   <a href="#duvidas">Dúvidas</a>
   <a href="#sobre">Sobre nós</a>
@@ -2261,7 +2262,10 @@ if ("serviceWorker" in navigator) {
     const platform = button.dataset.marketplace;
     let visible = 0;
     cards.forEach(card => {
-      const match = (card.dataset.platform || '').toLowerCase() === platform;
+      const buyLink = card.querySelector('a.botao')?.getAttribute('href') || '';
+      const declared = (card.dataset.platform || '').toLowerCase();
+      const detected = declared || (/(^|\.)meli\.la|mercadolivre\.com\.br/i.test(buyLink) ? 'mercado-livre' : '');
+      const match = detected === platform;
       card.hidden = !match;
       if (match) visible++;
     });
