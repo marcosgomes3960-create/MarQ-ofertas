@@ -2262,10 +2262,11 @@ if ("serviceWorker" in navigator) {
     const platform = button.dataset.marketplace;
     let visible = 0;
     cards.forEach(card => {
-      const buyLink = card.querySelector('a.botao')?.getAttribute('href') || '';
       const declared = (card.dataset.platform || '').toLowerCase();
-      const detected = declared || (/(^|\.)meli\.la|mercadolivre\.com\.br/i.test(buyLink) ? 'mercado-livre' : '');
-      const match = detected === platform;
+      const hasMercadoLivreLink = [...card.querySelectorAll('a[href]')].some(link =>
+        /meli\.la|mercadolivre\.com\.br/i.test(link.getAttribute('href') || '')
+      );
+      const match = declared === platform || (platform === 'mercado-livre' && hasMercadoLivreLink);
       card.hidden = !match;
       if (match) visible++;
     });
