@@ -1,6 +1,6 @@
 {
   "id": "./admin.html",
-  "name": "Painel administrativo | MarQ Ofertas",
+  "name": "Painel MarQ — Administração",
   "short_name": "Painel MarQ",
   "description": "Painel privado de gerenciamento da MarQ Ofertas.",
   "lang": "pt-BR",
@@ -8,10 +8,20 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#54101d",
+  "background_color": "#fff9ed",
   "theme_color": "#54101d",
   "icons": [
-    {"src": "./icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any"},
-    {"src": "./icons/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any"}
+    {
+      "src": "./icons/painel-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/painel-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
   ]
 }
