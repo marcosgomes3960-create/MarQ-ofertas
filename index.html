@@ -911,17 +911,17 @@ nav[aria-label="Navegação principal"] a{padding:5px 0}
 
 
 /* MARQ REDIRECT LIGHT EFFECT */
-.marq-redirect{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 42%,#35142f 0,#160d20 48%,#090b16 100%);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease}
+.marq-redirect{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 42%,#173d50 0,#102b3b 48%,#0b1c2b 100%);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease}
 .marq-redirect.is-active{opacity:1;visibility:visible}
 .marq-redirect-box{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff;max-width:340px;width:100%}
-.marq-redirect-emblem{position:relative;display:grid;place-items:center;width:116px;height:116px;border-radius:32px;background:linear-gradient(145deg,#fff,#f8eaf4);color:#27233a;font-size:27px;font-weight:950;letter-spacing:-1.5px;box-shadow:0 0 0 1px #ffffff70,0 0 28px #ff55c8a8,0 0 75px #ff38b877;animation:marq-emblem-pulse 1.1s ease-in-out infinite alternate;overflow:visible}
-.marq-redirect-emblem:before,.marq-redirect-emblem:after{content:"";position:absolute;inset:-13px;border:2px solid #ff78d7;border-radius:38px;opacity:0;animation:marq-ring 1.5s ease-out infinite}
+.marq-redirect-emblem{position:relative;display:grid;place-items:center;width:116px;height:116px;border-radius:32px;background:linear-gradient(145deg,#fff,#eaf7f4);color:#27233a;font-size:27px;font-weight:950;letter-spacing:-1.5px;box-shadow:0 0 0 1px #ffffff70,0 0 28px #65c8d8a8,0 0 75px #48b99b77;animation:marq-emblem-pulse 1.1s ease-in-out infinite alternate;overflow:visible}
+.marq-redirect-emblem:before,.marq-redirect-emblem:after{content:"";position:absolute;inset:-13px;border:2px solid #7bd6d0;border-radius:38px;opacity:0;animation:marq-ring 1.5s ease-out infinite}
 .marq-redirect-emblem:after{animation-delay:.55s}
-.marq-light{position:absolute;width:7px;height:7px;border-radius:50%;background:#ff9be5;box-shadow:0 0 12px 4px #ff4acb;opacity:0;animation:marq-spark 1.25s ease-out infinite}
+.marq-light{position:absolute;width:7px;height:7px;border-radius:50%;background:#9de8e4;box-shadow:0 0 12px 4px #48b99b;opacity:0;animation:marq-spark 1.25s ease-out infinite}
 .marq-light:nth-child(1){left:-22px;top:15%;animation-delay:.1s}.marq-light:nth-child(2){right:-24px;top:25%;animation-delay:.35s}.marq-light:nth-child(3){left:-18px;bottom:15%;animation-delay:.6s}.marq-light:nth-child(4){right:-17px;bottom:12%;animation-delay:.85s}
-.marq-redirect-title{font-size:20px;font-weight:850;margin-top:30px}.marq-redirect-sub{font-size:14px;color:#f5cbe9;margin-top:9px}
-.marq-redirect-dots{display:flex;gap:7px;margin-top:20px}.marq-redirect-dots i{width:7px;height:7px;border-radius:50%;background:#ff79d5;animation:marq-dot .8s ease-in-out infinite alternate}.marq-redirect-dots i:nth-child(2){animation-delay:.2s}.marq-redirect-dots i:nth-child(3){animation-delay:.4s}
-@keyframes marq-emblem-pulse{to{transform:scale(1.06);box-shadow:0 0 0 1px #fff,0 0 42px #ff55c8,0 0 100px #ff38b8}}
+.marq-redirect-title{font-size:20px;font-weight:850;margin-top:30px}.marq-redirect-sub{font-size:14px;color:#c9f0e8;margin-top:9px}
+.marq-redirect-dots{display:flex;gap:7px;margin-top:20px}.marq-redirect-dots i{width:7px;height:7px;border-radius:50%;background:#75d6c2;animation:marq-dot .8s ease-in-out infinite alternate}.marq-redirect-dots i:nth-child(2){animation-delay:.2s}.marq-redirect-dots i:nth-child(3){animation-delay:.4s}
+@keyframes marq-emblem-pulse{to{transform:scale(1.06);box-shadow:0 0 0 1px #fff,0 0 42px #65c8d8,0 0 100px #48b99b}}
 @keyframes marq-ring{0%{transform:scale(.85);opacity:.8}100%{transform:scale(1.55);opacity:0}}
 @keyframes marq-spark{0%{transform:translate(0,0) scale(.4);opacity:0}25%{opacity:1}100%{transform:translate(var(--dx,18px),-38px) scale(0);opacity:0}}
 @keyframes marq-dot{to{transform:translateY(-5px);opacity:.45}}
