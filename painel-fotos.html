@@ -23,7 +23,7 @@
 <button id="save">Enviar foto e atualizar produto</button><div id="status" role="status"></div><p class="hint">A loja publicada só exibirá a foto depois que a atualização do catálogo estiver publicada.</p><button id="logout" style="background:#eaf4ed;color:#245d43">Sair</button></section>
 </main>
 <script>
-(()=>{const URL='https://zonclgsfqtylnedxigxd.supabase.co',KEY='sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK',ADMIN='89fdb1b1-c59d-4928-8b7d-8e604046d456',BUCKET='produtos';const db=window.supabase.createClient(URL,KEY);const $=id=>document.getElementById(id);let products=[];
+(()=>{const SUPABASE_URL='https://zonclgsfqtylnedxigxd.supabase.co',KEY='sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK',ADMIN='89fdb1b1-c59d-4928-8b7d-8e604046d456',BUCKET='produtos';const db=window.supabase.createClient(SUPABASE_URL,KEY);const $=id=>document.getElementById(id);let products=[];
 function say(t){$('status').textContent=t}
 function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 async function load(){say('Carregando catálogo…');const {data,error}=await db.from('produtos').select('id,nome,categoria,link_afiliado,image_url').order('nome');if(error){say('Erro ao carregar produtos: '+error.message);return}products=data||[];$('product').innerHTML='<option value="">Selecione um produto</option>'+products.map(p=>'<option value="'+safe(p.id)+'">'+safe(p.nome||('Produto #'+p.id))+'</option>').join('');say(products.length+' produtos carregados.')}
