@@ -1342,6 +1342,49 @@ footer a{color:#f4d78e!important}
 
 </style>
 
+
+<style id="marq-precos-estilo-americanas">
+/* MarQ — preços e etiquetas com referência cromática Americanas, sem copiar a marca */
+#grade-produtos .preco{
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  gap:3px!important;color:#e60014!important;font-size:25px!important;font-weight:950!important;
+  line-height:1.08!important;letter-spacing:-.7px!important;margin:10px 0 13px!important;
+}
+#grade-produtos .preco::before{
+  content:"OFERTA ESPECIAL";display:inline-flex;align-items:center;
+  background:#e60014;color:#fff;padding:4px 7px;border-radius:4px;
+  font-size:9px;font-weight:900;letter-spacing:.8px;line-height:1.2;margin-bottom:3px;
+}
+#grade-produtos .preco small{
+  color:#777!important;font-size:10px!important;font-weight:600!important;
+  line-height:1.35!important;letter-spacing:0!important;
+}
+#grade-produtos .preco del,#grade-produtos .preco s,
+#grade-produtos .preco .preco-antigo{
+  color:#888!important;font-size:12px!important;font-weight:500!important;
+  letter-spacing:0!important;text-decoration:line-through!important;
+}
+#grade-produtos .sold{
+  background:#fff!important;color:#e60014!important;border:1px solid #e60014!important;
+  border-radius:4px!important;font-size:9px!important;font-weight:900!important;
+  letter-spacing:.55px!important;padding:5px 8px!important;text-transform:uppercase!important;
+}
+#grade-produtos .detalhes-link{
+  background:#fff!important;color:#e60014!important;border:1px solid #e60014!important;
+  font-weight:800!important;
+}
+#grade-produtos .botao{
+  background:#e60014!important;color:#fff!important;border:1px solid #e60014!important;
+  border-radius:7px!important;font-weight:900!important;letter-spacing:.25px!important;
+  box-shadow:0 3px 9px #e6001420!important;
+}
+#grade-produtos .botao:hover{background:#c90012!important;border-color:#c90012!important}
+@media(max-width:600px){
+ #grade-produtos .preco{font-size:20px!important;margin:8px 0 10px!important}
+ #grade-produtos .preco::before{font-size:8px!important}
+}
+</style>
+
 </head>
 <body>
 <a class="skip-link" href="#ofertas">Pular para as ofertas</a>
