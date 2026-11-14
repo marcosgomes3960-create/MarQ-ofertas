@@ -2143,5 +2143,24 @@ if ("serviceWorker" in navigator) {
 })();
 </script>
 
+
+<script>
+/* MARQ-PRODUCT-PHOTOS-V1 — aplica as imagens salvas pelo painel ao catálogo estático */
+(async()=>{
+ const endpoint='https://zonclgsfqtylnedxigxd.supabase.co/rest/v1/produtos?select=link_afiliado,image_url&image_url=not.is.null&limit=1000';
+ const key='sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK';
+ const norm=v=>{try{const u=new URL(v,location.href);return (u.origin.toLowerCase()+u.pathname).replace(/\/$/,'')}catch(e){return String(v||'').trim()}};
+ try{
+  const res=await fetch(endpoint,{headers:{apikey:key,Authorization:'Bearer '+key},cache:'no-store'});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const rows=await res.json(),images=new Map(rows.filter(x=>x.link_afiliado&&x.image_url).map(x=>[norm(x.link_afiliado),x.image_url]));
+  document.querySelectorAll('#grade-produtos .card').forEach(card=>{
+   const buy=card.querySelector('a.botao');const img=card.querySelector('.produto-imagem-link img');
+   if(!buy||!img)return;const url=images.get(norm(buy.href));if(url){img.src=url;img.removeAttribute('srcset');img.loading='lazy'}
+  });
+ }catch(e){console.warn('[MarQ] Não foi possível atualizar as fotos do catálogo:',e)}
+})();
+</script>
+
 </body>
 </html>
