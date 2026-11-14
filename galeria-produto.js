@@ -7,12 +7,16 @@
  const main=document.getElementById('main-product-image'),thumbs=document.querySelector('.thumbs'),buy=document.querySelector('a.buy');
  if(!main||!thumbs||!buy)return;
  try{
-  const pr=await fetch(api+'produtos?select=id,link_afiliado&limit=1000',{headers,cache:'no-store'});
-  if(!pr.ok)throw new Error('Produtos HTTP '+pr.status);
-  const products=await pr.json(),link=norm(buy.href);
-  const product=products.find(p=>p.id&&p.link_afiliado&&norm(p.link_afiliado)===link);
-  if(!product)return;
-  const ir=await fetch(api+'produto_imagens?select=image_url,ordem&produto_id=eq.'+encodeURIComponent(product.id)+'&order=ordem.asc',{headers,cache:'no-store'});
+  let productId=main.dataset.productId;
+  if(!productId){
+   const pr=await fetch(api+'produtos?select=id,link_afiliado&limit=1000',{headers,cache:'no-store'});
+   if(!pr.ok)throw new Error('Produtos HTTP '+pr.status);
+   const products=await pr.json(),link=norm(buy.href);
+   const product=products.find(p=>p.id&&p.link_afiliado&&norm(p.link_afiliado)===link);
+   if(!product)return;
+   productId=product.id;
+  }
+  const ir=await fetch(api+'produto_imagens?select=image_url,ordem&produto_id=eq.'+encodeURIComponent(productId)+'&order=ordem.asc',{headers,cache:'no-store'});
   if(!ir.ok)throw new Error('Galeria HTTP '+ir.status);
   const rows=await ir.json(),urls=[...new Set(rows.map(x=>x.image_url).filter(Boolean))];
   if(!urls.length)return;
