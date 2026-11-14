@@ -2310,7 +2310,7 @@ nav[aria-label="Navegação principal"] a{font-weight:800!important;font-size:13
 <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch(error => console.warn("Não foi possível ativar o modo aplicativo:", error));
+    navigator.serviceWorker.register("./service-worker.js", { updateViaCache: "none" }).catch(error => console.warn("Não foi possível ativar o modo aplicativo:", error));
   });
 }
 </script>
