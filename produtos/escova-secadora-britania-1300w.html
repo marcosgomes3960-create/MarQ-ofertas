@@ -248,5 +248,57 @@ header{background:linear-gradient(105deg,#fff 0%,#fff 72%,#f0f9fd 100%);border-b
  if(counter)counter.textContent='Carregando fotos…';
 })();
 </script>
+<script>
+/* MARQ-DYNAMIC-PRODUCT-GALLERY-V2 — sincroniza fotos do painel também na página de detalhes */
+(async()=>{
+ const api='https://zonclgsfqtylnedxigxd.supabase.co/rest/v1/';
+ const key='sb_publishable_7Oi8lKwThZ2kKQUVxUT-oQ_3O-4_mSK';
+ const headers={apikey:key,Authorization:'Bearer '+key};
+ const norm=v=>{try{const u=new URL(v,location.href);return(u.origin.toLowerCase()+u.pathname).replace(/\\/$/,'')}catch(e){return String(v||'').trim()}};
+ const main=document.getElementById('main-product-image');
+ const thumbs=document.querySelector('.thumbs');
+ const buy=document.querySelector('a.buy');
+ if(!main||!thumbs||!buy)return;
+ try{
+  const productsRes=await fetch(api+'produtos?select=id,link_afiliado&limit=1000',{headers,cache:'no-store'});
+  if(!productsRes.ok)throw new Error('Produtos HTTP '+productsRes.status);
+  const products=await productsRes.json();
+  const link=norm(buy.href);
+  const product=products.find(p=>p.id&&p.link_afiliado&&norm(p.link_afiliado)===link);
+  if(!product)return;
+  const imagesRes=await fetch(api+'produto_imagens?select=image_url,ordem&produto_id=eq.'+encodeURIComponent(product.id)+'&order=ordem.asc',{headers,cache:'no-store'});
+  if(!imagesRes.ok)throw new Error('Galeria HTTP '+imagesRes.status);
+  const rows=await imagesRes.json();
+  const urls=[...new Set(rows.map(x=>x.image_url).filter(Boolean))];
+  if(!urls.length)return;
+  const alt=main.alt||document.querySelector('h1')?.textContent||'Foto do produto';
+  thumbs.replaceChildren();
+  const counter=document.getElementById('photo-counter');
+  const fallback=main.nextElementSibling;
+  let current=0;
+  const show=(index)=>{
+   current=(index+urls.length)%urls.length;
+   main.hidden=false;main.src=urls[current];main.alt=alt;
+   if(fallback)fallback.style.display='none';
+   [...thumbs.children].forEach((b,i)=>{b.classList.toggle('active',i===current);b.setAttribute('aria-pressed',i===current?'true':'false')});
+   if(counter)counter.textContent='Foto '+(current+1)+' de '+urls.length;
+  };
+  urls.forEach((url,i)=>{
+   const button=document.createElement('button');button.type='button';button.className='thumb'+(i===0?' active':'');
+   button.dataset.src=url;button.dataset.alt=alt;button.setAttribute('aria-label','Ver foto '+(i+1));button.setAttribute('aria-pressed',i===0?'true':'false');
+   const image=document.createElement('img');image.src=url;image.alt='';image.loading='lazy';button.append(image);
+   button.addEventListener('click',()=>show(i));thumbs.append(button);
+  });
+  show(0);
+  const prev=document.createElement('button'),next=document.createElement('button');
+  [prev,next].forEach(b=>{b.type='button';b.className='thumb-nav';b.style.cssText='border:0;border-radius:9px;background:#eaf7ef;color:#176b47;padding:9px 13px;font-weight:800;cursor:pointer;margin:4px 5px 8px 0'});
+  prev.textContent='‹ Anterior';next.textContent='Próxima ›';prev.setAttribute('aria-label','Foto anterior');next.setAttribute('aria-label','Próxima foto');
+  prev.addEventListener('click',()=>show(current-1));next.addEventListener('click',()=>show(current+1));
+  thumbs.parentElement.insertBefore(prev,thumbs);thumbs.parentElement.insertBefore(next,thumbs);
+  console.info('[MarQ] Galeria de detalhes sincronizada:',urls.length,'fotos');
+ }catch(e){console.warn('[MarQ] Não foi possível sincronizar a galeria da página de detalhes:',e)}
+})();
+</script>
+<script src="../galeria-produto.js" defer></script>
 </body>
 </html>
