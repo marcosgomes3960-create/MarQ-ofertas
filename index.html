@@ -926,6 +926,10 @@ nav[aria-label="Navegação principal"] a{padding:5px 0}
 @keyframes marq-spark{0%{transform:translate(0,0) scale(.4);opacity:0}25%{opacity:1}100%{transform:translate(var(--dx,18px),-38px) scale(0);opacity:0}}
 @keyframes marq-dot{to{transform:translateY(-5px);opacity:.45}}
 @media(prefers-reduced-motion:reduce){.marq-redirect *,.marq-redirect:before,.marq-redirect:after{animation:none!important;transition:none!important}}
+
+.marq-redirect-brand{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:15px;border-radius:inherit;overflow:hidden}
+.marq-redirect-brand img{display:block;width:100%;height:100%;max-width:88px;max-height:88px;object-fit:contain}
+.marq-redirect-emblem.is-ml{background:#ffe600}.marq-redirect-emblem.is-shein{background:#111;color:#fff}.marq-redirect-emblem.is-shopee{background:#ee4d2d}
 </style>
 
 <style id="marq-experience-refresh">
@@ -2090,12 +2094,16 @@ footer a{color:var(--mq-deep)!important}
     evento.preventDefault();
     const destino = link.href;
     const ehShein = /shein\\.com|onelink\\.shein/i.test(destino);
-    const nomeLoja = ehShein ? 'SHEIN' : 'Mercado Livre';
-    const selo = ehShein ? 'S' : 'ML';
+    const ehShopee = /shopee\\.(com|com\\.br)|shp\\.ee/i.test(destino);
+    const nomeLoja = ehShein ? 'SHEIN' : ehShopee ? 'Shopee' : 'Mercado Livre';
+    const plataforma = ehShein ? 'shein' : ehShopee ? 'shopee' : 'ml';
+    const logo = ehShein ? 'https://cdn.simpleicons.org/shein/FFFFFF' : ehShopee ? 'https://cdn.simpleicons.org/shopee/FFFFFF' : 'https://cdn.simpleicons.org/mercadolibre/222222';
     const tela = document.getElementById('marq-redirect');
+    const emblema = document.getElementById('marq-redirect-emblem');
     const marca = document.getElementById('marq-redirect-mark');
     const titulo = document.getElementById('marq-redirect-title');
-    if (marca) marca.textContent = selo;
+    if (emblema) emblema.className = 'marq-redirect-emblem is-' + plataforma;
+    if (marca) { marca.innerHTML = ''; const imagem = document.createElement('img'); imagem.src = logo; imagem.alt = 'Logo ' + nomeLoja; imagem.onerror = () => { marca.textContent = nomeLoja; }; marca.appendChild(imagem); }
     if (titulo) titulo.textContent = 'Redirecionando para ' + nomeLoja + '...';
     if (tela) { tela.classList.add('is-active'); tela.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
     // Mantém a animação visível por pelo menos 2 segundos, sem interromper o registro do clique.
@@ -2304,6 +2312,6 @@ if ("serviceWorker" in navigator) {
 </script>
 
 
-<div class="marq-redirect" id="marq-redirect" role="status" aria-live="polite" aria-hidden="true"><div class="marq-redirect-box"><div class="marq-redirect-emblem" id="marq-redirect-emblem"><span class="marq-light"></span><span class="marq-light"></span><span class="marq-light"></span><span class="marq-light"></span><span id="marq-redirect-mark">ML</span></div><div class="marq-redirect-title" id="marq-redirect-title">Preparando sua oferta...</div><div class="marq-redirect-sub">Você está saindo da MarQ Ofertas</div><div class="marq-redirect-dots"><i></i><i></i><i></i></div></div></div>
+<div class="marq-redirect" id="marq-redirect" role="status" aria-live="polite" aria-hidden="true"><div class="marq-redirect-box"><div class="marq-redirect-emblem" id="marq-redirect-emblem"><span class="marq-light"></span><span class="marq-light"></span><span class="marq-light"></span><span class="marq-light"></span><span id="marq-redirect-mark" class="marq-redirect-brand">ML</span></div><div class="marq-redirect-title" id="marq-redirect-title">Preparando sua oferta...</div><div class="marq-redirect-sub">Você está saindo da MarQ Ofertas</div><div class="marq-redirect-dots"><i></i><i></i><i></i></div></div></div>
 </body>
 </html>
