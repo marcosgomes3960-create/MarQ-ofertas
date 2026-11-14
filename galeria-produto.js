@@ -36,7 +36,7 @@
   let controls=thumbs.parentElement.querySelector('.dynamic-gallery-controls');
   if(!controls){controls=document.createElement('div');controls.className='dynamic-gallery-controls';controls.style.cssText='display:flex;gap:8px;margin:4px 0 8px';thumbs.parentElement.insertBefore(controls,thumbs)}
   controls.replaceChildren();
-  [['‹ Anterior',()=>show(current-1)],['Próxima ›',()=>show(current+1)]].forEach(([label,fn])=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.style.cssText='border:0;border-radius:9px;background:#eaf7ef;color:#176b47;padding:9px 13px;font-weight:800;cursor:pointer';b.addEventListener('click',fn);controls.append(b)});
+  [['‹ Anterior',()=>show(current-1)],['Próxima ›',()=>show(current+1)]].forEach(([label,fn])=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.style.cssText='border:0;border-radius:9px;background:#fff9ed;color:#8f1728;padding:9px 13px;font-weight:800;cursor:pointer';b.addEventListener('click',fn);controls.append(b)});
   console.info('[MarQ] Galeria da página de detalhes carregada:',urls.length);
  }catch(e){console.warn('[MarQ] Falha ao carregar fotos da galeria:',e)}
 })();
