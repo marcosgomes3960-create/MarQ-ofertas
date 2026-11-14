@@ -1404,7 +1404,6 @@ footer a{color:#f4d78e!important}
     </article>
   </div>
   <div class="marq-carousel-controls">
-    <button class="marq-carousel-toggle" type="button" aria-label="Pausar carrossel">Ⅱ</button>
     <button class="marq-carousel-prev" type="button" aria-label="Banner anterior">‹</button>
     <div class="marq-carousel-dots" aria-label="Escolher banner">
       <button class="is-active" type="button" aria-label="Mostrar banner 1" aria-current="true"></button>
@@ -2614,6 +2613,50 @@ if ("serviceWorker" in navigator) {
 #grade-produtos .galeria-nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;padding:0;margin:0;border:0;border-radius:50%;background:#ffffffed;color:#8f1728;font-size:20px;line-height:1;box-shadow:0 2px 8px #0002;cursor:pointer;z-index:3}
 #grade-produtos .galeria-prev{left:7px}#grade-produtos .galeria-next{right:7px}
 #grade-produtos .galeria-count{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);padding:3px 8px;border-radius:20px;background:#54101dcc;color:white;font-size:10px;font-weight:800;z-index:2}
+
+/* AJUSTE FINO: banner compacto, inspirado na proporção do Magalu mobile */
+.marq-campaigns{width:94%;max-width:1240px;margin:14px auto 20px}
+.marq-slides{min-height:0;height:238px;border-radius:16px;box-shadow:0 5px 18px #64101f16}
+.marq-slide{height:100%;min-height:0;padding:25px 38px;grid-template-columns:1.15fr .85fr}
+.marq-slide-copy h1{font-size:clamp(25px,3.1vw,38px);margin-bottom:8px}
+.marq-slide-copy p{font-size:13px;line-height:1.45;margin-bottom:13px}
+.marq-slide-kicker{font-size:9px;margin-bottom:10px;padding:5px 9px}
+.marq-slide-copy>a{padding:10px 16px;font-size:10px}
+.marq-slide-art{min-height:185px}
+.marq-carousel-controls{right:13px;bottom:10px;gap:6px}
+.marq-carousel-controls>button{width:27px;height:27px;font-size:16px}
+.marq-carousel-dots button{width:6px;height:6px;min-width:6px}
+.marq-carousel-dots button.is-active{width:17px}
+@media(max-width:650px){
+ .marq-campaigns{width:calc(100% - 24px);margin:10px auto 15px}
+ .marq-slides{height:148px;min-height:0;border-radius:12px}
+ .marq-slide{height:148px;min-height:0;padding:13px 15px 29px;grid-template-columns:1fr .72fr;gap:3px;align-items:center}
+ .marq-slide-copy{max-width:none}
+ .marq-slide-kicker{font-size:7px;letter-spacing:.7px;padding:4px 7px;margin-bottom:6px}
+ .marq-slide-copy h1{font-size:clamp(16px,4.8vw,21px);line-height:1.08;letter-spacing:-.4px;margin:0 0 5px}
+ .marq-slide-copy p{font-size:9px;line-height:1.25;margin:0 0 7px;max-width:230px}
+ .marq-slide-copy>a{font-size:7px;padding:7px 10px;gap:6px}
+ .marq-slide-art{position:relative;right:auto;bottom:auto;width:100%;min-height:112px;height:112px;opacity:1}
+ .art-orbit,.tech-ring{width:95px;height:95px}
+ .art-glass{width:66px;height:82px;border-radius:11px}
+ .art-glass b{font-size:8px;letter-spacing:2px}.art-glass strong{font-size:29px;letter-spacing:-2px}.art-glass small{font-size:4px;letter-spacing:1px;margin-top:5px}
+ .art-symbol{font-size:68px}
+ .art-chip{font-size:5px;padding:5px 6px;bottom:1px;right:-3px;letter-spacing:.4px}
+ .home-sun{width:82px;height:82px;right:12%;top:2%}
+ .home-scene{transform:scale(.43);transform-origin:center}
+ .home-plant{font-size:26px}
+ .tech-ring{width:105px;height:105px}
+ .tech-phone{width:48px;height:82px;border-width:4px;border-radius:10px;padding-top:6px}
+ .tech-phone span{width:20px;height:3px}
+ .tech-watch{width:32px;height:32px;border-width:3px;border-radius:10px;font-size:17px}
+ .tech-earbuds{width:28px;height:28px;font-size:15px}
+ .marq-carousel-controls{right:9px;bottom:6px;gap:5px}
+ .marq-carousel-controls>button{width:20px;height:20px;font-size:13px}
+ .marq-carousel-dots{gap:4px}
+ .marq-carousel-dots button{width:5px;height:5px;min-width:5px}
+ .marq-carousel-dots button.is-active{width:13px}
+}
+
 </style>
 <script>
 /* MARQ-PRODUCT-GALLERY-V1 */
@@ -2684,13 +2727,13 @@ if ("serviceWorker" in navigator) {
  const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  let index=0,paused=reduced,timer=null;
  function show(n){index=(n+slides.length)%slides.length;slides.forEach((s,i)=>{const active=i===index;s.classList.toggle('is-active',active);s.setAttribute('aria-hidden',String(!active))});dots.forEach((d,i)=>{d.classList.toggle('is-active',i===index);if(i===index)d.setAttribute('aria-current','true');else d.removeAttribute('aria-current')});if(status)status.textContent='Banner '+(index+1)+' de '+slides.length}
- function updateToggle(){if(toggle){toggle.textContent=paused?'▶':'Ⅱ';toggle.setAttribute('aria-label',paused?'Reproduzir carrossel':'Pausar carrossel')}}
+ function updateToggle(){}
  function stop(){if(timer){clearInterval(timer);timer=null}}
  function start(){stop();if(!paused)timer=setInterval(()=>show(index+1),6500);updateToggle()}
  prev?.addEventListener('click',()=>{show(index-1);paused=true;start()});
  next?.addEventListener('click',()=>{show(index+1);paused=true;start()});
  dots.forEach((d,i)=>d.addEventListener('click',()=>{show(i);paused=true;start()}));
- toggle?.addEventListener('click',()=>{paused=!paused;start()});
+
  root.addEventListener('mouseenter',()=>stop());root.addEventListener('mouseleave',()=>{if(!paused)start()});
  root.addEventListener('focusin',stop);root.addEventListener('focusout',()=>{if(!paused)start()});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(!paused)start()});
