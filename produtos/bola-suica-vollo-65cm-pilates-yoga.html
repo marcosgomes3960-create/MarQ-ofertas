@@ -8,6 +8,17 @@
 <title>Bola Suíça Vollo 65cm com Bomba | MarQ Ofertas</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4faf6;color:#24352e;line-height:1.65}.top{background:#155d40;color:#eafff1;text-align:center;padding:10px;font-size:13px;font-weight:700}header,nav{background:#fff;padding:16px 5%;display:flex;gap:20px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #e6efe9}a{color:#21865b;text-decoration:none;font-weight:700}.logo{font-size:27px;color:#21865b}main{max-width:1050px;width:92%;margin:28px auto}.crumb{font-size:13px;color:#74857b}.product{background:#fff;border:1px solid #e4eee7;border-radius:20px;padding:clamp(16px,3vw,28px);display:grid;grid-template-columns:1fr 1fr;gap:28px;box-shadow:0 8px 24px #173d290b}.visual{background:#f5faf7;border-radius:16px;padding:15px;display:grid;place-items:center;min-height:300px}.visual img{width:100%;max-height:430px;object-fit:contain;border-radius:12px}.note{font-size:12px;color:#718078}.tag{color:#21865b;font-size:12px;font-weight:800;letter-spacing:.5px}h1{font-size:clamp(25px,4vw,36px);line-height:1.2;color:#203d30}.price{background:linear-gradient(110deg,#e8f7ee,#eff8fc);padding:16px;border-radius:12px;margin:16px 0}.price strong{display:block;color:#176b47;font-size:28px}.buy{display:block;text-align:center;background:#21865b;color:#fff;padding:15px;border-radius:12px;margin-top:22px}.buy:hover{background:#176b47}li{margin:7px 0}footer{background:#155d40;color:#eafff1;text-align:center;padding:24px;margin-top:35px}@media(max-width:700px){.product{grid-template-columns:1fr;padding:16px}}
+
+/* Galeria sincronizada com as cinco fotos cadastradas no painel */
+.product-gallery{min-width:0}
+.gallery-caption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:10px 2px;color:#718078;font-size:11px}
+.thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px}
+.thumb{border:2px solid #e3eee7;background:#f5faf7;border-radius:10px;padding:4px;cursor:pointer;min-width:0;transition:border-color .2s,transform .2s}
+.thumb.active{border-color:#21865b;box-shadow:0 0 0 2px #21865b18}
+.thumb:hover{transform:translateY(-2px)}
+.thumb img{display:block;width:100%;height:66px;object-fit:contain;border-radius:6px}
+.photo-fallback{padding:20px;text-align:center;color:#718078;font-size:13px}
+@media(max-width:700px){.thumbs{gap:6px}.thumb img{height:58px}.gallery-caption{font-size:10px}}
 </style>
 </head>
 <body>
@@ -17,7 +28,14 @@
 <main>
 <p class="crumb"><a href="../index.html">Início</a> › Esportes › Pilates e treino</p>
 <article class="product">
-<div><div class="visual"><img src="https://vollo.vtexassets.com/arquivos/ids/166860/VP1035-Gym-Ball-65cm-Vollo-Imagem-01a-1200px.webp?v=639065102994170000" alt="Bola Suíça Vollo cinza de 65 cm acompanhada de bomba de ar"></div><p class="note">Imagem do modelo VP1035 publicada pela fabricante Vollo.</p></div>
+<div class="product-gallery">
+<div class="visual">
+<img id="main-product-image" src="https://zonclgsfqtylnedxigxd.supabase.co/storage/v1/object/public/produtos/37/1794640283636-6w1fpm.jpg" alt="Bola Suíça Vollo Gym Ball 65cm cinza com bomba" loading="eager">
+<div class="photo-fallback" style="display:none">Não foi possível carregar esta foto. Confira as imagens no anúncio do vendedor.</div>
+</div>
+<div class="gallery-caption"><span id="photo-counter">Carregando fotos...</span><span>Toque nas miniaturas para ver todos os ângulos</span></div>
+<div class="thumbs" aria-label="Outras fotos do produto"></div>
+</div>
 <div>
 <span class="tag">VOLLO • PILATES • YOGA • FITNESS</span>
 <h1>Bola Suíça Vollo Gym Ball 65cm com Bomba – Cinza</h1>
