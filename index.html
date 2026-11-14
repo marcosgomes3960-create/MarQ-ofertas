@@ -909,6 +909,23 @@ nav[aria-label="Navegação principal"] a{padding:5px 0}
 .marketplace-card.is-active{border-color:#a8d4b4;background:#f1faf4;box-shadow:0 0 0 2px #dff1e4}
 @media(max-width:600px){.marketplaces{margin:17px auto 22px;padding:17px 12px;border-radius:15px}.marketplaces-grid{gap:8px}.marketplace-card{min-height:118px;padding:13px 5px;gap:9px}.marketplace-ml{font-size:16px}.marketplace-ml:before{font-size:17px;margin-right:3px}.marketplace-shein{font-size:21px}.marketplace-shopee{font-size:18px}.marketplace-shopee:before{font-size:18px;margin-right:3px}.marketplace-cta{font-size:9px}.marketplace-soon{font-size:9px;padding:5px 7px}}
 
+
+/* MARQ REDIRECT LIGHT EFFECT */
+.marq-redirect{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 42%,#35142f 0,#160d20 48%,#090b16 100%);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease}
+.marq-redirect.is-active{opacity:1;visibility:visible}
+.marq-redirect-box{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff;max-width:340px;width:100%}
+.marq-redirect-emblem{position:relative;display:grid;place-items:center;width:116px;height:116px;border-radius:32px;background:linear-gradient(145deg,#fff,#f8eaf4);color:#27233a;font-size:27px;font-weight:950;letter-spacing:-1.5px;box-shadow:0 0 0 1px #ffffff70,0 0 28px #ff55c8a8,0 0 75px #ff38b877;animation:marq-emblem-pulse 1.1s ease-in-out infinite alternate;overflow:visible}
+.marq-redirect-emblem:before,.marq-redirect-emblem:after{content:"";position:absolute;inset:-13px;border:2px solid #ff78d7;border-radius:38px;opacity:0;animation:marq-ring 1.5s ease-out infinite}
+.marq-redirect-emblem:after{animation-delay:.55s}
+.marq-light{position:absolute;width:7px;height:7px;border-radius:50%;background:#ff9be5;box-shadow:0 0 12px 4px #ff4acb;opacity:0;animation:marq-spark 1.25s ease-out infinite}
+.marq-light:nth-child(1){left:-22px;top:15%;animation-delay:.1s}.marq-light:nth-child(2){right:-24px;top:25%;animation-delay:.35s}.marq-light:nth-child(3){left:-18px;bottom:15%;animation-delay:.6s}.marq-light:nth-child(4){right:-17px;bottom:12%;animation-delay:.85s}
+.marq-redirect-title{font-size:20px;font-weight:850;margin-top:30px}.marq-redirect-sub{font-size:14px;color:#f5cbe9;margin-top:9px}
+.marq-redirect-dots{display:flex;gap:7px;margin-top:20px}.marq-redirect-dots i{width:7px;height:7px;border-radius:50%;background:#ff79d5;animation:marq-dot .8s ease-in-out infinite alternate}.marq-redirect-dots i:nth-child(2){animation-delay:.2s}.marq-redirect-dots i:nth-child(3){animation-delay:.4s}
+@keyframes marq-emblem-pulse{to{transform:scale(1.06);box-shadow:0 0 0 1px #fff,0 0 42px #ff55c8,0 0 100px #ff38b8}}
+@keyframes marq-ring{0%{transform:scale(.85);opacity:.8}100%{transform:scale(1.55);opacity:0}}
+@keyframes marq-spark{0%{transform:translate(0,0) scale(.4);opacity:0}25%{opacity:1}100%{transform:translate(var(--dx,18px),-38px) scale(0);opacity:0}}
+@keyframes marq-dot{to{transform:translateY(-5px);opacity:.45}}
+@media(prefers-reduced-motion:reduce){.marq-redirect *,.marq-redirect:before,.marq-redirect:after{animation:none!important;transition:none!important}}
 </style>
 
 <style id="marq-experience-refresh">
@@ -2070,16 +2087,22 @@ footer a{color:var(--mq-deep)!important}
     const alvo = evento.target;
     const link = alvo && typeof alvo.closest === 'function' ? alvo.closest('#grade-produtos a.botao') : null;
     if (!link) return;
-    // Links SHEIN usam rastreamento próprio da plataforma; não consultar o catálogo Mercado Livre no Supabase.
-    if (link.href.includes('onelink.shein.com') || link.href.includes('shein.com')) return;
     evento.preventDefault();
     const destino = link.href;
-    const aba = window.open('about:blank', '_blank');
-    if (aba) aba.opener = null;
-    const ok = await window.marqRegistrarClique(destino, 'vitrine');
-    if (aba) aba.location.href = destino;
-    else window.location.href = destino;
-    if (!ok) alert('A oferta será aberta, mas o clique ainda não foi registrado. Motivo: ' + (window.marqUltimoErro || 'erro não identificado'));
+    const ehShein = /shein\\.com|onelink\\.shein/i.test(destino);
+    const nomeLoja = ehShein ? 'SHEIN' : 'Mercado Livre';
+    const selo = ehShein ? 'S' : 'ML';
+    const tela = document.getElementById('marq-redirect');
+    const marca = document.getElementById('marq-redirect-mark');
+    const titulo = document.getElementById('marq-redirect-title');
+    if (marca) marca.textContent = selo;
+    if (titulo) titulo.textContent = 'Redirecionando para ' + nomeLoja + '...';
+    if (tela) { tela.classList.add('is-active'); tela.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+    // SHEIN usa rastreamento próprio; Mercado Livre registra o clique no painel.
+    if (!ehShein && typeof window.marqRegistrarClique === 'function') {
+      try { await window.marqRegistrarClique(destino, 'vitrine'); } catch (erro) { console.warn('Não foi possível registrar o clique:', erro); }
+    }
+    window.location.href = destino;
   }, true);
 })();</script>
 
@@ -2278,5 +2301,7 @@ if ("serviceWorker" in navigator) {
 })();
 </script>
 
+
+<div class="marq-redirect" id="marq-redirect" role="status" aria-live="polite" aria-hidden="true"><div class="marq-redirect-box"><div class="marq-redirect-emblem" id="marq-redirect-emblem"><span class="marq-light"></span><span class="marq-light"></span><span class="marq-light"></span><span class="marq-light"></span><span id="marq-redirect-mark">ML</span></div><div class="marq-redirect-title" id="marq-redirect-title">Preparando sua oferta...</div><div class="marq-redirect-sub">Você está saindo da MarQ Ofertas</div><div class="marq-redirect-dots"><i></i><i></i><i></i></div></div></div>
 </body>
 </html>
