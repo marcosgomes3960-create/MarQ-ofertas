@@ -2098,10 +2098,12 @@ footer a{color:var(--mq-deep)!important}
     if (marca) marca.textContent = selo;
     if (titulo) titulo.textContent = 'Redirecionando para ' + nomeLoja + '...';
     if (tela) { tela.classList.add('is-active'); tela.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-    // SHEIN usa rastreamento próprio; Mercado Livre registra o clique no painel.
-    if (!ehShein && typeof window.marqRegistrarClique === 'function') {
-      try { await window.marqRegistrarClique(destino, 'vitrine'); } catch (erro) { console.warn('Não foi possível registrar o clique:', erro); }
-    }
+    // Mantém a animação visível por pelo menos 2 segundos, sem interromper o registro do clique.
+    const tempoMinimo = new Promise(resolve => setTimeout(resolve, 2000));
+    const registroClique = (!ehShein && typeof window.marqRegistrarClique === 'function')
+      ? Promise.resolve().then(() => window.marqRegistrarClique(destino, 'vitrine')).catch(erro => { console.warn('Não foi possível registrar o clique:', erro); })
+      : Promise.resolve();
+    await Promise.all([tempoMinimo, registroClique]);
     window.location.href = destino;
   }, true);
 })();</script>
